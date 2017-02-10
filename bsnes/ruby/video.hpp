@@ -1,3 +1,6 @@
+#ifndef RUBY_VIDEO_H
+#define RUBY_VIDEO_H
+
 class Video {
 public:
   static const char *Handle;
@@ -27,3 +30,5 @@ public:
   Video() {}
   virtual ~Video() {}
 };
+
+#endif
