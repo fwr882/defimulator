@@ -1,3 +1,6 @@
+#ifndef BSNES_UI_BASE_H
+#define BSNES_UI_BASE_H
+
 #include <snes/snes.hpp>
 
 #include <nall/base64.hpp>
@@ -35,52 +38,57 @@ struct TopLevelWindow : Window {
 #endif
 
 struct Application {
-  Font proportionalFont;
-  Font proportionalFontBold;
-  Font monospaceFont;
+    Font proportionalFont;
+    Font proportionalFontBold;
+    Font monospaceFont;
 
-  bool pause;
-  bool quit;
-  void main(int argc, char **argv);
+    bool pause;
+    bool quit;
 
-  void addWindow(TopLevelWindow *window, const string &name, const string &position);
-  Application();
+    /* XXX: Weird... */
+    void main(int argc, char **argv);
+
+    void addWindow(TopLevelWindow *window, const string &name,
+        const string &position);
+    Application(void);
 
 private:
-  array<TopLevelWindow*> windows;
-  configuration geometryConfig;
-  void loadGeometry();
-  void saveGeometry();
+    array<TopLevelWindow*> windows;
+    configuration geometryConfig;
+    void loadGeometry(void);
+    void saveGeometry(void);
 };
 
 extern Application application;
 
 struct Style {
-  enum : unsigned {
-  #if defined(PHOENIX_WINDOWS)
-    ButtonHeight = 25,
-    CheckBoxHeight = 15,
-    ComboBoxHeight = 22,
-    EditBoxHeight = 22,
-    LabelHeight = 15,
-    SliderHeight = 25,
-    TextBoxHeight = 22,
-  #elif defined(PHOENIX_GTK)
-    ButtonHeight = 25,
-    CheckBoxHeight = 15,
-    ComboBoxHeight = 22,
-    EditBoxHeight = 22,
-    LabelHeight = 15,
-    SliderHeight = 22,
-    TextBoxHeight = 22,
-  #elif defined(PHOENIX_QT)
-    ButtonHeight = 25,
-    CheckBoxHeight = 15,
-    ComboBoxHeight = 22,
-    EditBoxHeight = 22,
-    LabelHeight = 15,
-    SliderHeight = 22,
-    TextBoxHeight = 22,
-  #endif
-  };
+    enum : unsigned {
+        #if defined(PHOENIX_WINDOWS)
+        ButtonHeight = 25,
+        CheckBoxHeight = 15,
+        ComboBoxHeight = 22,
+        EditBoxHeight = 22,
+        LabelHeight = 15,
+        SliderHeight = 25,
+        TextBoxHeight = 22,
+        #elif defined(PHOENIX_GTK)
+        ButtonHeight = 25,
+        CheckBoxHeight = 15,
+        ComboBoxHeight = 22,
+        EditBoxHeight = 22,
+        LabelHeight = 15,
+        SliderHeight = 22,
+        TextBoxHeight = 22,
+        #elif defined(PHOENIX_QT)
+        ButtonHeight = 25,
+        CheckBoxHeight = 15,
+        ComboBoxHeight = 22,
+        EditBoxHeight = 22,
+        LabelHeight = 15,
+        SliderHeight = 22,
+        TextBoxHeight = 22,
+        #endif
+    };
 };
+
+#endif
