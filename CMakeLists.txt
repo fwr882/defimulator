@@ -1,18 +1,19 @@
 cmake_minimum_required(VERSION 3.0)
 project(bsuite)
 
-# This toggle does nothing currently.
-
-#set(EMULATION_PROFILE "ACCURACY")
-set(EMULATION_PROFILE "ACCURACY" CACHE STRING "Emulation profile.")
+# Set the emulation profile.  Variables are pretty self-explantory.
+set(EMULATION_PROFILE "PERFORMANCE" CACHE STRING "Emulation profile.")
 set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
     ACCURACY COMPATIBILITY PERFORMANCE)
 
-message("Using ${EMULATION_PROFILE} emulation profile.")
+# If no build type is specified, assume the user wants a release build.
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "'Debug' or 'Release'" FORCE)
+endif()
 
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type.")
-set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
-    Release Debug)
+message(">>>> Using ${EMULATION_PROFILE} emulation profile.")
+message(">>>> Build type: ${CMAKE_BUILD_TYPE}")
+
 
 find_package(PkgConfig)
 find_package(OpenGL)
