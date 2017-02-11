@@ -6,17 +6,24 @@ include_directories("${GTK2_INCLUDE_DIRS}")
 
 # TODO: Tweaked with available profiles from initial config.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fomit-frame-pointer")
-# Audio/Video backends for ruby
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_XV")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_AO")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
-
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer")
+
+# GUI flag
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
+
+# Video Flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
+
+# Audio Flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_AO")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
 
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROFILE_ACCURACY")
@@ -98,12 +105,18 @@ endif()
 add_executable(bsnes ${sources})
 
 target_link_libraries(bsnes
-    ${X11_LIBRARIES}
-    ${XV_LIBRARIES}
-    ${XEXT_LIBRARIES}
-    ${OPENGL_LIBRARIES}
+    # Toolkit libraries
     ${GTK2_LIBRARIES}
+
+    # Graphics Libraries
+    ${OPENGL_LIBRARIES}
     ${SDL_LIBRARIES}
+    ${X11_LIBRARIES}
+
+    # Audio Libraries
+    ${ALSA_LIBRARIES}
     ${AO_LIBRARIES}
+
+    # For -ldl on *nix
     ${CMAKE_DL_LIBS}
 )
