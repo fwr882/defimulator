@@ -42,6 +42,15 @@ elseif(EMULATION_PROFILE STREQUAL "COMPATIBILITY")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPROFILE_COMPATIBILITY")
 endif()
 
+# Doesn't work.  But I'm sure this has something to do with it.
+if(BUILD_GAMEBOY)
+    list(APPEND sources
+        ui-gameboy/main.cpp
+        ui-gameboy/general/main-window.cpp
+        ui-gameboy/utility/utility.cpp
+    )
+endif()
+
 list(APPEND sources
     ui/main.cpp
     ui/general/general.cpp
@@ -50,7 +59,6 @@ list(APPEND sources
     ui/input/input.cpp
     ui/utility/utility.cpp
     ui/cartridge/cartridge.cpp
-    ui/debugger/debugger.cpp
     ruby/ruby.cpp
     phoenix/phoenix.cpp
     libco/libco.c
@@ -130,3 +138,7 @@ target_link_libraries(bsnes
     # For -ldl on *nix
     ${CMAKE_DL_LIBS}
 )
+
+if(BUILD_GAMEBOY)
+    target_link_libraries(bsnes ${CURSES_LIBRARIES})
+endif()

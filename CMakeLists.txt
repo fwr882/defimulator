@@ -8,6 +8,7 @@ set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
 
 # Debugger is broke.
 option(BUILD_DEBUGGER "Debugger is currently broken." OFF)
+option(BUILD_FILTERS "Build SNES filers." ON)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
@@ -28,6 +29,15 @@ pkg_search_module(ALSA REQUIRED alsa)
 pkg_search_module(PULSE REQUIRED libpulse)
 pkg_search_module(AO REQUIRED ao)
 
+# I get link errors when trying to build the gameboy ui without curses.
+if(BUILD_GAMEBOY)
+    pkg_search_module(CURSES REQUIRED ncurses)
+endif()
+
 subdirs(bsnes)
-subdirs(snesfilter)
 subdirs(snespurify)
+
+if(BUILD_FILTERS)
+    message(">>>> Building filters.")
+    subdirs(snesfilter)
+endif()
