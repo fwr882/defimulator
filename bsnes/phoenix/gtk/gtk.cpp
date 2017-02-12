@@ -40,151 +40,203 @@ namespace phoenix {
 
 Window Window::None;
 
-void OS::initialize() {
-  static bool initialized = false;
-  if(initialized == true) return;
-  initialized = true;
+void OS::initialize(void)
+{
+    static bool initialized = false;
+    if (initialized == true) {
+        return;
+    }
 
-  int argc = 1;
-  char *argv[2];
-  argv[0] = new char[8];
-  argv[1] = 0;
-  strcpy(argv[0], "phoenix");
-  char **argvp = argv;
-  gtk_init(&argc, &argvp);
+    initialized = true;
 
-  gtk_rc_parse_string(
-    "style \"phoenix-gtk\"\n"
-    "{\n"
-    "  GtkComboBox::appears-as-list = 1\n"
-    "  GtkTreeView::vertical-separator = 0\n"
-    "}\n"
-    "class \"GtkComboBox\" style \"phoenix-gtk\"\n"
-    "class \"GtkTreeView\" style \"phoenix-gtk\"\n"
-  );
+    /*
+    * Looks like we're attempting to trick GTK+ into thinking that we're
+    * passing different command line options than we actually are.
+    */
+    int argc = 1;
+    char *argv[2];
+    argv[0] = new char[8];
+    argv[1] = 0;
+    strcpy(argv[0], "phoenix");
+    char **argvp = argv;
+
+    gtk_init(&argc, &argvp);
+
+    gtk_rc_parse_string(
+        "style \"phoenix-gtk\"\n"
+        "{\n"
+        "  GtkComboBox::appears-as-list = 1\n"
+        "  GtkTreeView::vertical-separator = 0\n"
+        "}\n"
+        "class \"GtkComboBox\" style \"phoenix-gtk\"\n"
+        "class \"GtkTreeView\" style \"phoenix-gtk\"\n"
+    );
 }
 
-bool OS::pending() {
-  return gtk_events_pending();
+bool OS::pending(void)
+{
+    return gtk_events_pending();
 }
 
-void OS::run() {
-  while(pending()) gtk_main_iteration_do(false);
+void OS::run(void)
+{
+    while (pending()) {
+        gtk_main_iteration_do(false);
+    }
 }
 
-void OS::main() {
-  gtk_main();
+void OS::main(void)
+{
+    gtk_main();
 }
 
-void OS::quit() {
-  gtk_main_quit();
+void OS::quit(void)
+{
+    gtk_main_quit();
 }
 
-unsigned OS::desktopWidth() {
-  return gdk_screen_get_width(gdk_screen_get_default());
+unsigned OS::desktopWidth(void)
+{
+    return gdk_screen_get_width(gdk_screen_get_default());
 }
 
-unsigned OS::desktopHeight() {
-  return gdk_screen_get_height(gdk_screen_get_default());
+unsigned OS::desktopHeight(void)
+{
+    return gdk_screen_get_height(gdk_screen_get_default());
 }
 
-string OS::folderSelect(Window &parent, const string &path) {
-  string name;
+string OS::folderSelect(Window &parent, const string &path)
+{
+    string name;
+    GtkWidget *dialog;
 
-  GtkWidget *dialog = gtk_file_chooser_dialog_new(
-    "Select Folder",
-    &parent != &Window::None ? GTK_WINDOW(parent.object->widget) : (GtkWindow*)0,
-    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-    (const gchar*)0
-  );
+    if (&parent != &Window::None) {
+        dialog = gtk_file_chooser_dialog_new("Select Folder",
+            GTK_WINDOW(parent.object->widget),
+            GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+            GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+            (const gchar*)0);
+    } else {
+        dialog = gtk_file_chooser_dialog_new("Select Folder", (GtkWindow*)0,
+            GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+            GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+            (const gchar*)0);
+    }
 
-  if(path) gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    if (path) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    }
 
-  if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-    char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    name = temp;
-    g_free(temp);
-  }
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
+        char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        name = temp;
+        g_free(temp);
+    }
 
-  gtk_widget_destroy(dialog);
-  if(name.endswith("/") == false) name.append("/");
-  return name;
+    gtk_widget_destroy(dialog);
+    if (name.endswith("/") == false) {
+        name.append("/");
+    }
+
+    return name;
 }
 
-string OS::fileOpen(Window &parent, const string &filter, const string &path) {
-  string name;
+string OS::fileOpen(Window &parent, const string &filter, const string &path)
+{
+    string name;
+    GtkWidget *dialog;
 
-  GtkWidget *dialog = gtk_file_chooser_dialog_new(
-    "Open File",
-    &parent != &Window::None ? GTK_WINDOW(parent.object->widget) : (GtkWindow*)0,
-    GTK_FILE_CHOOSER_ACTION_OPEN,
-    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-    (const gchar*)0
-  );
+    if (&parent != &Window::None) {
+        dialog = gtk_file_chooser_dialog_new("Open File",
+            GTK_WINDOW(parent.object->widget), GTK_FILE_CHOOSER_ACTION_OPEN,
+            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN,
+            GTK_RESPONSE_ACCEPT, (const gchar*)0);
+    } else {
+        dialog = gtk_file_chooser_dialog_new("Open File", (GtkWindow*)0,
+            GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+            (const gchar*)0);
+    }
 
-  if(path) gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    if (path) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    }
 
-  lstring list;
-  list.split("\n", filter);
-  foreach(item, list) {
-    lstring part;
-    part.split("\t", item);
-    GtkFileFilter *filter = gtk_file_filter_new();
-    gtk_file_filter_set_name(filter, string(part[0], " (", part[1], ")"));
-    lstring patterns;
-    patterns.split(",", part[1]);
-    foreach(pattern, patterns) gtk_file_filter_add_pattern(filter, pattern);
-    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
-  }
+    lstring list;
+    list.split("\n", filter);
+    foreach (item, list) {
+        lstring part;
+        part.split("\t", item);
+        GtkFileFilter *filter = gtk_file_filter_new();
+        gtk_file_filter_set_name(filter, string(part[0], " (", part[1], ")"));
+        lstring patterns;
+        patterns.split(",", part[1]);
 
-  if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-    char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    name = temp;
-    g_free(temp);
-  }
+        foreach (pattern, patterns) {
+            gtk_file_filter_add_pattern(filter, pattern);
+        }
 
-  gtk_widget_destroy(dialog);
-  return name;
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+    }
+
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
+        char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        name = temp;
+        g_free(temp);
+    }
+
+    gtk_widget_destroy(dialog);
+    return name;
 }
 
-string OS::fileSave(Window &parent, const string &filter, const string &path) {
-  string name;
+string OS::fileSave(Window &parent, const string &filter, const string &path)
+{
+    string name;
+    GtkWidget *dialog;
 
-  GtkWidget *dialog = gtk_file_chooser_dialog_new(
-    "Save File",
-    &parent != &Window::None ? GTK_WINDOW(parent.object->widget) : (GtkWindow*)0,
-    GTK_FILE_CHOOSER_ACTION_SAVE,
-    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-    (const gchar*)0
-  );
+    if (&parent != &Window::None) {
+        dialog = gtk_file_chooser_dialog_new("Save File",
+            GTK_WINDOW(parent.object->widget), GTK_FILE_CHOOSER_ACTION_SAVE,
+            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN,
+            GTK_RESPONSE_ACCEPT, (const gchar*)0);
+    } else {
+        dialog = gtk_file_chooser_dialog_new("Save File", (GtkWindow*)0,
+            GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL,
+            GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+            (const gchar*)0);
+    }
 
-  if(path) gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    if (path) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    }
 
-  lstring list;
-  list.split("\n", filter);
-  foreach(item, list) {
-    lstring part;
-    part.split("\t", item);
-    GtkFileFilter *filter = gtk_file_filter_new();
-    gtk_file_filter_set_name(filter, string(part[0], " (", part[1], ")"));
-    lstring patterns;
-    patterns.split(",", part[1]);
-    foreach(pattern, patterns) gtk_file_filter_add_pattern(filter, pattern);
-    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
-  }
+    lstring list;
+    list.split("\n", filter);
+    foreach (item, list) {
+        lstring part;
+        part.split("\t", item);
+        GtkFileFilter *filter = gtk_file_filter_new();
+        gtk_file_filter_set_name(filter, string(part[0], " (", part[1], ")"));
+        lstring patterns;
+        patterns.split(",", part[1]);
 
-  if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-    char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-    name = temp;
-    g_free(temp);
-  }
+        foreach (pattern, patterns) {
+            gtk_file_filter_add_pattern(filter, pattern);
+        }
 
-  gtk_widget_destroy(dialog);
-  return name;
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+    }
+
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
+        char *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        name = temp;
+        g_free(temp);
+    }
+
+    gtk_widget_destroy(dialog);
+    return name;
 }
 
 }

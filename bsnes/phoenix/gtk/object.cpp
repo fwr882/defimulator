@@ -1,69 +1,70 @@
 struct Object::Data {
-  bool locked;
-  GtkWidget *widget;
-  GtkWidget *subWidget;
-  GtkWidget *menuContainer;
-  GtkWidget *formContainer;
-  GtkWidget *statusContainer;
-  GtkWidget *menu;
-  GtkWidget *status;
-  Menu *parentMenu;
-  Window *parentWindow;
-  GtkTextBuffer *textBuffer;
-  unsigned position;
+    bool locked;
+    GtkWidget *widget;
+    GtkWidget *subWidget;
+    GtkWidget *menuContainer;
+    GtkWidget *formContainer;
+    GtkWidget *statusContainer;
+    GtkWidget *menu;
+    GtkWidget *status;
+    Menu *parentMenu;
+    Window *parentWindow;
+    GtkTextBuffer *textBuffer;
+    unsigned position;
 };
 
 struct Font::Data {
-  PangoFontDescription *font;
+    PangoFontDescription *font;
 };
 
 struct Action::Data {
-  Font *font;
+    Font *font;
 };
 
 struct Widget::Data {
-  Window *parent;
+    Window *parent;
 };
 
 struct Window::Data {
-  Font *defaultFont;
+    Font *defaultFont;
 };
 
 struct Canvas::Data {
-  uint32_t *bufferRGB;
-  uint32_t *bufferBGR;
-  unsigned pitch;
+    uint32_t *bufferRGB;
+    uint32_t *bufferBGR;
+    unsigned pitch;
 };
 
 struct HexEditor::Data {
-  GtkWidget *container;
-  GtkWidget *widget;
-  GtkWidget *scroll;
+    GtkWidget *container;
+    GtkWidget *widget;
+    GtkWidget *scroll;
 
-  GtkTextMark *cursor;
-  unsigned size;
-  unsigned offset;
-  unsigned columns;
-  unsigned rows;
+    GtkTextMark *cursor;
+    unsigned size;
+    unsigned offset;
+    unsigned columns;
+    unsigned rows;
 };
 
 struct ListBox::Data {
-  GtkListStore *store;
-  struct GtkColumn {
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
-    GtkWidget *label;
-  };
-  linear_vector<GtkColumn> column;
-  bool checkable;
-  signed selection;
+    GtkListStore *store;
+    struct GtkColumn {
+        GtkCellRenderer *renderer;
+        GtkTreeViewColumn *column;
+        GtkWidget *label;
+    };
+
+    linear_vector<GtkColumn> column;
+    bool checkable;
+    signed selection;
 };
 
-void Object::unused() {
-}
+void Object::unused(void) { }
 
-Object::Object() {
-  OS::initialize();
-  object = new Object::Data;
-  object->locked = false;
+Object::Object(void)
+{
+    OS::initialize();
+    object = new Object::Data;
+    object->locked = false;
 }
