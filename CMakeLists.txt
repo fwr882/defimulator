@@ -19,19 +19,16 @@ message(">>>> Using ${EMULATION_PROFILE} emulation profile.")
 message(">>>> Build type: ${CMAKE_BUILD_TYPE}")
 
 
-find_package(PkgConfig)
-find_package(OpenGL)
-
-pkg_search_module(GTK2 REQUIRED gtk+-2.0)
-pkg_search_module(SDL REQUIRED sdl)
-pkg_search_module(X11 REQUIRED x11)
-pkg_search_module(ALSA REQUIRED alsa)
-pkg_search_module(PULSE REQUIRED libpulse)
-pkg_search_module(AO REQUIRED ao)
-
-# I get link errors when trying to build the gameboy ui without curses.
-if(BUILD_GAMEBOY)
-    pkg_search_module(CURSES REQUIRED ncurses)
+if(NOT WIN32)
+    find_package(PkgConfig)
+    find_package(OpenGL)
+    pkg_search_module(GTK2 REQUIRED gtk+-2.0)
+    pkg_search_module(SDL REQUIRED sdl)
+    pkg_search_module(X11 REQUIRED x11)
+    pkg_search_module(PULSE REQUIRED libpulse)
+    if(BUILD_GAMEBOY)
+        pkg_search_module(CURSES REQUIRED ncurses)
+    endif()
 endif()
 
 subdirs(bsnes)

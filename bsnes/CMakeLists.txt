@@ -2,7 +2,10 @@ project(bsnes CXX)
 enable_language(C)
 
 include_directories("${bsnes_SOURCE_DIR}")
-include_directories("${GTK2_INCLUDE_DIRS}")
+
+if(NOT WIN32)
+    include_directories("${GTK2_INCLUDE_DIRS}")
+endif()
 
 # TODO: Tweaked with available profiles from initial config.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
@@ -11,20 +14,23 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer")
 
 # GUI flag
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_WINDOWS")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_DIRECT3D")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_DIRECTSOUND")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_DIRECTINPUT")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
+endif()
+
 
 # Video Flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
-
-# Audio Flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_AO")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
-
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROFILE_ACCURACY")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPROFILE_ACCURACY")
@@ -125,22 +131,32 @@ endif()
 
 add_executable(bsnes ${sources})
 
-target_link_libraries(bsnes
-    # Toolkit libraries
-    ${GTK2_LIBRARIES}
+if(WIN32)
+    target_link_libraries(bsnes
+        mingw32
+        d3d9
+        dsound
+        dxguid
+        dinput8
+        comctl32
+    )
+else()
+    target_link_libraries(bsnes
+        # Toolkit libraries
+        ${GTK2_LIBRARIES}
 
-    # Graphics Libraries
-    ${OPENGL_LIBRARIES}
-    ${SDL_LIBRARIES}
-    ${X11_LIBRARIES}
+        # Graphics Libraries
+        ${OPENGL_LIBRARIES}
+        ${SDL_LIBRARIES}
+        ${X11_LIBRARIES}
 
-    # Audio Libraries
-    ${ALSA_LIBRARIES}
-    ${AO_LIBRARIES}
+        # Audio Libraries
+        ${PULSE_LIBRARIES}
 
-    # For -ldl on *nix
-    ${CMAKE_DL_LIBS}
-)
+        # For -ldl on *nix
+        ${CMAKE_DL_LIBS}
+    )
+endif()
 
 if(BUILD_GAMEBOY)
     target_link_libraries(bsnes ${CURSES_LIBRARIES})
