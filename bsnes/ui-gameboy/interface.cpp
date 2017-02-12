@@ -36,7 +36,8 @@ void Interface::input_poll() {
 }
 
 bool Interface::input_poll(unsigned id) {
-  switch(id) {
+  GameBoy::Input in = static_cast<GameBoy::Input>(id);
+  switch(in) {
     case GameBoy::Input::Up: return inputState[keyboard(0)[Keyboard::Up]];
     case GameBoy::Input::Down: return inputState[keyboard(0)[Keyboard::Down]];
     case GameBoy::Input::Left: return inputState[keyboard(0)[Keyboard::Left]];
