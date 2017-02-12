@@ -36,6 +36,17 @@ elseif(EMULATION_PROFILE STREQUAL "COMPATIBILITY")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPROFILE_COMPATIBILITY")
 endif()
 
+if(BUILD_DEBUGGER)
+    if(EMULATION_PROFILE STREQUAL "PERFORMANCE")
+        message(FATAL_ERROR "** Cannot build debugger in PERFORMANCE profile.")
+    else()
+        message(">>>> Building debugger.")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUGGER")
+        list(APPEND sources ui/debugger/debugger.cpp)
+    endif()
+endif()
+
 # Doesn't work.  But I'm sure this has something to do with it.
 if(BUILD_GAMEBOY)
     list(APPEND sources
@@ -73,6 +84,8 @@ list(APPEND sources
     snes/chip/st0018/st0018.cpp
     snes/chip/msu1/msu1.cpp
     snes/chip/serial/serial.cpp
+
+    # XXX: Should these be consolidated in the gameboy build specifics?
     gameboy/system/system.cpp
     gameboy/scheduler/scheduler.cpp
     gameboy/memory/memory.cpp
@@ -80,13 +93,6 @@ list(APPEND sources
     gameboy/cpu/cpu.cpp
     gameboy/lcd/lcd.cpp
 )
-
-if(BUILD_DEBUGGER)
-    message(">>>> Building debugger.")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUGGER")
-    list(APPEND sources ui/debugger/debugger.cpp)
-endif()
 
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     list(APPEND sources

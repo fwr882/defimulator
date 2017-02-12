@@ -7,7 +7,7 @@ set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
     ACCURACY COMPATIBILITY PERFORMANCE)
 
 # Debugger is broke.
-option(BUILD_DEBUGGER "Debugger is currently broken." OFF)
+option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)
 
 # If no build type is specified, assume the user wants a release build.
