@@ -29,4 +29,5 @@ pkg_search_module(PULSE REQUIRED libpulse)
 pkg_search_module(AO REQUIRED ao)
 
 subdirs(bsnes)
+subdirs(snesfilter)
 subdirs(snespurify)

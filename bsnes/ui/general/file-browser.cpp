@@ -60,7 +60,7 @@ void FileBrowser::fileOpen(FileBrowser::Mode requestedMode, function<void (strin
     }
     case Mode::Filter: {
       setTitle("Load Video Filter");
-      filters.append(".filter");
+      filters.append(".so");
       break;
     }
     case Mode::Shader: {

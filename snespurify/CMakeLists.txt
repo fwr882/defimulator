@@ -2,6 +2,7 @@ project(snespurify CXX)
 enable_language(C)
 
 include_directories("${snespurify_SOURCE_DIR}")
+include_directories("${bsnes_SOURCE_DIR}")
 include_directories("${GTK2_INCLUDE_DIRS}")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")

@@ -1,7 +1,11 @@
+# Binary directories.  Including those from the original Makefiles.
 build
-*.swp
 bsnes/obj/*
 bsnes/out/*
+snesfilter/out/*
+
+# Trash files
+*.swp
 
 # Ignore any sort of log file.
 *.log

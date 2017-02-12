@@ -1,0 +1,21 @@
+project(snesfilter CXX)
+
+include_directories("${snesfilter_SOURCE_DIR}")
+include_directories("${snesfilter_SOURCE_DIR}/obj")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fomit-frame-pointer")
+
+add_library(pixellate2x SHARED pixellate2x/pixellate2x.cpp)
+add_library(scanline-00 SHARED scanline/scanline-00.cpp)
+add_library(scanline-25 SHARED scanline/scanline-25.cpp)
+add_library(scanline-50 SHARED scanline/scanline-50.cpp)
+add_library(scanline-75 SHARED scanline/scanline-75.cpp)
+add_library(scale2x SHARED scale2x/scale2x.cpp)
+add_library(2xsai SHARED 2xsai/2xsai.cpp)
+add_library(super-2xsai SHARED 2xsai/super-2xsai.cpp)
+add_library(super-eagle SHARED 2xsai/super-eagle.cpp)
+add_library(lq2x SHARED lq2x/lq2x.cpp)
+add_library(hq2x SHARED hq2x/hq2x.cpp)
+add_library(ntsc-composite SHARED ntsc/ntsc-composite.cpp)
+add_library(ntsc-svideo SHARED ntsc/ntsc-svideo.cpp)
+add_library(ntsc-rgb SHARED ntsc/ntsc-rgb.cpp)
