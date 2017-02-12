@@ -6,6 +6,9 @@ set(EMULATION_PROFILE "PERFORMANCE" CACHE STRING "Emulation profile.")
 set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
     ACCURACY COMPATIBILITY PERFORMANCE)
 
+# Debugger is broke.
+option(BUILD_DEBUGGER "Debugger is currently broken." OFF)
+
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "'Debug' or 'Release'" FORCE)

@@ -25,6 +25,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
 
+if(BUILD_DEBUGGER)
+    message(">>>> Building debugger.")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUGGER")
+endif()
+
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROFILE_ACCURACY")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPROFILE_ACCURACY")
@@ -72,6 +78,10 @@ list(APPEND sources
     gameboy/cpu/cpu.cpp
     gameboy/lcd/lcd.cpp
 )
+
+if(BUILD_DEBUGGER)
+    list(APPEND sources ui/debugger/debugger.cpp)
+endif()
 
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     list(APPEND sources
