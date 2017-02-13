@@ -92,6 +92,11 @@ list(APPEND sources
     snes/chip/msu1/msu1.cpp
     snes/chip/serial/serial.cpp
 
+    ## So main() is redefined in this file, but I'm not sure
+    ## what the launcher does that the bsnes binary doesn't
+    ## already do.  Meanwhile, I'll just excluse this file
+    # launcher/launcher.cpp
+
     gameboy/system/system.cpp
     gameboy/scheduler/scheduler.cpp
     gameboy/memory/memory.cpp
@@ -131,6 +136,12 @@ elseif(EMULATION_PROFILE STREQUAL "PERFORMANCE")
 endif()
 
 add_executable(bsnes ${sources})
+
+if(BUILD_LAUNCHER)
+    add_executable(launcher
+        launcher/launcher.cpp
+    )
+endif()
 
 if(WIN32)
     target_link_libraries(bsnes

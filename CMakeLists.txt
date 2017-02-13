@@ -9,6 +9,7 @@ set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
 # Debugger is broke.
 option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)
+option(BUILD_LAUNCHER "Build bsnes launcher.  Unknown usage.." OFF)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
