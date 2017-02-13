@@ -15,79 +15,96 @@ using namespace phoenix;
 static const char applicationTitle[] = "snespurify v05";
 
 struct Application : Window {
-  Font font;
-  Label pathLabel;
-  TextBox pathBox;
-  Button pathScan;
-  Button pathBrowse;
-  ListBox fileList;
-  Button selectAll;
-  Button unselectAll;
-  Button fixSelected;
+    Font font;
+    Label pathLabel;
+    TextBox pathBox;
+    Button pathScan;
+    Button pathBrowse;
+    ListBox fileList;
+    Button selectAll;
+    Button unselectAll;
+    Button fixSelected;
 
-  struct FileInfo {
-    string filename;
-    string problem;
-    string solution;
-  };
-  linear_vector<FileInfo> fileInfo;
-  lstring errors;
+    struct FileInfo {
+        string filename;
+        string problem;
+        string solution;
+    };
 
-  void main();
-  void enable(bool);
-  void scan();
-  void scan(const string &pathname);
-  void analyze(const string &filename);
-  void repair();
-  void createPatch(const string &filename);
+    linear_vector<FileInfo> fileInfo;
+    lstring errors;
+
+    void main(void);
+    void enable(bool);
+    void scan(void);
+    void scan(const string &pathname);
+    void analyze(const string &filename);
+    void repair(void);
+    void createPatch(const string &filename);
 } application;
 
-void Application::main() {
-  #if defined(PLATFORM_WIN)
-  font.create("Tahoma", 8);
-  #else
-  font.create("Sans", 8);
-  #endif
-  create(128, 128, 600, 360, applicationTitle);
-  setDefaultFont(font);
+void Application::main(void)
+{
+    #if defined(PLATFORM_WIN)
+    font.create("Tahoma", 8);
+    #else
+    font.create("Sans", 8);
+    #endif
+    create(128, 128, 600, 360, applicationTitle);
+    setDefaultFont(font);
 
-  unsigned x = 5, y = 5, width = 600, height = 25;
-  pathLabel.create(*this, x, y, 80, height, "Path to scan:");
-  pathBox.create(*this, x + 85, y, 335, height);
-  pathScan.create(*this, x + 425, y, 80, height, "Scan");
-  pathBrowse.create(*this, x + 510, y, 80, height, "Browse ..."); y += height + 5;
-  fileList.create(*this, x, y, 590, 290, "Filename\tProblem\tSolution"); y += 290 + 5;
-  selectAll.create(*this, x, y, 80, height, "Select All");
-  unselectAll.create(*this, x + 85, y, 80, height, "Clear All");
-  fixSelected.create(*this, 595 - 80, y, 80, height, "Correct"); y += height + 5;
-  fileList.setHeaderVisible();
-  fileList.setCheckable();
+    unsigned x = 5;
+    unsigned y = 5;
+    unsigned width = 600;
+    unsigned height = 25;
 
-  onClose = []() {
-    OS::quit();
-    return true;
-  };
+    pathLabel.create(*this, x, y, 80, height, "Path to scan:");
+    pathBox.create(*this, x + 85, y, 335, height);
+    pathScan.create(*this, x + 425, y, 80, height, "Scan");
+    pathBrowse.create(*this, x + 510, y, 80, height, "Browse ...");
+    y += height + 5;
 
-  pathBox.onActivate = pathScan.onTick = { &Application::scan, this };
+    fileList.create(*this, x, y, 590, 290, "Filename\tProblem\tSolution");
+    y += 290 + 5;
 
-  pathBrowse.onTick = []() {
-    string pathname = OS::folderSelect(application);
-    if(pathname != "") application.pathBox.setText(pathname);
-  };
+    selectAll.create(*this, x, y, 80, height, "Select All");
+    unselectAll.create(*this, x + 85, y, 80, height, "Clear All");
+    fixSelected.create(*this, 595 - 80, y, 80, height, "Correct");
+    y += height + 5;
 
-  selectAll.onTick = []() {
-    unsigned count = application.fileInfo.size();
-    for(unsigned i = 0; i < count; i++) application.fileList.setChecked(i, true);
-  };
+    fileList.setHeaderVisible();
+    fileList.setCheckable();
 
-  unselectAll.onTick = []() {
-    unsigned count = application.fileInfo.size();
-    for(unsigned i = 0; i < count; i++) application.fileList.setChecked(i, false);
-  };
+    onClose = []() {
+        OS::quit();
+        return true;
+    };
 
-  fixSelected.onTick = { &Application::repair, this };
+    pathBox.onActivate = pathScan.onTick = { &Application::scan, this };
 
-  setVisible();
+    pathBrowse.onTick = []() {
+        string pathname = OS::folderSelect(application);
+        if (pathname != "") {
+            application.pathBox.setText(pathname);
+        }
+    };
+
+    selectAll.onTick = []() {
+        unsigned count = application.fileInfo.size();
+        for (unsigned i = 0; i < count; i++) {
+            application.fileList.setChecked(i, true);
+        }
+    };
+
+    unselectAll.onTick = []() {
+        unsigned count = application.fileInfo.size();
+        for (unsigned i = 0; i < count; i++) {
+            application.fileList.setChecked(i, false);
+        }
+    };
+
+    fixSelected.onTick = { &Application::repair, this };
+    setVisible();
 }
 
 //don't allow actions to be taken while files are being scanned or fixed
@@ -393,8 +410,9 @@ void Application::createPatch(const string &filename) {
   }
 }
 
-int main() {
-  application.main();
-  OS::main();
-  return 0;
+int main(void)
+{
+    application.main();
+    OS::main();
+    return 0;
 }
