@@ -12,70 +12,89 @@
 
 #include "opcode.cpp"
 
-void CPU::add_clocks(unsigned clocks) {
-  system.clocks_executed += clocks;
-  scheduler.exit(Scheduler::ExitReason::StepEvent);
+void CPU::add_clocks(unsigned clocks)
+{
+    system.clocks_executed += clocks;
+    scheduler.exit(Scheduler::ExitReason::StepEvent);
 
-  status.clock += clocks;
-  if(status.clock >= 4 * 1024 * 1024) {
-    status.clock -= 4 * 1024 * 1024;
-    cartridge.mbc3.second();
-  }
+    status.clock += clocks;
+    if (status.clock >= 4 * 1024 * 1024) {
+        status.clock -= 4 * 1024 * 1024;
+        cartridge.mbc3.second();
+    }
 
-  status.timer0 += clocks;
-  if(status.timer0 >= 16) timer_stage0();
+    status.timer0 += clocks;
+    if (status.timer0 >= 16) {
+        timer_stage0();
+    }
 
-  cpu.clock += clocks;
-  if(cpu.clock >= 0) co_switch(scheduler.active_thread = lcd.thread);
+    cpu.clock += clocks;
+    if (cpu.clock >= 0) {
+        co_switch(scheduler.active_thread = lcd.thread);
+    }
 }
 
-void CPU::timer_stage0() {  //262144hz
-  if(status.timer_enable && status.timer_clock == 1) {
-    if(++status.tima == 0) {
-      status.tima = status.tma;
-      interrupt_raise(Interrupt::Timer);
+void CPU::timer_stage0(void)
+{  
+    /* 262144hz */
+    if (status.timer_enable && status.timer_clock == 1) {
+        if (++status.tima == 0) {
+            status.tima = status.tma;
+            interrupt_raise(Interrupt::Timer);
+        }
     }
-  }
 
-  status.timer0 -= 16;
-  if(++status.timer1 >= 4) timer_stage1();
+    status.timer0 -= 16;
+    if (++status.timer1 >= 4) {
+        timer_stage1();
+    }
 }
 
-void CPU::timer_stage1() {  // 65536hz
-  if(status.timer_enable && status.timer_clock == 2) {
-    if(++status.tima == 0) {
-      status.tima = status.tma;
-      interrupt_raise(Interrupt::Timer);
+void CPU::timer_stage1(void)
+{
+    /* 65536hz */
+    if (status.timer_enable && status.timer_clock == 2) {
+        if (++status.tima == 0) {
+            status.tima = status.tma;
+            interrupt_raise(Interrupt::Timer);
+        }
     }
-  }
 
-  status.timer1 -= 4;
-  if(++status.timer2 >= 4) timer_stage2();
+    status.timer1 -= 4;
+    if (++status.timer2 >= 4) {
+        timer_stage2();
+    }
 }
 
-void CPU::timer_stage2() {  // 16384hz
-  if(status.timer_enable && status.timer_clock == 3) {
-    if(++status.tima == 0) {
-      status.tima = status.tma;
-      interrupt_raise(Interrupt::Timer);
+void CPU::timer_stage2(void)
+{ 
+    /* 16384hz */
+    if (status.timer_enable && status.timer_clock == 3) {
+        if (++status.tima == 0) {
+            status.tima = status.tma;
+            interrupt_raise(Interrupt::Timer);
+        }
     }
-  }
 
-  status.div++;
+    status.div++;
 
-  status.timer2 -= 4;
-  if(++status.timer3 >= 4) timer_stage3();
+    status.timer2 -= 4;
+    if (++status.timer3 >= 4) {
+        timer_stage3();
+    }
 }
 
-void CPU::timer_stage3() {  //  4096hz
-  if(status.timer_enable && status.timer_clock == 0) {
-    if(++status.tima == 0) {
-      status.tima = status.tma;
-      interrupt_raise(Interrupt::Timer);
+void CPU::timer_stage3(void)
+{
+    /* 4096hz */
+    if (status.timer_enable && status.timer_clock == 0) {
+        if (++status.tima == 0) {
+            status.tima = status.tma;
+            interrupt_raise(Interrupt::Timer);
+        }
     }
-  }
 
-  status.timer3 -= 4;
+    status.timer3 -= 4;
 }
 
 #endif

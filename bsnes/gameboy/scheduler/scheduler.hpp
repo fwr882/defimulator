@@ -1,17 +1,27 @@
 struct Scheduler : property<Scheduler> {
-  enum class SynchronizeMode : unsigned { None, CPU, All } sync;
-  enum class ExitReason : unsigned { UnknownEvent, StepEvent, FrameEvent, SynchronizeEvent };
-  readonly<ExitReason> exit_reason;
+    enum class SynchronizeMode : unsigned {
+        None,
+        CPU,
+        All
+    } sync;
 
-  cothread_t host_thread;
-  cothread_t active_thread;
+    enum class ExitReason : unsigned {
+        UnknownEvent,
+        StepEvent,
+        FrameEvent,
+        SynchronizeEvent
+    };
+    
+    readonly<ExitReason> exit_reason;
 
-  void enter();
-  void exit(ExitReason);
-  void swapto(Processor&);
+    cothread_t host_thread;
+    cothread_t active_thread;
 
-  void init();
-  Scheduler();
+    void enter(void);
+    void exit(ExitReason);
+    void swapto(Processor&);
+    void init(void);
+    Scheduler(void);
 };
 
 extern Scheduler scheduler;
