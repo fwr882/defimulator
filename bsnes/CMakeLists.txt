@@ -24,6 +24,7 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
@@ -91,7 +92,6 @@ list(APPEND sources
     snes/chip/msu1/msu1.cpp
     snes/chip/serial/serial.cpp
 
-    # XXX: Should these be consolidated in the gameboy build specifics?
     gameboy/system/system.cpp
     gameboy/scheduler/scheduler.cpp
     gameboy/memory/memory.cpp
@@ -99,6 +99,7 @@ list(APPEND sources
     gameboy/cpu/cpu.cpp
     gameboy/lcd/lcd.cpp
 )
+
 
 if(EMULATION_PROFILE STREQUAL "ACCURACY")
     list(APPEND sources
@@ -151,6 +152,7 @@ else()
         ${X11_LIBRARIES}
 
         # Audio Libraries
+        ${ALSA_LIBRARIES}
         ${PULSE_LIBRARIES}
 
         # For -ldl on *nix
