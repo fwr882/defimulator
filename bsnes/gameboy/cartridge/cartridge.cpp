@@ -16,132 +16,239 @@ namespace GameBoy {
 #include "serialization.cpp"
 Cartridge cartridge;
 
-void Cartridge::load(const string &xml, uint8_t *data, unsigned size) {
+void Cartridge::load(const string &xml, uint8_t *data, unsigned size)
+{
 //uint32_t crc = crc32_calculate(data, size);
 //print("CRC32 = ", hex<4>(crc), "\n");
 
-  romdata = new uint8[romsize = size];
-  memcpy(romdata, data, size);
+    romdata = new uint8[romsize = size];
+    memcpy(romdata, data, size);
 
-  info.mapper = Mapper::Unknown;
-  info.ram = false;
-  info.battery = false;
-  info.rtc = false;
-  info.rumble = false;
+    info.mapper = Mapper::Unknown;
+    info.ram = false;
+    info.battery = false;
+    info.rtc = false;
+    info.rumble = false;
 
-  info.romsize = 0;
-  info.ramsize = 0;
+    info.romsize = 0;
+    info.ramsize = 0;
 
-  xml_element document = xml_parse(xml);
-  foreach(head, document.element) {
-    if(head.name == "cartridge") {
-      foreach(attr, head.attribute) {
-        if(attr.name == "mapper") {
-          if(attr.content == "none")  info.mapper = Mapper::MBC0;
-          if(attr.content == "MBC1")  info.mapper = Mapper::MBC1;
-          if(attr.content == "MBC2")  info.mapper = Mapper::MBC2;
-          if(attr.content == "MBC3")  info.mapper = Mapper::MBC3;
-          if(attr.content == "MBC5")  info.mapper = Mapper::MBC5;
-          if(attr.content == "MMM01") info.mapper = Mapper::MMM01;
-          if(attr.content == "HuC1")  info.mapper = Mapper::HuC1;
-          if(attr.content == "HuC3")  info.mapper = Mapper::HuC3;
+    xml_element document = xml_parse(xml);
+    foreach (head, document.element) {
+        if (head.name == "cartridge") {
+            foreach (attr, head.attribute) {
+                if (attr.name == "mapper") {
+                    if (attr.content == "none") {
+                        info.mapper = Mapper::MBC0;
+                    }
+
+                    if (attr.content == "MBC1") {
+                        info.mapper = Mapper::MBC1;
+                    }
+
+                    if (attr.content == "MBC2") {
+                        info.mapper = Mapper::MBC2;
+                    }
+
+                    if (attr.content == "MBC3") {
+                        info.mapper = Mapper::MBC3;
+                    }
+
+                    if (attr.content == "MBC5") {
+                        info.mapper = Mapper::MBC5;
+                    }
+
+                    if (attr.content == "MMM01") {
+                        info.mapper = Mapper::MMM01;
+                    }
+
+                    if (attr.content == "HuC1") {
+                        info.mapper = Mapper::HuC1;
+                    }
+
+                    if (attr.content == "HuC3") {
+                        info.mapper = Mapper::HuC3;
+                    }
+                }
+
+                if (attr.name == "rtc") {
+                    if (attr.content == "true") {
+                        info.rtc = true;
+                    } else {
+                        info.rtc = false;
+                    }
+                }
+
+                if(attr.name == "rumble") {
+                    if (attr.content == "true") {
+                        info.rumble = true;
+                    } else {
+                        info.rumble = false;
+                    }
+                }
+            }
+
+            foreach (elem, head.element) {
+                if (elem.name == "rom") {
+                    foreach (attr, elem.attribute) {
+                        if(attr.name == "size") {
+                            info.romsize = hex(attr.content);
+                        }
+                    }
+                }
+
+                if (elem.name == "ram") {
+                    info.ram = true;
+                    foreach (attr, elem.attribute) {
+                        if (attr.name == "size") {
+                            info.ramsize = hex(attr.content);
+                        }
+                        if(attr.name == "battery") {
+                            if (attr.content == "true") {
+                                info.battery = true;
+                            } else {
+                                info.battery = false;
+                            }
+                        }
+                    }
+                }
+            }
         }
-
-        if(attr.name == "rtc") info.rtc = (attr.content == "true" ? true : false);
-        if(attr.name == "rumble") info.rumble = (attr.content == "true" ? true : false);
-      }
-
-      foreach(elem, head.element) {
-        if(elem.name == "rom") {
-          foreach(attr, elem.attribute) {
-            if(attr.name == "size") info.romsize = hex(attr.content);
-          }
-        }
-
-        if(elem.name == "ram") {
-          info.ram = true;
-          foreach(attr, elem.attribute) {
-            if(attr.name == "size") info.ramsize = hex(attr.content);
-            if(attr.name == "battery") info.battery = (attr.content == "true" ? true : false);
-          }
-        }
-      }
     }
-  }
 
-  ramdata = new uint8_t[ramsize = info.ramsize]();
-  loaded = true;
+    ramdata = new uint8_t[ramsize = info.ramsize]();
+    loaded = true;
 }
 
-void Cartridge::unload() {
-  if(loaded == false) return;
+void Cartridge::unload(void)
+{
+    if (loaded == false) {
+        return;
+    }
 
-  if(romdata) { delete[] romdata; romdata = 0; }
-  if(ramdata) { delete[] ramdata; ramdata = 0; }
-  loaded = false;
+    if (romdata) {
+        delete[] romdata;
+        romdata = 0;
+    }
+
+    if (ramdata) {
+        delete[] ramdata;
+        ramdata = 0;
+    }
+
+    loaded = false;
 }
 
-uint8 Cartridge::rom_read(unsigned addr) {
-  if(addr >= romsize) addr %= romsize;
-  return romdata[addr];
+uint8 Cartridge::rom_read(unsigned addr)
+{
+    if (addr >= romsize) {
+        addr %= romsize;
+    }
+
+    return romdata[addr];
 }
 
-void Cartridge::rom_write(unsigned addr, uint8 data) {
-  if(addr >= romsize) addr %= romsize;
-  romdata[addr] = data;
+void Cartridge::rom_write(unsigned addr, uint8 data)
+{
+    if(addr >= romsize) {
+        addr %= romsize;
+    }
+
+    romdata[addr] = data;
 }
 
-uint8 Cartridge::ram_read(unsigned addr) {
-  if(ramsize == 0) return 0x00;
-  if(addr >= ramsize) addr %= ramsize;
-  return ramdata[addr];
+uint8 Cartridge::ram_read(unsigned addr)
+{
+    if (ramsize == 0) {
+        return 0x00;
+    }
+
+    if (addr >= ramsize) {
+        addr %= ramsize;
+    }
+
+    return ramdata[addr];
 }
 
-void Cartridge::ram_write(unsigned addr, uint8 data) {
-  if(ramsize == 0) return;
-  if(addr >= ramsize) addr %= ramsize;
-  ramdata[addr] = data;
+void Cartridge::ram_write(unsigned addr, uint8 data)
+{
+    if (ramsize == 0) {
+        return;
+    }
+
+    if (addr >= ramsize) {
+        addr %= ramsize;
+    }
+
+    ramdata[addr] = data;
 }
 
-void Cartridge::power() {
-  mbc0.power();
-  mbc1.power();
-  mbc2.power();
-  mbc3.power();
-  mbc5.power();
-  mmm01.power();
-  huc1.power();
-  huc3.power();
-  map();
+void Cartridge::power(void)
+{
+    mbc0.power();
+    mbc1.power();
+    mbc2.power();
+    mbc3.power();
+    mbc5.power();
+    mmm01.power();
+    huc1.power();
+    huc3.power();
+    map();
 }
 
-void Cartridge::map() {
-  MMIO *mapper = 0;
-  switch(info.mapper) { default:
-    case Mapper::MBC0:  mapper = &mbc0;  break;
-    case Mapper::MBC1:  mapper = &mbc1;  break;
-    case Mapper::MBC2:  mapper = &mbc2;  break;
-    case Mapper::MBC3:  mapper = &mbc3;  break;
-    case Mapper::MBC5:  mapper = &mbc5;  break;
-    case Mapper::MMM01: mapper = &mmm01; break;
-    case Mapper::HuC1:  mapper = &huc1;  break;
-    case Mapper::HuC3:  mapper = &huc3;  break;
-  }
+void Cartridge::map(void)
+{
+    MMIO *mapper = 0;
 
-  if(mapper) {
-    for(unsigned n = 0x0000; n <= 0x7fff; n++) bus.mmio[n] = mapper;
-    for(unsigned n = 0xa000; n <= 0xbfff; n++) bus.mmio[n] = mapper;
-  }
+    switch (info.mapper) {
+    default:
+    case Mapper::MBC0:
+        mapper = &mbc0;
+        break;
+    case Mapper::MBC1:
+        mapper = &mbc1;
+        break;
+    case Mapper::MBC2:
+        mapper = &mbc2;
+        break;
+    case Mapper::MBC3:
+        mapper = &mbc3;
+        break;
+    case Mapper::MBC5:
+        mapper = &mbc5;
+        break;
+    case Mapper::MMM01:
+        mapper = &mmm01;
+        break;
+    case Mapper::HuC1:
+        mapper = &huc1;
+        break;
+    case Mapper::HuC3:
+        mapper = &huc3;
+        break;
+    }
+
+    if (mapper) {
+        for (unsigned n = 0x0000; n <= 0x7fff; n++) {
+            bus.mmio[n] = mapper;
+        }
+
+        for (unsigned n = 0xa000; n <= 0xbfff; n++) {
+            bus.mmio[n] = mapper;
+        }
+    }
 }
 
-Cartridge::Cartridge() {
-  loaded = false;
-  romdata = 0;
-  ramdata = 0;
+Cartridge::Cartridge(void)
+{
+    loaded = false;
+    romdata = 0;
+    ramdata = 0;
 }
 
-Cartridge::~Cartridge() {
-  unload();
+Cartridge::~Cartridge(void)
+{
+    unload();
 }
 
 }

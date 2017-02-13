@@ -1,13 +1,16 @@
+#ifndef BSNES_GAMEBOY_H
+#define BSNES_GAMEBOY_H
+
 //bgameboy
 //author: byuu
 //project started: 2010-12-27
 
 namespace GameBoy {
-  namespace Info {
-    static const char Name[] = "bgameboy";
-    static const char Version[] = "000.11";
-    static unsigned SerializerVersion = 1;
-  }
+    namespace Info {
+        static const char Name[] = "bgameboy";
+        static const char Version[] = "000.11";
+        static unsigned SerializerVersion = 1;
+    }
 }
 
 #include <libco/libco.h>
@@ -21,35 +24,41 @@ namespace GameBoy {
 using namespace nall;
 
 namespace GameBoy {
-  typedef int8_t   int8;
-  typedef int16_t  int16;
-  typedef int32_t  int32;
-  typedef int64_t  int64;
+    typedef int8_t   int8;
+    typedef int16_t  int16;
+    typedef int32_t  int32;
+    typedef int64_t  int64;
 
-  typedef uint8_t  uint8;
-  typedef uint16_t uint16;
-  typedef uint32_t uint32;
-  typedef uint64_t uint64;
+    typedef uint8_t  uint8;
+    typedef uint16_t uint16;
+    typedef uint32_t uint32;
+    typedef uint64_t uint64;
 
-  struct Processor {
-    cothread_t thread;
-    unsigned frequency;
-    int64 clock;
+    struct Processor {
+        cothread_t thread;
+        unsigned frequency;
+        int64 clock;
 
-    inline void create(void (*entrypoint_)(), unsigned frequency_) {
-      if(thread) co_delete(thread);
-      thread = co_create(65536 * sizeof(void*), entrypoint_);
-      frequency = frequency_;
-      clock = 0;
-    }
+        inline void create(void (*entrypoint_)(), unsigned frequency_)
+        {
+            if (thread) {
+                co_delete(thread);
+            }
 
-    inline Processor() : thread(0) {}
-  };
+            thread = co_create(65536 * sizeof(void*), entrypoint_);
+            frequency = frequency_;
+            clock = 0;
+        }
 
-  #include <gameboy/memory/memory.hpp>
-  #include <gameboy/system/system.hpp>
-  #include <gameboy/scheduler/scheduler.hpp>
-  #include <gameboy/cartridge/cartridge.hpp>
-  #include <gameboy/cpu/cpu.hpp>
-  #include <gameboy/lcd/lcd.hpp>
+        inline Processor() : thread(0) {}
+    };
+
+    #include <gameboy/memory/memory.hpp>
+    #include <gameboy/system/system.hpp>
+    #include <gameboy/scheduler/scheduler.hpp>
+    #include <gameboy/cartridge/cartridge.hpp>
+    #include <gameboy/cpu/cpu.hpp>
+    #include <gameboy/lcd/lcd.hpp>
 };
+
+#endif /* BSNES_GAMEBOY_H */
