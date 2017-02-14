@@ -6,70 +6,83 @@
 #include <nall/utility.hpp>
 
 namespace nall {
-  class dictionary {
-  public:
-    string operator[](const char *input) {
-      for(unsigned i = 0; i < index_input.size(); i++) {
-        if(index_input[i] == input) return index_output[i];
-      }
-
-      //no match, use input; remove input identifier, if one exists
-      if(strbegin(input, "{{")) {
-        if(auto pos = strpos(input, "}}")) {
-          string temp = substr(input, pos() + 2);
-          return temp;
+class dictionary {
+public:
+    string operator[](const char *input)
+    {
+        for (unsigned i = 0; i < index_input.size(); i++) {
+            if (index_input[i] == input) {
+                return index_output[i];
+            }
         }
-      }
 
-      return input;
+        /* No match, use input; remove input identifier, if one exists */
+        if (strbegin(input, "{{")) {
+            if (auto pos = strpos(input, "}}")) {
+                string temp = substr(input, pos() + 2);
+                return temp;
+            }
+        }
+
+        return input;
     }
 
-    bool import(const char *filename) {
-      string data;
-      if(data.readfile(filename) == false) return false;
-      data.ltrim<1>("\xef\xbb\xbf"); //remove UTF-8 marker, if it exists
-      data.replace("\r", "");
+    bool import(const char *filename)
+    {
+        string data;
+        if (data.readfile(filename) == false) {
+            return false;
+        }
 
-      lstring line;
-      line.split("\n", data);
-      for(unsigned i = 0; i < line.size(); i++) {
-        lstring part;
-        //format: "Input" = "Output"
-        part.qsplit("=", line[i]);
-        if(part.size() != 2) continue;
+        /* Remove UTF-8 marker, if it exists. */
+        data.ltrim<1>("\xef\xbb\xbf");
+        data.replace("\r", "");
 
-        //remove whitespace
-        part[0].trim();
-        part[1].trim();
+        lstring line;
+        line.split("\n", data);
+        for (unsigned i = 0; i < line.size(); i++) {
+            lstring part;
+            //format: "Input" = "Output"
+            part.qsplit("=", line[i]);
+            if (part.size() != 2) {
+                continue;
+            }
 
-        //remove quotes
-        part[0].trim<1>("\"");
-        part[1].trim<1>("\"");
+            /* remove whitespace */
+            part[0].trim();
+            part[1].trim();
 
-        unsigned n = index_input.size();
-        index_input[n]  = part[0];
-        index_output[n] = part[1];
-      }
+            /* remove quotes */
+            part[0].trim<1>("\"");
+            part[1].trim<1>("\"");
 
-      return true;
+            unsigned n = index_input.size();
+            index_input[n]  = part[0];
+            index_output[n] = part[1];
+        }
+
+        return true;
     }
 
-    void reset() {
-      index_input.reset();
-      index_output.reset();
+    void reset(void)
+    {
+        index_input.reset();
+        index_output.reset();
     }
 
-    ~dictionary() {
-      reset();
+    ~dictionary(void)
+    {
+        reset();
     }
 
     dictionary& operator=(const dictionary&) = delete;
     dictionary(const dictionary&) = delete;
 
-  protected:
+protected:
     lstring index_input;
     lstring index_output;
-  };
-}
+};
+
+}   /* namespace nall */
 
 #endif

@@ -16,100 +16,164 @@
 #endif
 
 namespace nall {
-  struct library {
-    bool opened() const { return handle; }
+
+struct library {
+    bool opened(void) const
+    {
+        return handle;
+    }
+
     bool open(const char*, const char* = "");
     bool open_absolute(const char*);
     void* sym(const char*);
-    void close();
+    void close(void);
 
-    library() : handle(0) {}
+    library() : handle(0) { }
     ~library() { close(); }
 
     library& operator=(const library&) = delete;
     library(const library&) = delete;
 
-  private:
+private:
     uintptr_t handle;
-  };
+};
 
-  #if defined(PLATFORM_X)
-  inline bool library::open(const char *name, const char *path) {
-    if(handle) close();
-    handle = (uintptr_t)dlopen(string(path, *path && !strend(path, "/") ? "/" : "", "lib", name, ".so"), RTLD_LAZY);
-    if(!handle) handle = (uintptr_t)dlopen(string("/usr/local/lib/lib", name, ".so"), RTLD_LAZY);
+#if defined(PLATFORM_X)
+inline bool library::open(const char *name, const char *path)
+{
+    if (handle) {
+        close();
+    }
+
+    /* XXX: I can't understand this line of code. */
+    handle = (uintptr_t)dlopen(string(path, *path &&
+        !strend(path, "/") ? "/" : "", "lib", name, ".so"), RTLD_LAZY);
+    if (!handle) {
+        handle = (uintptr_t)dlopen(string("/usr/local/lib/lib", name, ".so"),
+            RTLD_LAZY);
+    }
+
     return handle;
-  }
+}
 
-  inline bool library::open_absolute(const char *name) {
-    if(handle) close();
+inline bool library::open_absolute(const char *name)
+{
+    if (handle) {
+        close();
+    }
+
     handle = (uintptr_t)dlopen(name, RTLD_LAZY);
     return handle;
-  }
+}
 
-  inline void* library::sym(const char *name) {
-    if(!handle) return 0;
+inline void* library::sym(const char *name)
+{
+    if (!handle) {
+        return 0;
+    }
+
     return dlsym((void*)handle, name);
-  }
+}
 
-  inline void library::close() {
-    if(!handle) return;
+inline void library::close(void)
+{
+    if (!handle) {
+        return;
+    }
+
     dlclose((void*)handle);
     handle = 0;
-  }
-  #elif defined(PLATFORM_OSX)
-  inline bool library::open(const char *name, const char *path) {
-    if(handle) close();
-    handle = (uintptr_t)dlopen(string(path, *path && !strend(path, "/") ? "/" : "", "lib", name, ".dylib"), RTLD_LAZY);
-    if(!handle) handle = (uintptr_t)dlopen(string("/usr/local/lib/lib", name, ".dylib"), RTLD_LAZY);
-    return handle;
-  }
+}
+#elif defined(PLATFORM_OSX)
+inline bool library::open(const char *name, const char *path)
+{
+    if (handle) {
+        close();
+    }
 
-  inline bool library::open_absolute(const char *name) {
-    if(handle) close();
+    handle = (uintptr_t)dlopen(string(path, *path &&
+        !strend(path, "/") ? "/" : "", "lib", name, ".dylib"), RTLD_LAZY);
+    if (!handle) {
+        handle = (uintptr_t)dlopen(string("/usr/local/lib/lib", name,
+        ".dylib"), RTLD_LAZY);
+    }
+
+    return handle;
+}
+
+inline bool library::open_absolute(const char *name)
+{
+    if (handle) {
+        close();
+    }
+
     handle = (uintptr_t)dlopen(name, RTLD_LAZY);
     return handle;
-  }
+}
 
-  inline void* library::sym(const char *name) {
-    if(!handle) return 0;
+inline void* library::sym(const char *name)
+{
+    if (!handle) {
+        return 0;
+    }
+
     return dlsym((void*)handle, name);
-  }
+}
 
-  inline void library::close() {
-    if(!handle) return;
+inline void library::close(void)
+{
+    if (!handle) {
+        return;
+    }
+
     dlclose((void*)handle);
     handle = 0;
-  }
-  #elif defined(PLATFORM_WIN)
-  inline bool library::open(const char *name, const char *path) {
-    if(handle) close();
-    string filepath(path, *path && !strend(path, "/") && !strend(path, "\\") ? "\\" : "", name, ".dll");
+}
+#elif defined(PLATFORM_WIN)
+inline bool library::open(const char *name, const char *path)
+{
+    if (handle) {
+        close();
+    }
+
+    string filepath(path, *path && !strend(path, "/") &&
+        !strend(path, "\\") ? "\\" : "", name, ".dll");
     handle = (uintptr_t)LoadLibraryW(utf16_t(filepath));
     return handle;
-  }
+}
 
-  inline bool library::open_absolute(const char *name) {
-    if(handle) close();
+inline bool library::open_absolute(const char *name)
+{
+    if (handle) {
+        close();
+    }
+
     handle = (uintptr_t)LoadLibraryW(utf16_t(name));
     return handle;
-  }
+}
 
-  inline void* library::sym(const char *name) {
-    if(!handle) return 0;
+inline void* library::sym(const char *name)
+{
+    if (!handle) {
+        return 0;
+    }
+
     return (void*)GetProcAddress((HMODULE)handle, name);
-  }
+}
 
-  inline void library::close() {
-    if(!handle) return;
+inline void library::close(void)
+{
+    if (!handle) {
+        return;
+    }
     FreeLibrary((HMODULE)handle);
     handle = 0;
-  }
-  #else
-  inline bool library::open(const char*, const char*) { return false; }
-  inline void* library::sym(const char*) { return 0; }
-  inline void library::close() {}
-  #endif
+}
+#else
+inline bool library::open(const char*, const char*) { return false; }
+inline void* library::sym(const char*) { return 0; }
+inline void library::close(void) { }
+#endif
 };
 
 #endif
