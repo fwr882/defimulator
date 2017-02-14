@@ -6,7 +6,7 @@
 #include <nall/vector.hpp>
 
 namespace nall {
-  namespace configuration_traits {
+namespace configuration_traits {
     template<typename T> struct is_boolean { enum { value = false }; };
     template<> struct is_boolean<bool> { enum { value = true }; };
 
@@ -21,103 +21,147 @@ namespace nall {
 
     template<typename T> struct is_string { enum { value = false }; };
     template<> struct is_string<string> { enum { value = true }; };
-  }
+}
 
-  class configuration {
-  public:
-    enum type_t { boolean_t, signed_t, unsigned_t, double_t, string_t, unknown_t };
-    struct item_t {
-      uintptr_t data;
-      string name;
-      string desc;
-      type_t type;
-
-      string get() const {
-        switch(type) {
-          case boolean_t:  return string() << *(bool*)data;
-          case signed_t:   return string() << *(signed*)data;
-          case unsigned_t: return string() << *(unsigned*)data;
-          case double_t:   return string() << *(double*)data;
-          case string_t:   return string() << "\"" << *(string*)data << "\"";
-        }
-        return "???";
-      }
-
-      void set(string s) {
-        switch(type) {
-          case boolean_t:  *(bool*)data = (s == "true");     break;
-          case signed_t:   *(signed*)data = integer(s);      break;
-          case unsigned_t: *(unsigned*)data = decimal(s);    break;
-          case double_t:   *(double*)data = fp(s);           break;
-          case string_t:   s.trim("\""); *(string*)data = s; break;
-        }
-      }
+class configuration {
+public:
+    enum type_t {
+        boolean_t,
+        signed_t,
+        unsigned_t,
+        double_t,
+        string_t,
+        unknown_t
     };
+
+    struct item_t {
+        uintptr_t data;
+        string name;
+        string desc;
+        type_t type;
+
+        string get(void) const
+        {
+            switch(type) {
+            case boolean_t:
+                return string() << *(bool*)data;
+            case signed_t:
+                return string() << *(signed*)data;
+            case unsigned_t:
+                return string() << *(unsigned*)data;
+            case double_t:
+                return string() << *(double*)data;
+            case string_t:
+                return string() << "\"" << *(string*)data << "\"";
+            }
+            return "???";
+        }
+
+        void set(string s)
+        {
+            switch(type) {
+            case boolean_t:
+                *(bool*)data = (s == "true");
+                break;
+            case signed_t:
+                *(signed*)data = integer(s);
+                break;
+            case unsigned_t:
+                *(unsigned*)data = decimal(s);
+                break;
+            case double_t:
+                *(double*)data = fp(s);
+                break;
+            case string_t:
+                s.trim("\""); *(string*)data = s;
+                break;
+            }
+        }
+    };  /* item_t */
+
     linear_vector<item_t> list;
 
     template<typename T>
-    void attach(T &data, const char *name, const char *desc = "") {
-      unsigned n = list.size();
-      list[n].data = (uintptr_t)&data;
-      list[n].name = name;
-      list[n].desc = desc;
+    void attach(T &data, const char *name, const char *desc = "")
+    {
+        unsigned n = list.size();
+        list[n].data = (uintptr_t)&data;
+        list[n].name = name;
+        list[n].desc = desc;
 
-      if(configuration_traits::is_boolean<T>::value) list[n].type = boolean_t;
-      else if(configuration_traits::is_signed<T>::value) list[n].type = signed_t;
-      else if(configuration_traits::is_unsigned<T>::value) list[n].type = unsigned_t;
-      else if(configuration_traits::is_double<T>::value) list[n].type = double_t;
-      else if(configuration_traits::is_string<T>::value) list[n].type = string_t;
-      else list[n].type = unknown_t;
+        if (configuration_traits::is_boolean<T>::value) {
+            list[n].type = boolean_t;
+        } else if (configuration_traits::is_signed<T>::value) {
+            list[n].type = signed_t;
+        } else if (configuration_traits::is_unsigned<T>::value) {
+            list[n].type = unsigned_t;
+        } else if (configuration_traits::is_double<T>::value) {
+            list[n].type = double_t;
+        } else if (configuration_traits::is_string<T>::value) {
+            list[n].type = string_t;
+        } else {
+            list[n].type = unknown_t;
+        }
     }
 
-    virtual bool load(const char *filename) {
-      string data;
-      if(data.readfile(filename) == true) {
-        data.replace("\r", "");
-        lstring line;
-        line.split("\n", data);
+    virtual bool load(const char *filename)
+    {
+        string data;
+        if (data.readfile(filename) == true) {
+            data.replace("\r", "");
+            lstring line;
+            line.split("\n", data);
 
-        for(unsigned i = 0; i < line.size(); i++) {
-          if(auto position = qstrpos(line[i], "#")) line[i][position()] = 0;
-          if(!qstrpos(line[i], " = ")) continue;
+            for (unsigned i = 0; i < line.size(); i++) {
+                if (auto position = qstrpos(line[i], "#")) {
+                    line[i][position()] = 0;
+                }
 
-          lstring part;
-          part.qsplit(" = ", line[i]);
-          part[0].trim();
-          part[1].trim();
+                if (!qstrpos(line[i], " = ")) {
+                    continue;
+                }
 
-          for(unsigned n = 0; n < list.size(); n++) {
-            if(part[0] == list[n].name) {
-              list[n].set(part[1]);
-              break;
+                lstring part;
+                part.qsplit(" = ", line[i]);
+                part[0].trim();
+                part[1].trim();
+
+                for (unsigned n = 0; n < list.size(); n++) {
+                    if (part[0] == list[n].name) {
+                        list[n].set(part[1]);
+                        break;
+                    }
+                }
             }
-          }
-        }
 
-        return true;
-      } else {
-        return false;
-      }
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    virtual bool save(const char *filename) const {
-      file fp;
-      if(fp.open(filename, file::mode::write)) {
-        for(unsigned i = 0; i < list.size(); i++) {
-          string output;
-          output << list[i].name << " = " << list[i].get();
-          if(list[i].desc != "") output << " # " << list[i].desc;
-          output << "\r\n";
-          fp.print(output);
-        }
+    virtual bool save(const char *filename) const
+    {
+        file fp;
+        if (fp.open(filename, file::mode::write)) {
+            for (unsigned i = 0; i < list.size(); i++) {
+                string output;
+                output << list[i].name << " = " << list[i].get();
+                if (list[i].desc != "") {
+                    output << " # " << list[i].desc;
+                }
+                output << "\r\n";
+                fp.print(output);
+            }
 
-        fp.close();
-        return true;
-      } else {
-        return false;
-      }
+            fp.close();
+            return true;
+        } else {
+            return false;
+        }
     }
-  };
-}
+};
+
+}   /* namespace nall */
 
 #endif
