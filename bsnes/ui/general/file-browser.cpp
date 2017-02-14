@@ -61,6 +61,7 @@ void FileBrowser::fileOpen(FileBrowser::Mode requestedMode, function<void (strin
     case Mode::Filter: {
       setTitle("Load Video Filter");
       filters.append(".so");
+      filters.append(".dll");
       break;
     }
     case Mode::Shader: {
