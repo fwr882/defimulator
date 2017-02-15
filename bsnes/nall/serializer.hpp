@@ -18,12 +18,17 @@ namespace nall {
   //- only plain-old-data can be stored. complex classes must provide serialize(serializer&);
   //- floating-point usage is not portable across platforms
 
-  class serializer {
-  public:
-    enum mode_t { Load, Save, Size };
+class serializer {
+public:
+    enum mode_t {
+        Load,
+        Save,
+        Size
+    };
 
-    mode_t mode() const {
-      return imode;
+    mode_t mode(void) const
+    {
+        return imode;
     }
 
     const uint8_t* data() const {
