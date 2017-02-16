@@ -25,8 +25,10 @@
 #include <nall/string/xml.hpp>
 
 namespace nall {
-  template<> struct has_length<string> { enum { value = true }; };
-  template<> struct has_size<lstring> { enum { value = true }; };
+
+template<> struct has_length<string> { enum { value = true }; };
+template<> struct has_size<lstring> { enum { value = true }; };
+
 }
 
 #endif
