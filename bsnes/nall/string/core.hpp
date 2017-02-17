@@ -31,9 +31,9 @@ string& string::append(const char *s)
 string& string::append(bool value)
 {
     if (value) {
-        return "true";
+        append("true");
     } else {
-        return "false";
+        append("false");
     }
 
     return *this;
