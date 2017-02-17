@@ -3,149 +3,226 @@
 
 namespace nall {
 
-char* strlower(char *str) {
-  if(!str) return 0;
-  int i = 0;
-  while(str[i]) {
-    str[i] = chrlower(str[i]);
-    i++;
-  }
-  return str;
-}
-
-char* strupper(char *str) {
-  if(!str) return 0;
-  int i = 0;
-  while(str[i]) {
-    str[i] = chrupper(str[i]);
-    i++;
-  }
-  return str;
-}
-
-char* strtr(char *dest, const char *before, const char *after) {
-  if(!dest || !before || !after) return dest;
-  int sl = strlen(dest), bsl = strlen(before), asl = strlen(after);
-
-  if(bsl != asl || bsl == 0) return dest;  //patterns must be the same length for 1:1 replace
-  for(unsigned i = 0; i < sl; i++) {
-    for(unsigned l = 0; l < bsl; l++) {
-      if(dest[i] == before[l]) {
-        dest[i] = after[l];
-        break;
-      }
+char* strlower(char *str)
+{
+    if (!str) {
+        return 0;
     }
-  }
 
-  return dest;
+    int i = 0;
+    while (str[i]) {
+        str[i] = chrlower(str[i]);
+        i++;
+    }
+    return str;
 }
 
-uintmax_t hex(const char *str) {
-  if(!str) return 0;
-  uintmax_t result = 0;
+char* strupper(char *str)
+{
+    if (!str) {
+        return 0;
+    }
 
-  //skip hex identifiers 0x and $, if present
-  if(*str == '0' && (*(str + 1) == 'X' || *(str + 1) == 'x')) str += 2;
-  else if(*str == '$') str++;
+    int i = 0;
+    while (str[i]) {
+        str[i] = chrupper(str[i]);
+        i++;
+    }
 
-  while(*str) {
-    uint8_t x = *str++;
-    if(x >= '0' && x <= '9') x -= '0';
-    else if(x >= 'A' && x <= 'F') x -= 'A' - 10;
-    else if(x >= 'a' && x <= 'f') x -= 'a' - 10;
-    else break;  //stop at first invalid character
-    result = result * 16 + x;
-  }
-
-  return result;
+    return str;
 }
 
-intmax_t integer(const char *str) {
-  if(!str) return 0;
-  intmax_t result = 0;
-  bool negate = false;
+char* strtr(char *dest, const char *before, const char *after)
+{
+    if(!dest || !before || !after) {
+        return dest;
+    }
 
-  //check for negation
-  if(*str == '-') {
-    negate = true;
-    str++;
-  }
+    int sl = strlen(dest), bsl = strlen(before), asl = strlen(after);
 
-  while(*str) {
-    uint8_t x = *str++;
-    if(x >= '0' && x <= '9') x -= '0';
-    else break;  //stop at first invalid character
-    result = result * 10 + x;
-  }
+    /* patterns must be the same length for 1:1 replace */
+    if (bsl != asl || bsl == 0) {
+        return dest;
+    }
 
-  return !negate ? result : -result;
+    for (unsigned i = 0; i < sl; i++) {
+        for (unsigned l = 0; l < bsl; l++) {
+            if (dest[i] == before[l]) {
+                dest[i] = after[l];
+                break;
+            }
+        }
+    }
+
+    return dest;
 }
 
-uintmax_t decimal(const char *str) {
-  if(!str) return 0;
-  uintmax_t result = 0;
+uintmax_t hex(const char *str)
+{
+    if (!str) {
+        return 0;
+    }
 
-  while(*str) {
-    uint8_t x = *str++;
-    if(x >= '0' && x <= '9') x -= '0';
-    else break;  //stop at first invalid character
-    result = result * 10 + x;
-  }
+    uintmax_t result = 0;
 
-  return result;
+    /* skip hex identifiers 0x and $, if present */
+    if (*str == '0' && (*(str + 1) == 'X' || *(str + 1) == 'x')) {
+        str += 2;
+    } else if(*str == '$') {
+        str++;
+    }
+
+    while (*str) {
+        uint8_t x = *str++;
+        if (x >= '0' && x <= '9') {
+            x -= '0';
+        } else if (x >= 'A' && x <= 'F') {
+            x -= 'A' - 10;
+        } else if(x >= 'a' && x <= 'f') {
+            x -= 'a' - 10;
+        } else {
+            /* stop at first invalid character */
+            break;
+        }
+        result = result * 16 + x;
+    }
+
+    return result;
 }
 
-uintmax_t binary(const char *str) {
-  if(!str) return 0;
-  uintmax_t result = 0;
+intmax_t integer(const char *str)
+{
+    if (!str) {
+        return 0;
+    }
 
-  //skip bin identifiers 0b and %, if present
-  if(*str == '0' && (*(str + 1) == 'B' || *(str + 1) == 'b')) str += 2;
-  else if(*str == '%') str++;
+    intmax_t result = 0;
+    bool negate = false;
 
-  while(*str) {
-    uint8_t x = *str++;
-    if(x == '0' || x == '1') x -= '0';
-    else break;  //stop at first invalid character
-    result = result * 2 + x;
-  }
+    /* check for negation */
+    if (*str == '-') {
+        negate = true;
+        str++;
+    }
 
-  return result;
+    while (*str) {
+        uint8_t x = *str++;
+        if (x >= '0' && x <= '9') {
+            x -= '0';
+        } else {
+            /* stop at first invalid character */
+            break;
+        }
+        result = result * 10 + x;
+    }
+
+    return !negate ? result : -result;
 }
 
-double fp(const char *str) {
-  if(!str) return 0.0;
-  bool negate = false;
+uintmax_t decimal(const char *str)
+{
+    if (!str) {
+        return 0;
+    }
 
-  //check for negation
-  if(*str == '-') {
-    negate = true;
-    str++;
-  }
+    uintmax_t result = 0;
 
-  intmax_t result_integral = 0;
-  while(*str) {
-    uint8_t x = *str++;
-    if(x >= '0' && x <= '9') x -= '0';
-    else if(x == '.' || x == ',') break;  //break loop and read fractional part
-    else return (double)result_integral;  //invalid value, assume no fractional part
-    result_integral = result_integral * 10 + x;
-  }
+    while (*str) {
+        uint8_t x = *str++;
+        if (x >= '0' && x <= '9') {
+            x -= '0';
+        } else {
+            /* stop at first invalid character */
+            break;
+        }
+        result = result * 10 + x;
+    }
 
-  intmax_t result_fractional = 0;
-  while(*str) {
-    uint8_t x = *str++;
-    if(x >= '0' && x <= '9') x -= '0';
-    else break;  //stop at first invalid character
-    result_fractional = result_fractional * 10 + x;
-  }
+    return result;
+}
 
-  //calculate fractional portion
-  double result = (double)result_fractional;
-  while((uintmax_t)result > 0) result /= 10.0;
-  result += (double)result_integral;
+uintmax_t binary(const char *str)
+{
+    if (!str) {
+        return 0;
+    }
+    uintmax_t result = 0;
 
-  return !negate ? result : -result;
+    //skip bin identifiers 0b and %, if present
+    if (*str == '0' && (*(str + 1) == 'B' || *(str + 1) == 'b')) {
+        str += 2;
+    } else if (*str == '%') {
+        str++;
+    }
+
+    while (*str) {
+        uint8_t x = *str++;
+        if (x == '0' || x == '1') {
+            x -= '0';
+        } else {
+            /* stop at first invalid character */
+            break;
+        }
+        result = result * 2 + x;
+    }
+
+    return result;
+}
+
+double fp(const char *str)
+{
+    if (!str) {
+        return 0.0;
+    }
+
+    bool negate = false;
+
+    /* check for negation */
+    if (*str == '-') {
+        negate = true;
+        str++;
+    }
+
+    intmax_t result_integral = 0;
+    while (*str) {
+        uint8_t x = *str++;
+        if (x >= '0' && x <= '9') {
+            x -= '0';
+        } else if (x == '.' || x == ',') {
+            /* break loop and read fractional part */
+            break;
+        } else {
+            /* invalid value, assume no fractional part. */
+            return (double)result_integral;
+        }
+
+        result_integral = result_integral * 10 + x;
+    }
+
+    intmax_t result_fractional = 0;
+    while (*str) {
+        uint8_t x = *str++;
+        if (x >= '0' && x <= '9') {
+            x -= '0';
+        } else {
+            break;  //stop at first invalid character
+        }
+        result_fractional = result_fractional * 10 + x;
+    }
+
+    /* calculate fractional portion */
+    double result = (double)result_fractional;
+    while ((uintmax_t)result > 0) {
+        result /= 10.0;
+    }
+
+    result += (double)result_integral;
+
+    if (!negate) {
+        return result;
+    } else {
+        return -result;
+    }
 }
 
 }
