@@ -213,60 +213,109 @@ static int eval(const char *&s, int depth = 0)
             continue;
         }
 
-        if (x == '!' && y == '=') { value = value != eval(++++s, 9); continue; }
-        if (depth >= 8) break;
-        if (x == '&' && y != '&') { value = value & eval(++s, 8); continue; }
+        if (x == '!' && y == '=') {
+            value = value != eval(++++s, 9);
+            continue;
+        }
 
-        if (depth >= 7) break;
-    if (x == '^' && y != '^') { value = value ^ eval(++s, 7); continue; }
+        if (depth >= 8) {
+            break;
+        }
 
-    if (depth >= 6) break;
-    if (x == '|' && y != '|') { value = value | eval(++s, 6); continue; }
+        if (x == '&' && y != '&') {
+            value = value & eval(++s, 8);
+            continue;
+        }
 
-    if (depth >= 5) break;
-    if (x == '&' && y == '&') { value = eval(++++s, 5) && value; continue; }
+        if (depth >= 7) {
+            break;
+        }
 
-    if (depth >= 4) break;
-    if (x == '^' && y == '^') { value = (!eval(++++s, 4) != !value); continue; }
+        if (x == '^' && y != '^') {
+            value = value ^ eval(++s, 7);
+            continue;
+        }
 
-    if (depth >= 3) break;
-    if (x == '|' && y == '|') { value = eval(++++s, 3) || value; continue; }
+        if (depth >= 6) {
+            break;
+        }
 
-    if(x == '?') {
-      int lhs = eval(++s, 2);
-      if(*s != ':') throw "mismatched_ternary";
-      int rhs = eval(++s, 2);
-      value = value ? lhs : rhs;
-      continue;
+        if (x == '|' && y != '|') {
+            value = value | eval(++s, 6);
+            continue;
+        }
+
+        if (depth >= 5) {
+            break;
+        }
+
+        if (x == '&' && y == '&') {
+            value = eval(++++s, 5) && value;
+            continue;
+        }
+
+        if (depth >= 4) {
+            break;
+        }
+
+        if (x == '^' && y == '^') {
+            value = (!eval(++++s, 4) != !value);
+            continue;
+        }
+
+        if (depth >= 3) {
+            break;
+        }
+
+        if (x == '|' && y == '|') {
+            value = eval(++++s, 3) || value;
+            continue;
+        }
+
+        if(x == '?') {
+            int lhs = eval(++s, 2);
+            if (*s != ':') {
+                throw "mismatched_ternary";
+            }
+            int rhs = eval(++s, 2);
+            value = value ? lhs : rhs;
+            continue;
+        }
+
+        if (depth >= 2) {
+            break;
+        }
+
+        if (depth > 0 && x == ')') {
+            break;
+        }
+
+        throw "unrecognized_token";
     }
-    if(depth >= 2) break;
 
-    if(depth > 0 && x == ')') break;
-
-    throw "unrecognized_token";
-  }
-
-  return value;
+    return value;
 }
 
-bool strint(const char *s, int &result) {
-  try {
-    result = eval_integer(s);
-    return true;
-  } catch(const char*) {
-    result = 0;
-    return false;
-  }
+bool strint(const char *s, int &result)
+{
+    try {
+        result = eval_integer(s);
+        return true;
+    } catch (const char*) {
+        result = 0;
+        return false;
+    }
 }
 
-bool strmath(const char *s, int &result) {
-  try {
-    result = eval(s);
-    return true;
-  } catch(const char*) {
-    result = 0;
-    return false;
-  }
+bool strmath(const char *s, int &result)
+{
+    try {
+        result = eval(s);
+        return true;
+    } catch (const char*) {
+        result = 0;
+        return false;
+    }
 }
 
 }
