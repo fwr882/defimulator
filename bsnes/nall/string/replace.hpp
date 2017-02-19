@@ -100,22 +100,27 @@ string& string::qreplace(const char *key, const char *token)
                 }
             }
 
-      if (i <= ssl - ksl) {
-        if(!memcmp(data + i, key, ksl)) {
-          memcpy(buffer + z, token, tsl);
-          z += tsl;
-          i += ksl;
-          replace_count++;
-        } else buffer[z++] = data[i++];
-      } else buffer[z++] = data[i++];
+            if (i <= ssl - ksl) {
+                if (!memcmp(data + i, key, ksl)) {
+                    memcpy(buffer + z, token, tsl);
+                    z += tsl;
+                    i += ksl;
+                    replace_count++;
+                } else {
+                    buffer[z++] = data[i++];
+                }
+            } else {
+                buffer[z++] = data[i++];
+            }
+        }
+
+        buffer[z] = 0;
+
+        assign(buffer);
+        delete[] buffer;
     }
-    buffer[z] = 0;
 
-    assign(buffer);
-    delete[] buffer;
-  }
-
-  return *this;
+    return *this;
 }
 
 };

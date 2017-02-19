@@ -6,45 +6,61 @@ namespace nall {
 //strlcpy, strlcat based on OpenBSD implementation by Todd C. Miller
 
 //return = strlen(src)
-unsigned strlcpy(char *dest, const char *src, unsigned length) {
-  char *d = dest;
-  const char *s = src;
-  unsigned n = length;
+unsigned strlcpy(char *dest, const char *src, unsigned length)
+{
+    char *d = dest;
+    const char *s = src;
+    unsigned n = length;
 
-  if(n) {
-    while(--n && (*d++ = *s++)); //copy as many bytes as possible, or until null terminator reached
-  }
+    /* copy as many bytes as possible, or until null reached. */
+    if (n) {
+        while (--n && (*d++ = *s++));
+    }
 
-  if(!n) {
-    if(length) *d = 0;
-    while(*s++); //traverse rest of s, so that s - src == strlen(src)
-  }
+    if (!n) {
+        if (length) {
+            *d = 0;
+        }
+        /* traverse rest of s, so that s - src == strlen(src) */
+        while (*s++);
+    }
 
-  return (s - src - 1); //return length of copied string, sans null terminator
+    /* return length of copied string, sans null terminator. */
+    return (s - src - 1);
 }
 
 //return = strlen(src) + min(length, strlen(dest))
-unsigned strlcat(char *dest, const char *src, unsigned length) {
-  char *d = dest;
-  const char *s = src;
-  unsigned n = length;
+unsigned strlcat(char *dest, const char *src, unsigned length)
+{
+    char *d = dest;
+    const char *s = src;
+    unsigned n = length;
 
-  while(n-- && *d) d++; //find end of dest
-  unsigned dlength = d - dest;
-  n = length - dlength; //subtract length of dest from maximum string length
-
-  if(!n) return dlength + strlen(s);
-
-  while(*s) {
-    if(n != 1) {
-      *d++ = *s;
-      n--;
+    /* find end of dest */
+    while (n-- && *d) {
+        d++;
     }
-    s++;
-  }
-  *d = 0;
 
-  return dlength + (s - src); //return length of resulting string, sans null terminator
+    unsigned dlength = d - dest;
+    /* subtract length of dest from maximum string length */
+    n = length - dlength;
+
+    if (!n) {
+        return dlength + strlen(s);
+    }
+
+    while (*s) {
+        if (n != 1) {
+            *d++ = *s;
+            n--;
+        }
+        s++;
+    }
+
+    *d = 0;
+
+    /* return length of resulting string, sans null terminator */
+    return dlength + (s - src);
 }
 
 }
