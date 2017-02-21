@@ -25,7 +25,6 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_PULSE")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
 endif()
@@ -164,7 +163,6 @@ else()
 
         # Audio Libraries
         ${ALSA_LIBRARIES}
-        ${PULSE_LIBRARIES}
 
         # For -ldl on *nix
         ${CMAKE_DL_LIBS}
