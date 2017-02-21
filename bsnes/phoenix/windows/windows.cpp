@@ -33,113 +33,126 @@ OS::Data *OS::os = 0;
 Window Window::None;
 
 static void OS_keyboardProc(HWND, UINT, WPARAM, LPARAM);
-static LRESULT CALLBACK OS_windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+static LRESULT CALLBACK OS_windowProc(HWND hwnd, UINT msg,
+    WPARAM wparam, LPARAM lparam);
 
-void OS::initialize() {
-  static bool initialized = false;
-  if(initialized == true) return;
-  initialized = true;
+void OS::initialize(void)
+{
+    static bool initialized = false;
+    if (initialized == true) {
+        return;
+    }
+    initialized = true;
 
-  InitCommonControls();
-  CoInitialize(0);
+    InitCommonControls();
+    CoInitialize(0);
 
-  os = new OS::Data;
-  os->proportionalFont = Font_createFont("Tahoma", 8, false, false);
-  os->monospaceFont = Font_createFont("Courier New", 8, false, false);
+    os = new OS::Data;
+    os->proportionalFont = Font_createFont("Tahoma", 8, false, false);
+    os->monospaceFont = Font_createFont("Courier New", 8, false, false);
 
-  WNDCLASS wc;
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-  wc.hCursor = LoadCursor(0, IDC_ARROW);
-  wc.hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(2));
-  wc.hInstance = GetModuleHandle(0);
-  wc.lpfnWndProc = OS_windowProc;
-  wc.lpszClassName = L"phoenix_window";
-  wc.lpszMenuName = 0;
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  RegisterClass(&wc);
+    WNDCLASS wc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
+    wc.hCursor = LoadCursor(0, IDC_ARROW);
+    wc.hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(2));
+    wc.hInstance = GetModuleHandle(0);
+    wc.lpfnWndProc = OS_windowProc;
+    wc.lpszClassName = L"phoenix_window";
+    wc.lpszMenuName = 0;
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    RegisterClass(&wc);
 
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
-  wc.hCursor = LoadCursor(0, IDC_ARROW);
-  wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-  wc.hInstance = GetModuleHandle(0);
-  wc.lpfnWndProc = Canvas_windowProc;
-  wc.lpszClassName = L"phoenix_canvas";
-  wc.lpszMenuName = 0;
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  RegisterClass(&wc);
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
+    wc.hCursor = LoadCursor(0, IDC_ARROW);
+    wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+    wc.hInstance = GetModuleHandle(0);
+    wc.lpfnWndProc = Canvas_windowProc;
+    wc.lpszClassName = L"phoenix_canvas";
+    wc.lpszMenuName = 0;
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    RegisterClass(&wc);
 
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-  wc.hCursor = LoadCursor(0, IDC_ARROW);
-  wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-  wc.hInstance = GetModuleHandle(0);
-  wc.lpfnWndProc = Label_windowProc;
-  wc.lpszClassName = L"phoenix_label";
-  wc.lpszMenuName = 0;
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  RegisterClass(&wc);
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
+    wc.hCursor = LoadCursor(0, IDC_ARROW);
+    wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+    wc.hInstance = GetModuleHandle(0);
+    wc.lpfnWndProc = Label_windowProc;
+    wc.lpszClassName = L"phoenix_label";
+    wc.lpszMenuName = 0;
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    RegisterClass(&wc);
 
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
-  wc.hCursor = LoadCursor(0, IDC_ARROW);
-  wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-  wc.hInstance = GetModuleHandle(0);
-  wc.lpfnWndProc = Viewport_windowProc;
-  wc.lpszClassName = L"phoenix_viewport";
-  wc.lpszMenuName = 0;
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  RegisterClass(&wc);
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
+    wc.hCursor = LoadCursor(0, IDC_ARROW);
+    wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+    wc.hInstance = GetModuleHandle(0);
+    wc.lpfnWndProc = Viewport_windowProc;
+    wc.lpszClassName = L"phoenix_viewport";
+    wc.lpszMenuName = 0;
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    RegisterClass(&wc);
 }
 
-bool OS::pending() {
-  MSG msg;
-  return PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE);
-}
-
-void OS::run() {
-  while(pending()) {
+bool OS::pending(void)
+{
     MSG msg;
-    if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
-      if(msg.message == WM_KEYDOWN || msg.message == WM_KEYUP) {
-        OS_keyboardProc(msg.hwnd, msg.message, msg.wParam, msg.lParam);
-      }
-      if(!IsDialogMessage(GetParent(msg.hwnd) ? GetParent(msg.hwnd) : msg.hwnd, &msg)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-      }
+    return PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE);
+}
+
+void OS::run(void)
+{
+    while(pending()) {
+        MSG msg;
+        if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
+            if (msg.message == WM_KEYDOWN || msg.message == WM_KEYUP) {
+                OS_keyboardProc(msg.hwnd, msg.message,
+                    msg.wParam, msg.lParam);
+            }
+            if (!IsDialogMessage(GetParent(msg.hwnd) ? GetParent(msg.hwnd) :
+                msg.hwnd, &msg)) {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
     }
-  }
 }
 
-void OS::main() {
-  MSG msg;
-  while(GetMessage(&msg, 0, 0, 0)) {
-    if(msg.message == WM_KEYDOWN || msg.message == WM_KEYUP) {
-      OS_keyboardProc(msg.hwnd, msg.message, msg.wParam, msg.lParam);
+void OS::main(void)
+{
+    MSG msg;
+    while (GetMessage(&msg, 0, 0, 0)) {
+        if (msg.message == WM_KEYDOWN || msg.message == WM_KEYUP) {
+            OS_keyboardProc(msg.hwnd, msg.message, msg.wParam, msg.lParam);
+        }
+        if (!IsDialogMessage(GetParent(msg.hwnd) ? GetParent(msg.hwnd) :
+            msg.hwnd, &msg)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
     }
-    if(!IsDialogMessage(GetParent(msg.hwnd) ? GetParent(msg.hwnd) : msg.hwnd, &msg)) {
-      TranslateMessage(&msg);
-      DispatchMessage(&msg);
-    }
-  }
 }
 
-void OS::quit() {
-  PostQuitMessage(0);
+void OS::quit(void)
+{
+    PostQuitMessage(0);
 }
 
-unsigned OS::desktopWidth() {
-  return GetSystemMetrics(SM_CXSCREEN);
+unsigned OS::desktopWidth(void)
+{
+    return GetSystemMetrics(SM_CXSCREEN);
 }
 
-unsigned OS::desktopHeight() {
-  return GetSystemMetrics(SM_CYSCREEN);
+unsigned OS::desktopHeight(void)
+{
+    return GetSystemMetrics(SM_CYSCREEN);
 }
 
 string OS::folderSelect(Window &parent, const string &path) {
@@ -172,127 +185,162 @@ string OS::folderSelect(Window &parent, const string &path) {
   return name;
 }
 
-string OS::fileOpen(Window &parent, const string &filter, const string &path) {
-  string dir = path;
-  dir.replace("/", "\\");
+string OS::fileOpen(Window &parent, const string &filter, const string &path)
+{
+    string dir = path;
+    dir.replace("/", "\\");
 
-  string filterInfo;
-  lstring type;
-  type.split("\n", filter);
-  for(unsigned i = 0; i < type.size(); i++) {
-    lstring part;
-    part.split("\t", type[i]);
-    if(part.size() != 2) continue;
-    filterInfo.append(part[0]);
-    filterInfo.append(" (");
-    filterInfo.append(part[1]);
-    filterInfo.append(")\t");
-    part[1].replace(",", ";");
-    filterInfo.append(part[1]);
-    filterInfo.append("\t");
-  }
-
-  utf16_t wfilter(filterInfo);
-  utf16_t wdir(dir);
-  wchar_t wfilename[PATH_MAX] = L"";
-
-  wchar_t *p = wfilter;
-  while(*p != L'\0') {
-    if(*p == L'\t') *p = L'\0';
-    p++;
-  }
-
-  OPENFILENAME ofn;
-  memset(&ofn, 0, sizeof(OPENFILENAME));
-  ofn.lStructSize = sizeof(OPENFILENAME);
-  ofn.hwndOwner = &parent != &Window::None ? parent.widget->window : 0;
-  ofn.lpstrFilter = wfilter;
-  ofn.lpstrInitialDir = wdir;
-  ofn.lpstrFile = wfilename;
-  ofn.nMaxFile = PATH_MAX;
-  ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-  ofn.lpstrDefExt = L"";
-
-  bool result = GetOpenFileName(&ofn);
-  if(result == false) return "";
-  string name = utf8_t(wfilename);
-  name.transform("\\", "/");
-  return name;
-}
-
-string OS::fileSave(Window &parent, const string &filter, const string &path) {
-  string dir = path;
-  dir.replace("/", "\\");
-
-  string filterInfo;
-  lstring type;
-  type.split("\n", filter);
-  for(unsigned i = 0; i < type.size(); i++) {
-    lstring part;
-    part.split("\t", type[i]);
-    if(part.size() != 2) continue;
-    filterInfo.append(part[0]);
-    filterInfo.append(" (");
-    filterInfo.append(part[1]);
-    filterInfo.append(")\t");
-    part[1].replace(",", ";");
-    filterInfo.append(part[1]);
-    filterInfo.append("\t");
-  }
-
-  utf16_t wfilter(filterInfo);
-  utf16_t wdir(dir);
-  wchar_t wfilename[PATH_MAX] = L"";
-
-  wchar_t *p = wfilter;
-  while(*p != L'\0') {
-    if(*p == L'\t') *p = L'\0';
-    p++;
-  }
-
-  OPENFILENAME ofn;
-  memset(&ofn, 0, sizeof(OPENFILENAME));
-  ofn.lStructSize = sizeof(OPENFILENAME);
-  ofn.hwndOwner = &parent != &Window::None ? parent.widget->window : 0;
-  ofn.lpstrFilter = wfilter;
-  ofn.lpstrInitialDir = wdir;
-  ofn.lpstrFile = wfilename;
-  ofn.nMaxFile = PATH_MAX;
-  ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-  ofn.lpstrDefExt = L"";
-
-  bool result = GetSaveFileName(&ofn);
-  if(result == false) return "";
-  string name = utf8_t(wfilename);
-  name.transform("\\", "/");
-  return name;
-}
-
-static void OS_keyboardProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-  switch(msg) {
-    case WM_KEYDOWN: {
-      GUITHREADINFO info;
-      memset(&info, 0, sizeof(GUITHREADINFO));
-      info.cbSize = sizeof(GUITHREADINFO);
-      GetGUIThreadInfo(GetCurrentThreadId(), &info);
-      Object *object_ptr = (Object*)GetWindowLongPtr(info.hwndFocus, GWLP_USERDATA);
-      if(object_ptr) {
-        if(dynamic_cast<ListBox*>(object_ptr)) {
-          ListBox &listBox = (ListBox&)*object_ptr;
-          if(wparam == VK_RETURN) {
-            if(listBox.onActivate) listBox.onActivate();
-          }
-        } else if(dynamic_cast<TextBox*>(object_ptr)) {
-          TextBox &textBox = (TextBox&)*object_ptr;
-          if(wparam == VK_RETURN) {
-            if(textBox.onActivate) textBox.onActivate();
-          }
+    string filterInfo;
+    lstring type;
+    type.split("\n", filter);
+    for (unsigned i = 0; i < type.size(); i++) {
+        lstring part;
+        part.split("\t", type[i]);
+        if (part.size() != 2) {
+            continue;
         }
-      }
+        filterInfo.append(part[0]);
+        filterInfo.append(" (");
+        filterInfo.append(part[1]);
+        filterInfo.append(")\t");
+        part[1].replace(",", ";");
+        filterInfo.append(part[1]);
+        filterInfo.append("\t");
     }
-  }
+
+    utf16_t wfilter(filterInfo);
+    utf16_t wdir(dir);
+    wchar_t wfilename[PATH_MAX] = L"";
+
+    wchar_t *p = wfilter;
+    while (*p != L'\0') {
+        if (*p == L'\t') {
+            *p = L'\0';
+        }
+        p++;
+    }
+
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = &parent != &Window::None ? parent.widget->window : 0;
+    ofn.lpstrFilter = wfilter;
+    ofn.lpstrInitialDir = wdir;
+    ofn.lpstrFile = wfilename;
+    ofn.nMaxFile = PATH_MAX;
+    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+    ofn.lpstrDefExt = L"";
+
+    bool result = GetOpenFileName(&ofn);
+    if (result == false) {
+        return "";
+    }
+
+    string name = utf8_t(wfilename);
+    name.transform("\\", "/");
+    return name;
 }
 
+string OS::fileSave(Window &parent, const string &filter, const string &path)
+{
+    string dir = path;
+    dir.replace("/", "\\");
+
+    string filterInfo;
+    lstring type;
+    type.split("\n", filter);
+    for (unsigned i = 0; i < type.size(); i++) {
+        lstring part;
+        part.split("\t", type[i]);
+        if (part.size() != 2) {
+            continue;
+        }
+        filterInfo.append(part[0]);
+        filterInfo.append(" (");
+        filterInfo.append(part[1]);
+        filterInfo.append(")\t");
+        part[1].replace(",", ";");
+        filterInfo.append(part[1]);
+        filterInfo.append("\t");
+    }
+
+    utf16_t wfilter(filterInfo);
+    utf16_t wdir(dir);
+    wchar_t wfilename[PATH_MAX] = L"";
+
+    wchar_t *p = wfilter;
+    while (*p != L'\0') {
+        if (*p == L'\t') {
+            *p = L'\0';
+        }
+        p++;
+    }
+
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = &parent != &Window::None ? parent.widget->window : 0;
+    ofn.lpstrFilter = wfilter;
+    ofn.lpstrInitialDir = wdir;
+    ofn.lpstrFile = wfilename;
+    ofn.nMaxFile = PATH_MAX;
+    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+    ofn.lpstrDefExt = L"";
+
+    bool result = GetSaveFileName(&ofn);
+    if (result == false) {
+        return "";
+    }
+
+    string name = utf8_t(wfilename);
+    name.transform("\\", "/");
+    return name;
+}
+
+static void OS_keyboardProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    GUITHREADINFO info;
+    Object *object_ptr;
+
+    switch(msg) {
+    case WM_KEYDOWN:
+        memset(&info, 0, sizeof(GUITHREADINFO));
+        info.cbSize = sizeof(GUITHREADINFO);
+        GetGUIThreadInfo(GetCurrentThreadId(), &info);
+        object_ptr = (Object*)GetWindowLongPtr(info.hwndFocus, GWLP_USERDATA);
+        if (object_ptr) {
+            if (dynamic_cast<ListBox*>(object_ptr)) {
+                ListBox &listBox = (ListBox&)*object_ptr;
+                if (wparam == VK_RETURN) {
+                    if (listBox.onActivate) {
+                        listBox.onActivate();
+                    }
+                }
+            } else if (dynamic_cast<TextBox*>(object_ptr)) {
+                TextBox &textBox = (TextBox&)*object_ptr;
+                if (wparam == VK_RETURN) {
+                    if (textBox.onActivate) {
+                        textBox.onActivate();
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+* XXX:
+* This code is absolutely sickening.  Maybe I'm just a wuss, but I'm not
+* even going to begin to try and fix this right now.  It's a nest of cases
+* and if statements that appear to try and figure out what widget we got
+* a message from.  I can think of better ways to do this, but will require
+* a bit more than simple cleanup.  It would be smart for each widget to
+* identify itself with an enum defined in the base widget class.  Since we
+* know that no one use this software is going to try and inherit from those
+* structs, I don't see it being an issue.
+*
+* To be continued...
+*/
 static LRESULT CALLBACK OS_windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
   Object *object_ptr = (Object*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
   if(!object_ptr || !dynamic_cast<Window*>(object_ptr)) return DefWindowProc(hwnd, msg, wparam, lparam);
@@ -460,9 +508,15 @@ static LRESULT CALLBACK OS_windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
   return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-Object* OS::findObject(unsigned id) {
-  foreach(object, os->objects) { if(object->object->id == id) return object; }
-  return 0;
+Object* OS::findObject(unsigned id)
+{
+    foreach (object, os->objects) {
+        if (object->object->id == id) {
+            return object;
+        }
+    }
+
+    return 0;
 }
 
 }
