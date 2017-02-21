@@ -7,6 +7,10 @@
 #ifndef RUBY_H
 #define RUBY_H
 
+#ifdef DEFIMULATOR_DEBUG
+  #include <iostream>
+#endif
+
 #include <nall/algorithm.hpp>
 #include <nall/any.hpp>
 #include <nall/array.hpp>

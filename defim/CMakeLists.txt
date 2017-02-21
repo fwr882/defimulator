@@ -18,7 +18,6 @@ if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_WINDOWS")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_WGL")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_DIRECT3D")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_DIRECTSOUND")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_DIRECTINPUT")
 else()
@@ -147,7 +146,6 @@ if(WIN32)
     target_link_libraries(defim
         mingw32
         ${OPENGL_LIBRARIES}
-        d3d9
         dsound
         dxguid
         dinput8

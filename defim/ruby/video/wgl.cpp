@@ -138,6 +138,13 @@ public:
         pfd.iPixelType = PFD_TYPE_RGBA;
 
         display = GetDC(settings.handle);
+        if (display == nullptr) {
+#ifdef DEFIMULATOR_DEBUG
+            std::cerr << "pVideoWGL::init -> GetDC() failed." << std::endl;
+#endif
+            return false;
+        }
+
         pixel_format = ChoosePixelFormat(display, &pfd);
         SetPixelFormat(display, pixel_format, &pfd);
 
