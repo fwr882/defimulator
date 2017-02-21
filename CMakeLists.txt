@@ -19,10 +19,10 @@ endif()
 message(">>>> Using ${EMULATION_PROFILE} emulation profile.")
 message(">>>> Build type: ${CMAKE_BUILD_TYPE}")
 
+find_package(OpenGL)
 
 if(NOT WIN32)
     find_package(PkgConfig)
-    find_package(OpenGL)
     pkg_search_module(GTK2 REQUIRED gtk+-2.0)
     pkg_search_module(SDL REQUIRED sdl)
     pkg_search_module(X11 REQUIRED x11)

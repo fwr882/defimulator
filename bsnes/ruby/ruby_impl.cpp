@@ -24,8 +24,12 @@
   #include <windows.h>
 #endif
 
-/* Video */
+/*
+* XXX:
+* God, help me.
+*/
 
+/* Video */
 #define DeclareVideo(Name) \
   class Video##Name : public Video { \
   public: \
@@ -85,10 +89,9 @@
 #endif
 
 /* Audio */
-
 #define DeclareAudio(Name) \
-  class Audio##Name : public Audio { \
-  public: \
+class Audio##Name : public Audio { \
+public: \
     bool cap(const string& name) { return p.cap(name); } \
     any get(const string& name) { return p.get(name); } \
     bool set(const string& name, const any& value) { return p.set(name, value); } \
@@ -101,9 +104,9 @@
     Audio##Name() : p(*new pAudio##Name) {} \
     ~Audio##Name() { delete &p; } \
   \
-  private: \
+private: \
     pAudio##Name &p; \
-  };
+};
 
 #ifdef AUDIO_ALSA
   #include <ruby/audio/alsa.cpp>
@@ -140,8 +143,8 @@
 /* Input */
 
 #define DeclareInput(Name) \
-  class Input##Name : public Input { \
-  public: \
+class Input##Name : public Input { \
+public: \
     bool cap(const string& name) { return p.cap(name); } \
     any get(const string& name) { return p.get(name); } \
     bool set(const string& name, const any& value) { return p.set(name, value); } \
@@ -157,9 +160,9 @@
     Input##Name() : p(*new pInput##Name) {} \
     ~Input##Name() { delete &p; } \
   \
-  private: \
+private: \
     pInput##Name &p; \
-  };
+};
 
 #ifdef INPUT_DIRECTINPUT
   #include <ruby/input/directinput.cpp>
