@@ -201,11 +201,11 @@ void MainWindow::create() {
 
   helpAbout.onTick = []() {
     MessageWindow::information(mainWindow, {
-      "bsnes\n\n",
+      "defimulator\n\n",
       "Version: ", SNES::Info::Version, "\n",
       "Profile: ", SNES::Info::Profile, "\n",
-      "Author: byuu\n",
-      "Homepage: http://byuu.org/"
+      "Author: Joe Brown\n",
+      "Homepage: http://gitlab.com/joe.brown/defimulator/"
     });
   };
 

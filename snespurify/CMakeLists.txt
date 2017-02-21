@@ -2,7 +2,7 @@ project(snespurify CXX)
 enable_language(C)
 
 include_directories("${snespurify_SOURCE_DIR}")
-include_directories("${bsnes_SOURCE_DIR}")
+include_directories("${defim_SOURCE_DIR}")
 
 if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")

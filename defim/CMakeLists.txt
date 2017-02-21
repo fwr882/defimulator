@@ -1,7 +1,7 @@
-project(bsnes CXX)
+project(defim CXX)
 enable_language(C)
 
-include_directories("${bsnes_SOURCE_DIR}")
+include_directories("${defim_SOURCE_DIR}")
 
 if(NOT WIN32)
     include_directories("${GTK2_INCLUDE_DIRS}")
@@ -92,7 +92,7 @@ list(APPEND sources
     snes/chip/serial/serial.cpp
 
     ## So main() is redefined in this file, but I'm not sure
-    ## what the launcher does that the bsnes binary doesn't
+    ## what the launcher does that the defim binary doesn't
     ## already do.  Meanwhile, I'll just excluse this file
     # launcher/launcher.cpp
 
@@ -134,7 +134,7 @@ elseif(EMULATION_PROFILE STREQUAL "PERFORMANCE")
     )
 endif()
 
-add_executable(bsnes ${sources})
+add_executable(defim ${sources})
 
 if(BUILD_LAUNCHER)
     add_executable(launcher
@@ -143,7 +143,7 @@ if(BUILD_LAUNCHER)
 endif()
 
 if(WIN32)
-    target_link_libraries(bsnes
+    target_link_libraries(defim
         mingw32
         ${OPENGL_LIBRARIES}
         dsound
@@ -152,7 +152,7 @@ if(WIN32)
         comctl32
     )
 else()
-    target_link_libraries(bsnes
+    target_link_libraries(defim
         # Toolkit libraries
         ${GTK2_LIBRARIES}
 
@@ -170,5 +170,5 @@ else()
 endif()
 
 if(BUILD_GAMEBOY)
-    target_link_libraries(bsnes ${CURSES_LIBRARIES})
+    target_link_libraries(defim ${CURSES_LIBRARIES})
 endif()

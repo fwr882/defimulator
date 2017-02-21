@@ -1,4 +1,4 @@
-# Bsnes Project
+# Defimulator Project
 This project is meant to be a Nintendo, Super Nintendo, Game Boy, Game Boy
 Color, Game Boy Advance emulator for Windows/Linux/Mac.
 
@@ -28,10 +28,10 @@ not open for others to contribute.
 
 ## How to Help
 Fork the repository and open a pull request!  I welcome any code changes for
-bsnes, just ensure that you take a look at the code and follow coding standards
-or your pull request may be denied.  Also, please include in the PR what
-platform you're developing on so that others can test your changes on different
-platforms to ensure we're not breaking more code than fixing.
+defimulator, just ensure that you take a look at the code and follow coding
+standards or you pull request may be rejected.  Also, please include in the PR
+what platform you're developing on so that others can test your changes on
+different platforms to ensure we're not breaking more code than fixing.
 
 ## License
 The code is licensed under GPLv3.  You do not have to assign your copyright to

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(bsuite)
+project(defimulator)
 
 # Set the emulation profile.  Variables are pretty self-explantory.
 set(EMULATION_PROFILE "PERFORMANCE" CACHE STRING "Emulation profile.")
@@ -9,7 +9,7 @@ set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
 # Debugger is broke.
 option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)
-option(BUILD_LAUNCHER "Build bsnes launcher.  Unknown usage.." OFF)
+option(BUILD_LAUNCHER "Build defim launcher.  Unknown usage.." OFF)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
@@ -32,7 +32,7 @@ if(NOT WIN32)
     endif()
 endif()
 
-subdirs(bsnes)
+subdirs(defim)
 subdirs(snespurify)
 
 if(BUILD_FILTERS)
