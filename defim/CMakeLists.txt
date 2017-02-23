@@ -135,7 +135,7 @@ elseif(EMULATION_PROFILE STREQUAL "PERFORMANCE")
     )
 endif()
 
-add_executable(defim ${sources})
+add_executable(defimulator ${sources})
 
 if(BUILD_LAUNCHER)
     add_executable(launcher
@@ -144,7 +144,7 @@ if(BUILD_LAUNCHER)
 endif()
 
 if(WIN32)
-    target_link_libraries(defim
+    target_link_libraries(defimulator
         mingw32
         ${OPENGL_LIBRARIES}
         dsound
@@ -153,7 +153,7 @@ if(WIN32)
         comctl32
     )
 else()
-    target_link_libraries(defim
+    target_link_libraries(defimulator
         # Toolkit libraries
         ${GTK2_LIBRARIES}
 
