@@ -8,106 +8,127 @@ namespace ruby {
 
 class pAudioPulseAudioSimple {
 public:
-  struct {
-    pa_simple *handle;
-    pa_sample_spec spec;
-  } device;
+    struct {
+        pa_simple *handle;
+        pa_sample_spec spec;
+    } device;
 
-  struct {
-    uint32_t *data;
-    unsigned offset;
-  } buffer;
+    struct {
+        uint32_t *data;
+        unsigned offset;
+    } buffer;
 
-  struct {
-    unsigned frequency;
-  } settings;
+    struct {
+        unsigned frequency;
+    } settings;
 
-  bool cap(const string& name) {
-    if(name == Audio::Frequency) return true;
-    return false;
-  }
+    bool cap(const string& name)
+    {
+        if (name == Audio::Frequency) {
+            return true;
+        }
 
-  any get(const string& name) {
-    if(name == Audio::Frequency) return settings.frequency;
-    return false;
-  }
-
-  bool set(const string& name, const any& value) {
-    if(name == Audio::Frequency) {
-      settings.frequency = any_cast<unsigned>(value);
-      if(device.handle) init();
-      return true;
+        return false;
     }
 
-    return false;
-  }
+    any get(const string& name)
+    {
+        if (name == Audio::Frequency) {
+            return settings.frequency;
+        }
 
-  void sample(uint16_t left, uint16_t right) {
-    if(!device.handle) return;
-
-    buffer.data[buffer.offset++] = left + (right << 16);
-    if(buffer.offset >= 64) {
-      int error;
-      pa_simple_write(device.handle, (const void*)buffer.data, buffer.offset * sizeof(uint32_t), &error);
-      buffer.offset = 0;
-    }
-  }
-
-  void clear() {
-  }
-
-  bool init() {
-    term();
-
-    device.spec.format   = PA_SAMPLE_S16LE;
-    device.spec.channels = 2;
-    device.spec.rate     = settings.frequency;
-
-    int error = 0;
-    device.handle = pa_simple_new(
-      0,                         //default server
-      "ruby::pulseaudiosimple",  //application name
-      PA_STREAM_PLAYBACK,        //direction
-      0,                         //default device
-      "audio",                   //stream description
-      &device.spec,              //sample format
-      0,                         //default channel map
-      0,                         //default buffering attributes
-      &error                     //error code
-    );
-    if(!device.handle) {
-      fprintf(stderr, "ruby::pulseaudiosimple failed to initialize - %s\n", pa_strerror(error));
-      return false;
+        return false;
     }
 
-    buffer.data = new uint32_t[64];
-    buffer.offset = 0;
-    return true;
-  }
+    bool set(const string& name, const any& value)
+    {
+        if (name == Audio::Frequency) {
+            settings.frequency = any_cast<unsigned>(value);
+            if (device.handle) {
+                init();
+            }
+            return true;
+        }
 
-  void term() {
-    if(device.handle) {
-      int error;
-      pa_simple_flush(device.handle, &error);
-      pa_simple_free(device.handle);
-      device.handle = 0;
+        return false;
     }
 
-    if(buffer.data) {
-      delete[] buffer.data;
-      buffer.data = 0;
+    void sample(uint16_t left, uint16_t right)
+    {
+        if (!device.handle) {
+            return;
+        }
+
+        buffer.data[buffer.offset++] = left + (right << 16);
+        if (buffer.offset >= 64) {
+            int error;
+            pa_simple_write(device.handle, (const void*)buffer.data,
+                buffer.offset * sizeof(uint32_t), &error);
+            buffer.offset = 0;
+        }
     }
-  }
 
-  pAudioPulseAudioSimple() {
-    device.handle = 0;
-    buffer.data = 0;
-    settings.frequency = 22050;
-  }
+    void clear(void) { }
 
-  ~pAudioPulseAudioSimple() {
-    term();
-  }
+    bool init(void)
+    {
+        term();
+
+        device.spec.format   = PA_SAMPLE_S16LE;
+        device.spec.channels = 2;
+        device.spec.rate     = settings.frequency;
+
+        int error = 0;
+        device.handle = pa_simple_new(
+            0,                         //default server
+            "ruby::pulseaudiosimple",  //application name
+            PA_STREAM_PLAYBACK,        //direction
+            0,                         //default device
+            "audio",                   //stream description
+            &device.spec,              //sample format
+            0,                         //default channel map
+            0,                         //default buffering attributes
+            &error                     //error code
+        );
+        if (!device.handle) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "ruby::pulseaudiosimple failed to ");
+            fprintf(stderr, "initialize - %s\n", pa_strerror(error));
+#endif
+            return false;
+        }
+
+        buffer.data = new uint32_t[64];
+        buffer.offset = 0;
+        return true;
+    }
+
+    void term(void)
+    {
+        if (device.handle) {
+            int error;
+            pa_simple_flush(device.handle, &error);
+            pa_simple_free(device.handle);
+            device.handle = 0;
+        }
+
+        if (buffer.data) {
+            delete[] buffer.data;
+            buffer.data = 0;
+        }
+    }
+
+    pAudioPulseAudioSimple(void)
+    {
+        device.handle = 0;
+        buffer.data = 0;
+        settings.frequency = 22050;
+    }
+
+    ~pAudioPulseAudioSimple(void)
+    {
+        term();
+    }
 };
 
 DeclareAudio(PulseAudioSimple)
