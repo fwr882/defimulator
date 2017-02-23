@@ -19,10 +19,10 @@ else()
     message(">>>> Unknown Platform")
 endif()
 
-# Debugger is broke.
+# Debugger is broke with PERFORMANCE profile.
 option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)
-option(BUILD_LAUNCHER "Build defim launcher.  Unknown usage.." OFF)
+option(BUILD_LAUNCHER "Build defimulator launcher.  Unknown usage.." OFF)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
@@ -49,7 +49,7 @@ if(NOT WIN32)
     endif()
 endif()
 
-subdirs(defim)
+subdirs(defimulator)
 subdirs(snespurify)
 
 if(BUILD_FILTERS)
