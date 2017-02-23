@@ -1,5 +1,5 @@
 namespace Info {
-  static const char Profile[] = "Accuracy";
+    static const char Profile[] = "Accuracy";
 }
 
 #include <snes/cpu/cpu.hpp>
