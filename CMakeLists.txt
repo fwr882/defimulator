@@ -6,6 +6,19 @@ set(EMULATION_PROFILE "PERFORMANCE" CACHE STRING "Emulation profile.")
 set_property(CACHE EMULATION_PROFILE PROPERTY STRINGS
     ACCURACY COMPATIBILITY PERFORMANCE)
 
+if(UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+    message(">>>> Detected Linux")
+elseif(APPLE)
+    message(">>>> Detected Apple")
+elseif(UNIX)
+    message(">>>> Detected UNIX")
+elseif(WIN32)
+    message(">>>> Detected Windows")
+else()
+    message(">>>> Unknown Platform")
+endif()
+
 # Debugger is broke.
 option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)

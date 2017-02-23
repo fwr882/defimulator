@@ -87,6 +87,10 @@ public:
 
         device.fd = open(device.name, O_WRONLY, O_NONBLOCK);
         if (device.fd < 0) {
+#ifdef DEFIMULATOR_DEBUG
+            std::cerr << "pAudioOSS::init() -> Failed open OSS fd.";
+            std::cerr << std::endl;
+#endif
             return false;
         }
 

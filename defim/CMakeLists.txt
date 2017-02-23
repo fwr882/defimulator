@@ -24,10 +24,18 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_OSS")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_X")
+
+    # OSS has not been in Linux for a while.  If on a UNIX platform,
+    # use OSS.  If on Linux, use ALSA.  On MAC...no solution yet.
+    if(NOT LINUX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_OSS")
+        message(">>>> Using OSS for sound.")
+    else()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_ALSA")
+        message(">>>> Using ALSA for sound.")
+    endif()
 endif()
 
 
