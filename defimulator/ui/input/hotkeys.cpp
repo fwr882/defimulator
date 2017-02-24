@@ -1,27 +1,31 @@
-void InputMapper::poll_hotkeys(unsigned scancode, int16_t value) {
-  //internal state
-  static unsigned activeSlot = 1;
-  static bool videoSync = false;
-  static bool audioSync = false;
+void InputMapper::poll_hotkeys(unsigned scancode, int16_t value)
+{
+    /* internal state */
+    static unsigned activeSlot = 1;
+    static bool videoSync = false;
+    static bool audioSync = false;
 
-  if(value) {
-    //key pressed
-    if(scancode == keyboard(0)[Keyboard::Escape]) input.unacquire();
-    if(mainWindow.focused() == false) return;
+    if (value) {
+        /* key pressed */
+        if (scancode == keyboard(0)[Keyboard::Escape]) {
+            input.unacquire();
+        }
 
-    //save states
-    if(scancode == keyboard(0)[Keyboard::F5]) {
-      utility.saveState(activeSlot);
-    }
+        if (mainWindow.focused() == false) return;
 
-    if(scancode == keyboard(0)[Keyboard::F7]) {
-      utility.loadState(activeSlot);
-    }
+        /* save states */
+        if (scancode == keyboard(0)[Keyboard::F5]) {
+            utility.saveState(activeSlot);
+        }
 
-    if(scancode == keyboard(0)[Keyboard::F6]) {
-      activeSlot = (activeSlot == 1 ? 5 : activeSlot - 1);
-      utility.showMessage({ "Slot ", activeSlot, " selected" });
-    }
+        if (scancode == keyboard(0)[Keyboard::F7]) {
+            utility.loadState(activeSlot);
+        }
+
+        if (scancode == keyboard(0)[Keyboard::F6]) {
+            activeSlot = (activeSlot == 1 ? 5 : activeSlot - 1);
+            utility.showMessage({ "Slot ", activeSlot, " selected" });
+        }
 
     if(scancode == keyboard(0)[Keyboard::F8]) {
       activeSlot = (activeSlot == 5 ? 1 : activeSlot + 1);
