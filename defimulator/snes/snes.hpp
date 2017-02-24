@@ -119,13 +119,7 @@ namespace SNES {
     #include <snes/smp/core/core.hpp>
     #include <snes/ppu/counter/counter.hpp>
 
-    #if defined(PROFILE_ACCURACY)
-      #include "profile-accuracy.hpp"
-    #elif defined(PROFILE_COMPATIBILITY)
-      #include "profile-compatibility.hpp"
-    #elif defined(PROFILE_PERFORMANCE)
-      #include "profile-performance.hpp"
-    #endif
+    #include <snes/profiles.hpp>
 
     #include <snes/system/system.hpp>
     #include <snes/chip/chip.hpp>
