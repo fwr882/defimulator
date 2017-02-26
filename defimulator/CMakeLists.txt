@@ -53,7 +53,7 @@ endif()
 
 if(BUILD_DEBUGGER)
     if(EMULATION_PROFILE STREQUAL "PERFORMANCE")
-        message(FATAL_ERROR "** Cannot build debugger in PERFORMANCE profile.")
+        message("!!!! Cannot build debugger in PERFORMANCE profile.")
     else()
         message(">>>> Building debugger.")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")
