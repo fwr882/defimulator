@@ -73,17 +73,18 @@ endif()
 
 list(APPEND sources
     ui/main.cpp
-    ui/general/file-browser.cpp
-    ui/general/main-window.cpp
-    ui/general/slot-loader.cpp
-    ui/settings/advanced.cpp
-    ui/settings/audio.cpp
-    ui/settings/input.cpp
-    ui/settings/video.cpp
-    ui/tools/tools.cpp
-    ui/input/input.cpp
-    ui/utility/utility.cpp
-    ui/cartridge/cartridge.cpp
+    ui/file-browser.cpp
+    ui/main-window.cpp
+    ui/slot-loader.cpp
+    ui/advanced-settings.cpp
+    ui/audio-settings.cpp
+    ui/input-settings.cpp
+    ui/video-settings.cpp
+    ui/cheat-editor.cpp
+    ui/state-manager.cpp
+    ui/input.cpp
+    ui/utility.cpp
+    ui/cartridge.cpp
     ruby/ruby.cpp
     phoenix/phoenix.cpp
     libco/libco.c

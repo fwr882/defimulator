@@ -1,4 +1,4 @@
-#include <ui/general/slot-loader.hpp>
+#include <ui/slot-loader.h>
 
 SingleSlotLoader singleSlotLoader;
 DoubleSlotLoader doubleSlotLoader;

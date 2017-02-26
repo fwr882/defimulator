@@ -1,3 +1,8 @@
+#ifndef DEFIMULATOR_UI_CARTRIDGE_H
+#define DEFIMULATOR_UI_CARTRIDGE_H
+
+#include <ui/base.hpp>
+
 struct Cartridge {
     bool loadNormal(const char *basename);
     bool loadBsxSlotted(const char *basename, const char *slotname);
@@ -21,3 +26,5 @@ private:
 };
 
 extern Cartridge cartridge;
+
+#endif

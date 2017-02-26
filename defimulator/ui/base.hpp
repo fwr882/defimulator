@@ -26,14 +26,15 @@ struct TopLevelWindow : Window {
 
 #include "interface.h"
 #include "config.h"
-#include "general/file-browser.hpp"
-#include "general/main-window.hpp"
-#include "general/slot-loader.hpp"
-#include "settings/settings.h"
-#include "tools/tools.hpp"
-#include "input/input.hpp"
-#include "utility/utility.hpp"
-#include "cartridge/cartridge.h"
+#include "file-browser.h"
+#include "main-window.h"
+#include "slot-loader.h"
+#include "settings.h"
+#include "cheat-editor.h"
+#include "state-manager.h"
+#include "input.h"
+#include "utility.h"
+#include "cartridge.h"
 
 #if defined(DEBUGGER)
   #include "debugger/debugger.hpp"

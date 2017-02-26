@@ -20,7 +20,7 @@ else()
 endif()
 
 # Debugger is broke with PERFORMANCE profile.
-option(BUILD_DEUBGGER "Not compatible with PERFORMANCE profile." OFF)
+option(BUILD_DEBUGGER "Not compatible with PERFORMANCE profile." OFF)
 option(BUILD_FILTERS "Build SNES filers." ON)
 option(BUILD_LAUNCHER "Build defimulator launcher.  Unknown usage.." OFF)
 

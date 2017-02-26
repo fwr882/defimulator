@@ -1,4 +1,4 @@
-#include "settings.h"
+#include <ui/settings.h>
 
 VideoSettings videoSettings;
 

@@ -1,4 +1,4 @@
-#include <ui/general/file-browser.hpp>
+#include <ui/file-browser.h>
 
 MainWindow mainWindow;
 

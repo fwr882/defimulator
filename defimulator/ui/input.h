@@ -1,3 +1,8 @@
+#ifndef DEFIMULATOR_UI_INPUT_H
+#define DEFIMULATOR_UI_INPUT_H
+
+#include <ui/base.hpp>
+
 struct InputMapper {
     struct AbstractInput {
         enum class Type : unsigned {
@@ -97,3 +102,5 @@ struct InputMapper {
 };
 
 extern InputMapper inputMapper;
+
+#endif

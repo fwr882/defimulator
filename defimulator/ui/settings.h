@@ -1,7 +1,7 @@
 #ifndef DEFIMULATOR_UI_SETTINGS_H
 #define DEFIMULATOR_UI_SETTINGS_H
 
-#include "../base.hpp"
+#include <ui/base.hpp>
 
 struct AdvancedSettings : TopLevelWindow {
     Label driverSelectionLabel;

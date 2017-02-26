@@ -1,4 +1,4 @@
-#include "../base.hpp"
+#include <ui/cartridge.h>
 
 Cartridge cartridge;
 
