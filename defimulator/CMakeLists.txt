@@ -73,12 +73,13 @@ endif()
 
 list(APPEND sources
     ui/main.cpp
-    ui/general/general.cpp
+    ui/general/file-browser.cpp
+    ui/general/main-window.cpp
+    ui/general/slot-loader.cpp
     ui/settings/advanced.cpp
     ui/settings/audio.cpp
     ui/settings/input.cpp
     ui/settings/video.cpp
-    #ui/settings/settings.cpp
     ui/tools/tools.cpp
     ui/input/input.cpp
     ui/utility/utility.cpp

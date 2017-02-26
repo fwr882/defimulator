@@ -1,3 +1,8 @@
+#ifndef DEFIMULATOR_UI_GENERAL_FILEBROWSER_H
+#define DEFIMULATOR_UI_GENERAL_FILEBROWSER_H
+
+#include <ui/base.hpp>
+
 struct FileBrowser : TopLevelWindow {
     TextBox pathBox;
     Button browseButton;
@@ -31,3 +36,5 @@ private:
 };
 
 extern FileBrowser fileBrowser;
+
+#endif

@@ -1,3 +1,8 @@
+#ifndef DEFIMULATOR_UI_GENERAL_MAINWINDOW_H
+#define DEFIMULATOR_UI_GENERAL_MAINWINDOW_H
+
+#include <ui/base.hpp>
+
 struct MainWindow : TopLevelWindow {
     Menu system;
     MenuItem systemLoadCartridge;
@@ -81,3 +86,5 @@ struct MainWindow : TopLevelWindow {
 };
 
 extern MainWindow mainWindow;
+
+#endif

@@ -1,3 +1,5 @@
+#include <ui/general/file-browser.hpp>
+
 FileBrowser fileBrowser;
 
 void FileBrowser::create(void)

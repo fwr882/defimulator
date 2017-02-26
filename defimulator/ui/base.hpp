@@ -26,7 +26,9 @@ struct TopLevelWindow : Window {
 
 #include "interface.h"
 #include "config.h"
-#include "general/general.hpp"
+#include "general/file-browser.hpp"
+#include "general/main-window.hpp"
+#include "general/slot-loader.hpp"
 #include "settings/settings.h"
 #include "tools/tools.hpp"
 #include "input/input.hpp"

@@ -1,3 +1,8 @@
+#ifndef DEFIMULATOR_UI_GENERAL_SLOTLOADER_H
+#define DEFIMULATOR_UI_GENERAL_SLOTLOADER_H
+
+#include <ui/base.hpp>
+
 struct SingleSlotLoader : TopLevelWindow {
     Label baseLabel;
     TextBox basePath;
@@ -41,3 +46,5 @@ struct DoubleSlotLoader : TopLevelWindow {
 
 extern SingleSlotLoader singleSlotLoader;
 extern DoubleSlotLoader doubleSlotLoader;
+
+#endif

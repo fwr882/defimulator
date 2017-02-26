@@ -1,3 +1,5 @@
+#include <ui/general/slot-loader.hpp>
+
 SingleSlotLoader singleSlotLoader;
 DoubleSlotLoader doubleSlotLoader;
 

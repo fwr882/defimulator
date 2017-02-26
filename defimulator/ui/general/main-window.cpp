@@ -1,3 +1,5 @@
+#include <ui/general/file-browser.hpp>
+
 MainWindow mainWindow;
 
 void MainWindow::create(void)
