@@ -24,14 +24,14 @@ struct TopLevelWindow : Window {
   string position;
 };
 
-#include "interface.hpp"
-#include "config.hpp"
+#include "interface.h"
+#include "config.h"
 #include "general/general.hpp"
 #include "settings/settings.h"
 #include "tools/tools.hpp"
 #include "input/input.hpp"
 #include "utility/utility.hpp"
-#include "cartridge/cartridge.hpp"
+#include "cartridge/cartridge.h"
 
 #if defined(DEBUGGER)
   #include "debugger/debugger.hpp"
