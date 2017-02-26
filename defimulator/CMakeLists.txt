@@ -74,7 +74,11 @@ endif()
 list(APPEND sources
     ui/main.cpp
     ui/general/general.cpp
-    ui/settings/settings.cpp
+    ui/settings/advanced.cpp
+    ui/settings/audio.cpp
+    ui/settings/input.cpp
+    ui/settings/video.cpp
+    #ui/settings/settings.cpp
     ui/tools/tools.cpp
     ui/input/input.cpp
     ui/utility/utility.cpp

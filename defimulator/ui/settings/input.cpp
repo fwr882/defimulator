@@ -1,3 +1,5 @@
+#include "settings.h"
+
 InputSettings inputSettings;
 static InputMapper::AbstractInput *activeInput = 0;
 

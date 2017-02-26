@@ -27,7 +27,7 @@ struct TopLevelWindow : Window {
 #include "interface.hpp"
 #include "config.hpp"
 #include "general/general.hpp"
-#include "settings/settings.hpp"
+#include "settings/settings.h"
 #include "tools/tools.hpp"
 #include "input/input.hpp"
 #include "utility/utility.hpp"

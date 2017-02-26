@@ -1,3 +1,5 @@
+#include "settings.h"
+
 VideoSettings videoSettings;
 
 void VideoSettings::create(void)

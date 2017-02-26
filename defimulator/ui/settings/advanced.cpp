@@ -1,3 +1,5 @@
+#include "settings.h"
+
 AdvancedSettings advancedSettings;
 
 void AdvancedSettings::create(void)

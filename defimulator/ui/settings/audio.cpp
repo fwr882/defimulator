@@ -1,3 +1,5 @@
+#include "settings.h"
+
 AudioSettings audioSettings;
 
 void AudioSettings::create(void)
