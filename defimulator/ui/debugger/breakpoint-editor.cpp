@@ -1,3 +1,7 @@
+#include <ui/debugger/breakpoint-editor.h>
+
+#if defined(DEBUGGER)
+
 BreakpointEditor breakpointEditor;
 
 void BreakpointEditor::create(void)
@@ -69,3 +73,5 @@ void BreakpointEditor::eventBreakpoint(void)
 {
     runToBreakpoint.setChecked(false);
 }
+
+#endif

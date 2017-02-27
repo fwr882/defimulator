@@ -58,7 +58,14 @@ if(BUILD_DEBUGGER)
         message(">>>> Building debugger.")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUGGER")
-        list(APPEND sources ui/debugger/debugger.cpp)
+        list(APPEND sources
+            ui/debugger/breakpoint-editor.cpp
+            ui/debugger/console.cpp
+            ui/debugger/cpu-debugger.cpp
+            ui/debugger/debugger.cpp
+            ui/debugger/memory-editor.cpp
+            ui/debugger/smp-debugger.cpp
+        )
     endif()
 endif()
 

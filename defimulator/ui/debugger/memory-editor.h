@@ -1,6 +1,8 @@
 #ifndef DEFIMULATOR_UI_DEBUGGER_MEMORYEDITOR_H
 #define DEFIMULATOR_UI_DEBUGGER_MEMORYEDITOR_H
 
+#include <ui/base.hpp>
+
 struct MemoryEditor : TopLevelWindow {
     HexEditor editor;
     ComboBox sourceBox;

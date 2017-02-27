@@ -1,3 +1,8 @@
+#if defined(DEBUGGER)
+
+#include <ui/debugger/cpu-debugger.h>
+#include <nall/snes/cpu.hpp>
+
 CPUDebugger cpuDebugger;
 
 void CPUDebugger::create(void)
@@ -129,3 +134,5 @@ uint8_t CPUDebugger::read(unsigned addr)
 {
     return SNES::debugger.read(SNES::Debugger::MemorySource::CPUBus, addr);
 }
+
+#endif

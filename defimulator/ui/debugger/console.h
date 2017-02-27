@@ -1,6 +1,8 @@
 #ifndef DEFIMULATOR_UI_DEBUGGER_CONSOLE_H
 #define DEFIMULATOR_UI_DEBUGGER_CONSOLE_H
 
+#include <ui/base.hpp>
+
 struct Console : TopLevelWindow {
     EditBox output;
     CheckBox traceToConsole;

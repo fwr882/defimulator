@@ -1,3 +1,8 @@
+#if defined(DEBUGGER)
+
+#include <ui/debugger/smp-debugger.h>
+#include <nall/snes/smp.hpp>
+
 SMPDebugger smpDebugger;
 
 void SMPDebugger::create(void)
@@ -124,3 +129,5 @@ uint8_t SMPDebugger::read(uint16_t addr)
 {
     return SNES::debugger.read(SNES::Debugger::MemorySource::APUBus, addr);
 }
+
+#endif

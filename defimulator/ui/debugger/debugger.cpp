@@ -1,14 +1,6 @@
-#include "../base.hpp"
 #if defined(DEBUGGER)
 
-#include <nall/snes/cpu.hpp>
-#include <nall/snes/smp.hpp>
-
-#include "console.cpp"
-#include "cpu-debugger.cpp"
-#include "smp-debugger.cpp"
-#include "breakpoint-editor.cpp"
-#include "memory-editor.cpp"
+#include <ui/base.hpp>
 
 Debugger debugger;
 

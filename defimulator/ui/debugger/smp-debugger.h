@@ -1,6 +1,8 @@
 #ifndef DEFIMULATOR_UI_DEBUGGER_SMPDEBUGGER_H
 #define DEFIMULATOR_UI_DEBUGGER_SMPDEBUGGER_H
 
+#include <ui/base.hpp>
+
 struct SMPDebugger : TopLevelWindow {
     EditBox output;
     Button stepInto;

@@ -1,6 +1,8 @@
 #ifndef DEFIMULATOR_UI_DEBUGGER_BREAKPOINTEDITOR_H
 #define DEFIMULATOR_UI_DEBUGGER_BREAKPOINTEDITOR_H
 
+#include <ui/base.hpp>
+
 struct BreakpointEditor : TopLevelWindow {
     enum : unsigned {
         Breakpoints = SNES::Debugger::Breakpoints

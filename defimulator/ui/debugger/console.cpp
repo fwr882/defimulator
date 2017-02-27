@@ -1,3 +1,7 @@
+#if defined(DEBUGGER)
+
+#include <ui/debugger/console.h>
+
 Console console;
 
 void Console::create(void)
@@ -119,3 +123,5 @@ void Console::eventTraceSMP(void)
     SNES::smp.disassemble_opcode(text, SNES::smp.regs.pc);
     write(text);
 }
+
+#endif

@@ -1,3 +1,7 @@
+#if defined(DEBUGGER)
+
+#include <ui/debugger/memory-editor.h>
+
 MemoryEditor memoryEditor;
 
 void MemoryEditor::create(void)
@@ -112,3 +116,5 @@ void MemoryEditor::write(unsigned addr, uint8_t data)
 
     SNES::debugger.write(source, addr % size, data);
 }
+
+#endif

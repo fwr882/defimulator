@@ -1,6 +1,9 @@
 #ifndef DEFIMULATOR_UI_DEBUGGER_CPUDEBUGGER_H
 #define DEFIMULATOR_UI_DEBUGGER_CPUDEBUGGER_H
 
+#include <ui/base.hpp>
+#include <ui/debugger/console.h>
+
 struct CPUDebugger : TopLevelWindow {
     EditBox output;
     Button stepInto;
@@ -17,5 +20,6 @@ struct CPUDebugger : TopLevelWindow {
 };
 
 extern CPUDebugger cpuDebugger;
+
 
 #endif
