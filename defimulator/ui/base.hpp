@@ -37,7 +37,7 @@ struct TopLevelWindow : Window {
 #include "cartridge.h"
 
 #if defined(DEBUGGER)
-  #include "debugger/debugger.hpp"
+  #include "debugger/debugger.h"
 #endif
 
 struct Application {
