@@ -54,6 +54,13 @@ endif()
 if(BUILD_DEBUGGER)
     if(EMULATION_PROFILE STREQUAL "PERFORMANCE")
         message("!!!! Cannot build debugger in PERFORMANCE profile.")
+        message("     - Set EMULATION_PROFILE to ACCURACY or COMPATIBILITY")
+    elseif(WIN32)
+        # The memory debugger depends on having the HexEditor widget,
+        # which is only implemented on Gtk+ to my knowledge.  Add it
+        # to the TODO list..
+        message("!!!! Cannot build debugger on Windows.")
+        message("     - You must use a UNIX-like operating system.")
     else()
         message(">>>> Building debugger.")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUGGER")

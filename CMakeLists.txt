@@ -20,8 +20,9 @@ else()
 endif()
 
 # Debugger is broke with PERFORMANCE profile.
-option(BUILD_DEBUGGER "Not compatible with PERFORMANCE profile." OFF)
-option(BUILD_FILTERS "Build SNES filers." ON)
+option(BUILD_DEBUGGER "Not compatible with PERFORMANCE or WIN32." OFF)
+option(BUILD_FILTERS "Build SNES filers." OFF)
+option(BUILD_PURIFY "Build SNES ROM purifying tool." OFF)
 option(BUILD_LAUNCHER "Build defimulator launcher.  Unknown usage.." OFF)
 
 # If no build type is specified, assume the user wants a release build.
@@ -50,7 +51,11 @@ if(NOT WIN32)
 endif()
 
 subdirs(defimulator)
-subdirs(snespurify)
+
+if(BUILD_PURIFY)
+    message(">>>> Building purifier.")
+    subdirs(snespurify)
+endif()
 
 if(BUILD_FILTERS)
     message(">>>> Building filters.")
