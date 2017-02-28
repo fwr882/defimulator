@@ -10,6 +10,4 @@
   #include "windows/windows.hpp"
 #elif defined(PHOENIX_GTK)
   #include "gtk/gtk.hpp"
-#elif defined(PHOENIX_QT)
-  #include "qt/qt.hpp"
 #endif

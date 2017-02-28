@@ -12,6 +12,4 @@
   #include "windows/windows.cpp"
 #elif defined(PHOENIX_GTK)
   #include "gtk/gtk.cpp"
-#elif defined(PHOENIX_QT)
-  #include "qt/qt.cpp"
 #endif
