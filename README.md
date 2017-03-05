@@ -1,37 +1,35 @@
 # Defimulator Project
-This project is meant to be a Nintendo, Super Nintendo, Game Boy, Game Boy
-Color, Game Boy Advance emulator for Windows/Linux/Mac.
+This project is meant to be a Nintendo, Super Nintendo, Game Boy and Game Boy
+Color emulator for Windows/Linux/Mac.
 
-## History
-This project was forked from the higan project at v074.  You can find the
-original project at https://gitlab.com/higan/higan
+## History and Goals
+This project was forked from the higan project at v074.  The purpose is to
+maintain the existing emulation engine that was present in that version of
+higan (or bsnes) while also adding modern features.  Features like OpenGL
+Core profile, or finding an alternative to using OSS/ALSA for cross-platform
+support.  Unifying the GUI toolkit would also be a great addition.  However,
+if you're looking for the original higan project you can find the code at
+https://gitlab.com/higan/higan and the actual project page at
+https://byuu.org/emulation/higan/
 
 ## Why
 
-### Fast Emulation
+### Accurate but Fast Emulation
 The higan project is very heavily focused on 100% accurate emulation.  Which
 has a purpose.  But for those that are looking for a nice emulator that is
-'good enough', higan has outgrown that intent.  This aims to be a project
-that supports accurate emulation while remaining usable on reasonably (within
-the past few years) hardware.
-
-### Code Simplification
-If you look at the higan code, it requires C++14 and is not very approachable.
-The project was built on Makefiles that were as cross-platform as possible,
-but still somewhat rickety.  It now uses CMake for the build system and the
-process of using the same back-ends and GUI toolkits is in the works.
+'good enough', higan has outgrown that intent.  This project aims to support
+accurate emulation while remaining usable on reasonably (within the past few
+years) hardware.
 
 ### Open Development
 The higan project is developed, from what I'm able to observe, by one guy.  I
 can tell this guy (byuu) has some real coding chops, but his repository is
-not open for others to contribute.
+not open, at least from my observations, for others to contribute.
 
 ## How to Help
 Fork the repository and open a pull request!  I welcome any code changes for
-defimulator, just ensure that you take a look at the code and follow coding
-standards or you pull request may be rejected.  Also, please include in the PR
-what platform you're developing on so that others can test your changes on
-different platforms to ensure we're not breaking more code than fixing.
+defimulator that will move the project forward.  Open an issue and submit a
+PR against it for bonus points.
 
 ## License
 The code is licensed under GPLv3.  You do not have to assign your copyright to
