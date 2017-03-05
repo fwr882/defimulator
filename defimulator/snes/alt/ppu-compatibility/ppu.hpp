@@ -1,75 +1,103 @@
+#ifndef DEFIMULATOR_SNES_ALT_PPUCOMPATIBILITY_PPU_H
+#define DEFIMULATOR_SNES_ALT_PPUCOMPATIBILITY_PPU_H
+
 class PPU : public Processor, public PPUcounter, public MMIO {
 public:
-  enum : bool { Threaded = true };
-  alwaysinline void step(unsigned clocks);
-  alwaysinline void synchronize_cpu();
+    enum : bool {
+        Threaded = true
+    };
 
-  #include "memory/memory.hpp"
-  #include "mmio/mmio.hpp"
-  #include "render/render.hpp"
+    alwaysinline void step(unsigned clocks);
+    alwaysinline void synchronize_cpu();
 
-  uint16 *surface;
-  uint16 *output;
+    /* XXX: Find a different way to do this. */
+    #include "memory/memory.hpp"
+    #include "mmio/mmio.hpp"
+    #include "render/render.hpp"
 
-  uint8 ppu1_version;
-  uint8 ppu2_version;
+    uint16 *surface;
+    uint16 *output;
 
-  static void Enter();
-  void add_clocks(unsigned clocks);
+    uint8 ppu1_version;
+    uint8 ppu2_version;
 
-  uint8 region;
-  unsigned line;
+    static void Enter(void);
+    void add_clocks(unsigned clocks);
 
-  enum { NTSC = 0, PAL = 1 };
-  enum { BG1 = 0, BG2 = 1, BG3 = 2, BG4 = 3, OAM = 4, BACK = 5, COL = 5 };
-  enum { SC_32x32 = 0, SC_64x32 = 1, SC_32x64 = 2, SC_64x64 = 3 };
+    uint8 region;
+    unsigned line;
 
-  struct {
-    bool interlace;
-    bool overscan;
-  } display;
+    enum {
+        NTSC = 0,
+        PAL = 1
+    };
 
-  struct {
-    //$2101
-    uint8  oam_basesize;
-    uint8  oam_nameselect;
-    uint16 oam_tdaddr;
+    enum {
+        BG1 = 0,
+        BG2 = 1,
+        BG3 = 2,
+        BG4 = 3,
+        OAM = 4,
+        BACK = 5,
+        COL = 5
+    };
 
-    //$210d-$210e
-    uint16 m7_hofs, m7_vofs;
+    enum {
+        SC_32x32 = 0,
+        SC_64x32 = 1,
+        SC_32x64 = 2,
+        SC_64x64 = 3
+    };
 
-    //$211b-$2120
-    uint16 m7a, m7b, m7c, m7d, m7x, m7y;
-  } cache;
+    struct {
+        bool interlace;
+        bool overscan;
+    } display;
 
-  alwaysinline bool interlace() const { return display.interlace; }
-  alwaysinline bool overscan()  const { return display.overscan;  }
-  alwaysinline bool hires()     const { return (regs.pseudo_hires || regs.bg_mode == 5 || regs.bg_mode == 6); }
+    struct {
+        /* $2101 */
+        uint8  oam_basesize;
+        uint8  oam_nameselect;
+        uint16 oam_tdaddr;
 
-  uint16 light_table[16][32768];
-  uint16 mosaic_table[16][4096];
-  void render_line();
+        /* $210d-$210e */
+        uint16 m7_hofs, m7_vofs;
 
-  void update_oam_status();
-  //required functions
-  void scanline();
-  void render_scanline();
-  void frame();
-  void enter();
-  void power();
-  void reset();
+        /* $211b-$2120 */
+        uint16 m7a, m7b, m7c, m7d, m7x, m7y;
+    } cache;
 
-  bool layer_enabled[5][4];
-  void layer_enable(unsigned layer, unsigned priority, bool enable);
-  unsigned frameskip;
-  unsigned framecounter;
-  void set_frameskip(unsigned frameskip);
+    alwaysinline bool interlace(void) const { return display.interlace; }
+    alwaysinline bool overscan(void) const { return display.overscan;  }
+    alwaysinline bool hires(void) const {
+        return (regs.pseudo_hires || regs.bg_mode == 5 || regs.bg_mode == 6);
+    }
 
-  void serialize(serializer&);
-  PPU();
-  ~PPU();
+    uint16 light_table[16][32768];
+    uint16 mosaic_table[16][4096];
+    void render_line(void);
 
-  friend class PPUDebugger;
+    void update_oam_status(void);
+
+    /* required functions */
+    void scanline(void);
+    void render_scanline(void);
+    void frame(void);
+    void enter(void);
+    void power(void);
+    void reset(void);
+
+    bool layer_enabled[5][4];
+    void layer_enable(unsigned layer, unsigned priority, bool enable);
+    unsigned frameskip;
+    unsigned framecounter;
+    void set_frameskip(unsigned frameskip);
+
+    void serialize(serializer&);
+    PPU(void);
+    ~PPU(void);
+
+    friend class PPUDebugger;
 };
 
 #if defined(DEBUGGER)
@@ -77,4 +105,6 @@ public:
   extern PPUDebugger ppu;
 #else
   extern PPU ppu;
+#endif
+
 #endif
