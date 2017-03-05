@@ -4,9 +4,7 @@ MainWindow mainWindow;
 
 void MainWindow::create(void)
 {
-    Window::create(0, 0, 595, 448, {
-        SNES::Info::Name, " v", SNES::Info::Version
-    });
+    Window::create(0, 0, 595, 448, { SNES::Info::Name });
 
     application.addWindow(this, "MainWindow", "128,128");
     setFont(application.proportionalFontBold);
@@ -324,11 +322,10 @@ void MainWindow::create(void)
     /* XXX: All this should bein a config.hpp header, configured by CMake. */
     helpAbout.onTick = []() {
         MessageWindow::information(mainWindow, {
-            "defimulator\n\n",
-            "Version: ", SNES::Info::Version, "\n",
-            "Profile: ", SNES::Info::Profile, "\n",
-            "Author: Joe Brown\n",
-            "Homepage: http://gitlab.com/joe.brown/defimulator/"
+            SNES::Info::Name, " v", SNES::Info::Version, "\n",
+            "  ", SNES::Info::Profile, " Profile\n",
+            "  Homepage: https://gitlab.com/joe.brown/defimulator/\n"
+            "  Licensed under the GNU Public License Version 3."
         });
     };
 
