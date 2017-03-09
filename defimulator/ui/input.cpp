@@ -115,7 +115,7 @@ void InputMapper::Gamepad::create(const char *deviceName,
     config.attach(start.mapping = "", string("input.", configName, ".start"));
 
     /*
-    * XXX: Should the defauls be configured by
+    * XXX: Should the defaults be configured by
     * config.h instead of hard-coded?
     */
     if (!strcmp(configName, "port1.gamepad")) {
