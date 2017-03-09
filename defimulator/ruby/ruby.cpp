@@ -57,18 +57,6 @@ void VideoInterface::driver(const char *driver)
     }
     #endif
 
-    #ifdef VIDEO_QTOPENGL
-    else if (!strcmp(driver, "Qt-OpenGL")) {
-        p = new VideoQtOpenGL();
-    }
-    #endif
-
-    #ifdef VIDEO_QTRASTER
-    else if(!strcmp(driver, "Qt-Raster")) {
-        p = new VideoQtRaster();
-    }
-    #endif
-
     #ifdef VIDEO_SDL
     else if (!strcmp(driver, "SDL")) {
         p = new VideoSDL();
@@ -106,10 +94,6 @@ const char* VideoInterface::default_driver(void)
     return "DirectDraw";
     #elif defined(VIDEO_GDI)
     return "GDI";
-    #elif defined(VIDEO_QTOPENGL)
-    return "Qt-OpenGL";
-    #elif defined(VIDEO_QTRASTER)
-    return "Qt-Raster";
     #elif defined(VIDEO_SDL)
     return "SDL";
     #elif defined(VIDEO_XV)
@@ -152,16 +136,8 @@ const char* VideoInterface::driver_list(void)
     "OpenGL;"
     #endif
 
-    #if defined(VIDEO_QTOPENGL)
-    "Qt-OpenGL;"
-    #endif
-
     #if defined(VIDEO_XV)
     "X-Video;"
-    #endif
-
-    #if defined(VIDEO_QTRASTER)
-    "Qt-Raster;"
     #endif
 
     #if defined(VIDEO_SDL)
