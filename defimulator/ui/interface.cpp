@@ -85,7 +85,19 @@ void Filter::render(uint32_t *output, unsigned outpitch,
             width, height);
     }
 
-    for(unsigned y = 0; y < height; y++) {
+    /*
+    * This, from what I can tell, is where the magic actually happens.  The
+    * pixels get rendered in the PPU, propogate through SNES::Video, and
+    * refresh is called.  The refresh function is defined in the Interface
+    * class where it calls this filter function.  From this filter function,
+    * the pixels are sent to the rendering engine and then put on screen.
+    *
+    * I think.
+    *
+    * This for loop takes the 16-bit pixels and copies them into a 32-bit
+    * pixel buffer.
+    */
+    for (unsigned y = 0; y < height; y++) {
         uint32_t *outputLine = output + y * (outpitch >> 2);
         const uint16_t *inputLine = input + y * (pitch >> 1);
         for (unsigned x = 0; x < width; x++) {
