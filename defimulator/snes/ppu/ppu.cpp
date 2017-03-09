@@ -134,15 +134,16 @@ void PPU::frame() {
 }
 
 PPU::PPU() :
-bg1(*this, Background::ID::BG1),
-bg2(*this, Background::ID::BG2),
-bg3(*this, Background::ID::BG3),
-bg4(*this, Background::ID::BG4),
-oam(*this),
-window(*this),
-screen(*this) {
-  surface = new uint16[512 * 512];
-  output = surface + 16 * 512;
+    bg1(*this, Background::ID::BG1),
+    bg2(*this, Background::ID::BG2),
+    bg3(*this, Background::ID::BG3),
+    bg4(*this, Background::ID::BG4),
+    oam(*this),
+    window(*this),
+    screen(*this)
+{
+    surface = new uint16[512 * 512];
+    output = surface + 16 * 512;
 }
 
 PPU::~PPU() {
