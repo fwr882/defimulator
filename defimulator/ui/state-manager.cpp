@@ -154,7 +154,7 @@ string StateManager::slotLoadDescription(unsigned i)
     }
 
     char text[512];
-    strlcpy(text, (const char*)slot[i].data() + HeaderLength, 512);
+    nall::strlcpy(text, (const char*)slot[i].data() + HeaderLength, 512);
     return text;
 }
 
@@ -163,7 +163,7 @@ void StateManager::slotSaveDescription()
     if (auto position = stateList.selection()) {
         string text = descEdit.text();
         if (slot[position()].capacity() > 0) {
-            strlcpy((char*)slot[position()].data() + HeaderLength,
+            nall::strlcpy((char*)slot[position()].data() + HeaderLength,
                 (const char*)text, 512);
         }
     }

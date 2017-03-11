@@ -8,7 +8,7 @@
 #define RUBY_H
 
 #ifdef DEFIMULATOR_DEBUG
-  #include <iostream>
+  #include <cstdio>
 #endif
 
 #include <nall/algorithm.hpp>

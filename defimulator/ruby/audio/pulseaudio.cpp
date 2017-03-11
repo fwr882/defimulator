@@ -127,14 +127,45 @@ public:
 
     bool init(void)
     {
+        /* return value from pa_* functions */
+        int result = 0;
+
         device.mainloop = pa_mainloop_new();
+        if (device.mainloop == nullptr) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "PulseAudio::pa_mainloop_new returned NULL\n");
+#endif
+            return false;
+        }
+
         device.context = pa_context_new(pa_mainloop_get_api(device.mainloop),
             "ruby::pulseaudio");
-        pa_context_connect(device.context, NULL, PA_CONTEXT_NOFLAGS, NULL);
+        if (device.context == nullptr) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "PulseAudio::pa_context_new returned NULL.\n");
+#endif
+            return false;
+        }
+
+        result = pa_context_connect(device.context, NULL,
+            PA_CONTEXT_NOFLAGS, NULL);
+        if (result < 0) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "PulseAudio::pa_context_connect failed.\n");
+#endif
+            return false;
+        }
 
         pa_context_state_t cstate;
         do {
-            pa_mainloop_iterate(device.mainloop, 1, NULL);
+            result = pa_mainloop_iterate(device.mainloop, 1, NULL);
+            if (result < 0) {
+#ifdef DEFIMULATOR_DEBUG
+                fprintf(stderr, "PulseAudio::pa_mainloop_iterate failed.\n");
+#endif
+                return false;
+            }
+
             cstate = pa_context_get_state(device.context);
             if (!PA_CONTEXT_IS_GOOD(cstate)) {
                 return false;
@@ -146,6 +177,12 @@ public:
         device.spec.rate = settings.frequency;
         device.stream = pa_stream_new(device.context, "audio",
             &device.spec, NULL);
+        if (device.stream == nullptr) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "PulseAudio::pa_stream_new failed.\n");
+#endif
+            return false;
+        }
 
         device.buffer_attr.maxlength = -1;
         device.buffer_attr.tlength = pa_usec_to_bytes(settings.latency *
@@ -156,8 +193,15 @@ public:
 
         pa_stream_flags_t flags = (pa_stream_flags_t)
             (PA_STREAM_ADJUST_LATENCY | PA_STREAM_VARIABLE_RATE);
-        pa_stream_connect_playback(device.stream, NULL,
+        result = pa_stream_connect_playback(device.stream, NULL,
             &device.buffer_attr, flags, NULL, NULL);
+        if (result < 0) {
+#ifdef DEFIMULATOR_DEBUG
+            fprintf(stderr, "PulseAudio::pa_stream_connect_playback "
+                "failed.\n");
+#endif
+            return false;
+        }
 
         pa_stream_state_t sstate;
         do {
