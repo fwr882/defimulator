@@ -82,6 +82,14 @@ struct Style {
         LabelHeight = 15,
         SliderHeight = 22,
         TextBoxHeight = 22,
+        #elif defined(PHOENIX_GTK3)
+        ButtonHeight = 25,
+        CheckBoxHeight = 15,
+        ComboBoxHeight = 22,
+        EditBoxHeight = 22,
+        LabelHeight = 15,
+        SliderHeight = 22,
+        TextBoxHeight = 22,
         #endif
     };
 };
