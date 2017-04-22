@@ -12,4 +12,6 @@
   #include "windows/windows.cpp"
 #elif defined(PHOENIX_GTK)
   #include "gtk/gtk.cpp"
+#elif defined(PHOENIX_GTK3)
+  #include "gtk3/gtk.cpp"
 #endif

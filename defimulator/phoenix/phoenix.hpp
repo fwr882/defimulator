@@ -10,4 +10,6 @@
   #include "windows/windows.hpp"
 #elif defined(PHOENIX_GTK)
   #include "gtk/gtk.hpp"
+#elif defined(PHOENIX_GTK3)
+  #include "gtk3/gtk.hpp"
 #endif
