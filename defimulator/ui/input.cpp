@@ -487,11 +487,11 @@ void InputMapper::poll_hotkeys(unsigned scancode, int16_t value)
         }
 
         /* save states */
-        if (scancode == keyboard(0)[Keyboard::F5]) {
+        if (scancode == save_hotkey) {
             utility.saveState(activeSlot);
         }
 
-        if (scancode == keyboard(0)[Keyboard::F7]) {
+        if (scancode == load_hotkey) {
             utility.loadState(activeSlot);
         }
 

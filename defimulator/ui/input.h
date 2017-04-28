@@ -92,6 +92,8 @@ struct InputMapper {
     int16_t state[2][Scancode::Limit];
     bool activeState;
 
+    unsigned save_hotkey, load_hotkey;
+
     void create(void);
     void bind(void);
     void poll(void);

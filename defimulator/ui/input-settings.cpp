@@ -296,6 +296,9 @@ void InputSettings::calibrateJoypads(void)
 
 InputSettings::InputSettings(void)
 {
+    inputMapper.save_hotkey = keyboard(0)[Keyboard::F5];
+    inputMapper.load_hotkey = keyboard(0)[Keyboard::F7];
+
     joypadsCalibrated = false;
     joypadsCalibrating = false;
 }
