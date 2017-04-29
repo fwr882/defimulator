@@ -1,19 +1,22 @@
 #include <ui/settings.h>
 
+InputSettings hotkeySettings;
 InputSettings inputSettings;
 static InputMapper::AbstractInput *activeInput = 0;
 
-void InputSettings::create(void)
+void InputSettings::create(bool hotkeys)
 {
     Window::create(0, 0, 256, 256, "Input Settings");
     application.addWindow(this, "InputSettings", "160,160");
+
     setFont(application.proportionalFontBold);
     setStatusVisible();
 
     activeInput = 0;
     activeMouse = 0;
 
-    unsigned x = 5, y = 5, height = Style::ButtonHeight;
+    unsigned x = 5, y = 5, listboxsize = 265;
+    unsigned height = Style::ButtonHeight;
 
     portLabel.create(*this, x, y, 50, Style::ComboBoxHeight, "Port:");
     portBox.create(*this, x + 50, y, 200, Style::ComboBoxHeight);
@@ -24,10 +27,10 @@ void InputSettings::create(void)
     deviceBox.create(*this, x + 305, y, 200, Style::ComboBoxHeight);
     y += Style::ComboBoxHeight + 5;
 
-    mappingList.create(*this, x, y, 505, 265, "Name\tMapping");
-    y += 265 + 5;
+    mappingList.create(*this, x, y, 505, listboxsize, "Name\tMapping");
     mappingList.setHeaderVisible();
     mappingList.setFocused();
+    y += listboxsize + 5;
 
     mouseXaxis.create(*this, x, y, 100, height, "Mouse X-axis");
     mouseXaxis.setVisible(false);
@@ -76,6 +79,17 @@ void InputSettings::create(void)
 
     clearButton.onTick = { &InputSettings::clearInput, this };
     onClose = []() { inputSettings.endAssignment(); return true; };
+
+    if (hotkeys) {
+        /*
+        * XXX: This depends on the hotkeys structure being added
+        * in the correct order in the port1 list.  You can find that
+        * definition in InputMapper::create, with
+        * port1.append(&port1.hotkeys) being the dependency.
+        */
+        deviceBox.setSelection(1);
+        deviceChanged();
+    }
 }
 
 void InputSettings::portChanged(void)
@@ -244,7 +258,7 @@ void InputSettings::inputEvent(uint16_t scancode, int16_t value)
             } else if(value == Joypad::HatRight) {
                 setMapping({ mapping, ".Right" });
             }
-        } else if(Joypad::isAnyAxis(scancode)) {
+        } else if (Joypad::isAnyAxis(scancode)) {
             if (joypadsCalibrated == false) {
                 return calibrateJoypads();
             }

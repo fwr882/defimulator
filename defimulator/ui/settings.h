@@ -45,7 +45,7 @@ struct InputSettings : TopLevelWindow {
 
     void inputEvent(uint16_t scancode, int16_t value);
     void calibrateJoypads(void);
-    void create(void);
+    void create(bool hotkeys);
     InputSettings(void);
 
 private:
@@ -93,6 +93,7 @@ struct VideoSettings : TopLevelWindow {
 extern AdvancedSettings advancedSettings;
 extern AudioSettings audioSettings;
 extern InputSettings inputSettings;
+extern InputSettings hotkeySettings;
 extern VideoSettings videoSettings;
 
 #endif

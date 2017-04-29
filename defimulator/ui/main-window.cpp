@@ -141,6 +141,7 @@ void MainWindow::create(void)
     settingsVideo.create(settings, "Video Settings ...");
     settingsAudio.create(settings, "Audio Settings ...");
     settingsInput.create(settings, "Input Settings ...");
+    settingsHotkeys.create(settings, "Hotkey Settings ...");
     settingsAdvanced.create(settings, "Advanced Settings ...");
 
     tools.create(*this, "Tools");
@@ -296,6 +297,7 @@ void MainWindow::create(void)
     settingsVideo.onTick = []() { videoSettings.setVisible(); };
     settingsAudio.onTick = []() { audioSettings.setVisible(); };
     settingsInput.onTick = []() { inputSettings.setVisible(); };
+    settingsHotkeys.onTick = []() { hotkeySettings.setVisible(); };
     settingsAdvanced.onTick = []() { advancedSettings.setVisible(); };
 
     toolsStateSave1.onTick = []() { utility.saveState(1); };

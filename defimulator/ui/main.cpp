@@ -55,7 +55,8 @@ void Application::main(int argc, char **argv)
     doubleSlotLoader.create();
     videoSettings.create();
     audioSettings.create();
-    inputSettings.create();
+    inputSettings.create(false);
+    hotkeySettings.create(true);
     advancedSettings.create();
     cheatEditor.create();
     stateManager.create();

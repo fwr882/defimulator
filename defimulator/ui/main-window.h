@@ -50,6 +50,7 @@ struct MainWindow : TopLevelWindow {
     MenuItem settingsVideo;
     MenuItem settingsAudio;
     MenuItem settingsInput;
+    MenuItem settingsHotkeys;
     MenuItem settingsAdvanced;
 
     Menu tools;
