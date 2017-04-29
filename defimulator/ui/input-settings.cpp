@@ -1,10 +1,9 @@
 #include <ui/settings.h>
 
-InputSettings hotkeySettings;
 InputSettings inputSettings;
 static InputMapper::AbstractInput *activeInput = 0;
 
-void InputSettings::create(bool hotkeys)
+void InputSettings::create(void)
 {
     Window::create(0, 0, 256, 256, "Input Settings");
     application.addWindow(this, "InputSettings", "160,160");
@@ -79,17 +78,6 @@ void InputSettings::create(bool hotkeys)
 
     clearButton.onTick = { &InputSettings::clearInput, this };
     onClose = []() { inputSettings.endAssignment(); return true; };
-
-    if (hotkeys) {
-        /*
-        * XXX: This depends on the hotkeys structure being added
-        * in the correct order in the port1 list.  You can find that
-        * definition in InputMapper::create, with
-        * port1.append(&port1.hotkeys) being the dependency.
-        */
-        deviceBox.setSelection(1);
-        deviceChanged();
-    }
 }
 
 void InputSettings::portChanged(void)
@@ -106,6 +94,46 @@ void InputSettings::portChanged(void)
     }
 
     deviceChanged();
+}
+
+/*
+* Prevents breakage is someone doesn't realize I've overloaded
+* a the same function with another parameter.  This will allow
+* the setVisible() function to behave identically to
+* setVisible(false) for this particular class.  Which will then
+* call TopLevelWindow::setVisible() as originally intended.
+*/
+void InputSettings::setVisible(void)
+{
+    InputSettings::setVisible(false);
+}
+
+void InputSettings::setVisible(bool hotkeys)
+{
+    /*
+    * XXX: This is a pretty hacky solution to make the hotkeys UX
+    * better than it was.  While you could always get to the hotkey
+    * configuration (since like 2 commits ago) from the Input Settings,
+    * it wasn't super obvious where to find the hotkey config.  With
+    * this method it simply selects the device (hard-coded, of course)
+    * that the hotkeys is configured to be and then sets the settings
+    * window as visible.  So there's nothing inherently different about
+    * the hotkey button, it just launches the input settings and sets
+    * the proper device.
+    *
+    * There may be a better way than to hard-code (maybe search the
+    * name string in the controller somehow?) the values, but for now it
+    * will do the job.
+    */
+    if (hotkeys) {
+        deviceBox.setSelection(1);
+        deviceChanged();
+    } else {
+        deviceBox.setSelection(0);
+        deviceChanged();
+    }
+
+    TopLevelWindow::setVisible();
 }
 
 void InputSettings::deviceChanged(void)

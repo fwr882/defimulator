@@ -78,7 +78,6 @@ void InputMapper::Hotkeys::create(const char *deviceName,
     prevstate.name = "Previous Save Slot";
     fastforward.name = "Fast Forward";
     pause.name = "Pause";
-    unaquire.name = "Unaquire Input";
 
     append(&save);
     append(&load);
@@ -86,7 +85,6 @@ void InputMapper::Hotkeys::create(const char *deviceName,
     append(&prevstate);
     append(&fastforward);
     append(&pause);
-    append(&unaquire);
 
     config.attach(save.mapping = "",
         string("input.", configName, ".save"));
@@ -100,8 +98,6 @@ void InputMapper::Hotkeys::create(const char *deviceName,
         string("input.", configName, ".fastforward"));
     config.attach(pause.mapping = "",
         string("input.", configName, ".pause"));
-    config.attach(unaquire.mapping = "",
-        string("input.", configName, ".unaquire"));
 
     if (!strcmp(configName, "port1.hotkeys")) {
         save.mapping = "KB0::F5";
@@ -112,7 +108,6 @@ void InputMapper::Hotkeys::create(const char *deviceName,
 
         fastforward.mapping = "KB0::F1";
         pause.mapping = "KB0::F2";
-        unaquire.mapping = "KB0::Escape";
     }
 }
 
@@ -532,10 +527,6 @@ void InputMapper::poll_hotkeys(unsigned scancode, int16_t value)
         /* key pressed */
         if (mainWindow.focused() == false) {
             return;
-        }
-
-        if (scancode == port1.hotkeys.unaquire.scancode) {
-            input.unacquire();
         }
 
         if (scancode == port1.hotkeys.save.scancode) {

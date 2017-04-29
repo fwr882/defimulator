@@ -296,8 +296,8 @@ void MainWindow::create(void)
 
     settingsVideo.onTick = []() { videoSettings.setVisible(); };
     settingsAudio.onTick = []() { audioSettings.setVisible(); };
-    settingsInput.onTick = []() { inputSettings.setVisible(); };
-    settingsHotkeys.onTick = []() { hotkeySettings.setVisible(); };
+    settingsInput.onTick = []() { inputSettings.setVisible(false); };
+    settingsHotkeys.onTick = []() { inputSettings.setVisible(true); };
     settingsAdvanced.onTick = []() { advancedSettings.setVisible(); };
 
     toolsStateSave1.onTick = []() { utility.saveState(1); };

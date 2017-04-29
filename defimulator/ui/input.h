@@ -38,8 +38,8 @@ struct InputMapper {
     struct Hotkeys : Controller {
         /* save state, load state, next save slot, previous save slot */
         DigitalInput save, load, nextstate, prevstate;
-        /* fast-forward emulation, pause emulation, unaquire input */
-        DigitalInput fastforward, pause, unaquire;
+        /* fast-forward emulation, pause emulation */
+        DigitalInput fastforward, pause;
 
         void create(const char *deviceName, const char *configName);
     };
