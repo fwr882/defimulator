@@ -67,6 +67,55 @@ int16_t InputMapper::DigitalInput::poll(void)
     }
 }
 
+void InputMapper::Hotkeys::create(const char *deviceName,
+    const char *configName)
+{
+    name = deviceName;
+
+    save.name = "Save";
+    load.name = "Load";
+    nextstate.name = "Next Save Slot";
+    prevstate.name = "Previous Save Slot";
+    fastforward.name = "Fast Forward";
+    pause.name = "Pause";
+    unaquire.name = "Unaquire Input";
+
+    append(&save);
+    append(&load);
+    append(&nextstate);
+    append(&prevstate);
+    append(&fastforward);
+    append(&pause);
+    append(&unaquire);
+
+    config.attach(save.mapping = "",
+        string("input.", configName, ".save"));
+    config.attach(load.mapping = "",
+        string("input.", configName, ".load"));
+    config.attach(nextstate.mapping = "",
+        string("input.", configName, ".next"));
+    config.attach(prevstate.mapping = "",
+        string("input.", configName, ".prev"));
+    config.attach(fastforward.mapping = "",
+        string("input.", configName, ".fastforward"));
+    config.attach(pause.mapping = "",
+        string("input.", configName, ".pause"));
+    config.attach(unaquire.mapping = "",
+        string("input.", configName, ".unaquire"));
+
+    if (!strcmp(configName, "port1.hotkeys")) {
+        save.mapping = "KB0::F5";
+        load.mapping = "KB0::F7";
+
+        prevstate.mapping = "KB0::F6";
+        nextstate.mapping = "KB0::F8";
+
+        fastforward.mapping = "KB0::F1";
+        pause.mapping = "KB0::F2";
+        unaquire.mapping = "KB0::Escape";
+    }
+}
+
 void InputMapper::Gamepad::create(const char *deviceName,
     const char *configName)
 {
@@ -114,9 +163,10 @@ void InputMapper::Gamepad::create(const char *deviceName,
         configName, ".select"));
     config.attach(start.mapping = "", string("input.", configName, ".start"));
 
+
     /*
-    * XXX: Should the defaults be configured by
-    * config.h instead of hard-coded?
+    * XXX: Should the defaults be configured
+    * by a config.h file instead of hard-coded?
     */
     if (!strcmp(configName, "port1.gamepad")) {
         up.mapping = "KB0::Up";
@@ -328,6 +378,7 @@ void InputMapper::create(void)
 
     port1.name = "Controller Port 1";
     port1.gamepad.create("Gamepad", "port1.gamepad");
+    port1.hotkeys.create("Hotkeys", "port1.hotkeys");
     port1.multitapA.create("Multitap - Port 1", "port1.multitapA");
     port1.multitapB.create("Multitap - Port 2", "port1.multitapB");
     port1.multitapC.create("Multitap - Port 3", "port1.multitapC");
@@ -335,6 +386,7 @@ void InputMapper::create(void)
     port1.mouse.create("Mouse", "port1.mouse");
 
     port1.append(&port1.gamepad);
+    port1.append(&port1.hotkeys);
     port1.append(&port1.multitapA);
     port1.append(&port1.multitapB);
     port1.append(&port1.multitapC);
@@ -478,40 +530,39 @@ void InputMapper::poll_hotkeys(unsigned scancode, int16_t value)
 
     if (value) {
         /* key pressed */
-        if (scancode == keyboard(0)[Keyboard::Escape]) {
-            input.unacquire();
-        }
-
         if (mainWindow.focused() == false) {
             return;
         }
 
-        /* save states */
-        if (scancode == save_hotkey) {
+        if (scancode == port1.hotkeys.unaquire.scancode) {
+            input.unacquire();
+        }
+
+        if (scancode == port1.hotkeys.save.scancode) {
             utility.saveState(activeSlot);
         }
 
-        if (scancode == load_hotkey) {
+        if (scancode == port1.hotkeys.load.scancode) {
             utility.loadState(activeSlot);
         }
 
-        if (scancode == keyboard(0)[Keyboard::F6]) {
+        if (scancode == port1.hotkeys.prevstate.scancode) {
             activeSlot = (activeSlot == 1 ? 5 : activeSlot - 1);
             utility.showMessage({ "Slot ", activeSlot, " selected" });
         }
 
-        if (scancode == keyboard(0)[Keyboard::F8]) {
+        if (scancode == port1.hotkeys.nextstate.scancode) {
             activeSlot = (activeSlot == 5 ? 1 : activeSlot + 1);
             utility.showMessage({ "Slot ", activeSlot, " selected" });
         }
 
         /* pause */
-        if (scancode == keyboard(0)[Keyboard::P]) {
+        if (scancode == port1.hotkeys.pause.scancode) {
             application.pause = !application.pause;
         }
 
         /* fast forward */
-        if (scancode == keyboard(0)[Keyboard::Tilde]) {
+        if (scancode == port1.hotkeys.fastforward.scancode) {
             videoSync = config.video.synchronize;
             audioSync = config.audio.synchronize;
             video.set(Video::Synchronize, config.video.synchronize = false);
@@ -528,7 +579,7 @@ void InputMapper::poll_hotkeys(unsigned scancode, int16_t value)
         }
 
         /* fast forward */
-        if (scancode == keyboard(0)[Keyboard::Tilde]) {
+        if (scancode == port1.hotkeys.fastforward.scancode) {
             config.video.synchronize = videoSync;
             config.audio.synchronize = audioSync;
 

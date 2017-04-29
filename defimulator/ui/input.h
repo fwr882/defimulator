@@ -35,6 +35,15 @@ struct InputMapper {
         string name;
     };
 
+    struct Hotkeys : Controller {
+        /* save state, load state, next save slot, previous save slot */
+        DigitalInput save, load, nextstate, prevstate;
+        /* fast-forward emulation, pause emulation, unaquire input */
+        DigitalInput fastforward, pause, unaquire;
+
+        void create(const char *deviceName, const char *configName);
+    };
+
     struct Gamepad : Controller {
         DigitalInput up, down, left, right;
         DigitalInput b, a, y, x;
@@ -70,6 +79,7 @@ struct InputMapper {
 
     struct Port1 : ControllerPort {
         Gamepad gamepad;
+        Hotkeys hotkeys;
         Gamepad multitapA;
         Gamepad multitapB;
         Gamepad multitapC;
@@ -91,8 +101,6 @@ struct InputMapper {
 
     int16_t state[2][Scancode::Limit];
     bool activeState;
-
-    unsigned save_hotkey, load_hotkey;
 
     void create(void);
     void bind(void);
