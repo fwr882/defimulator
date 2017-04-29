@@ -22,9 +22,10 @@ accurate emulation while remaining usable on reasonably (within the past few
 years) hardware.
 
 ### Open Development
-The higan project is developed, from what I'm able to observe, by one guy.  I
-can tell this guy (byuu) has some real coding chops, but his repository is
-not open, at least from my observations, for others to contribute.
+The higan project is developed, from what I'm able to observe, by one guy.
+I can tell this guy (byuu) has some real coding chops, but his repository
+is not open, at least from my observations, for others to contribute.
+Anyone is welcome to contribue to defimulator here on Github.
 
 ## How to Help
 Fork the repository and open a pull request!  I welcome any code changes for
@@ -32,6 +33,7 @@ defimulator that will move the project forward.  Open an issue and submit a
 PR against it for bonus points.
 
 ## License
-The code is licensed under GPLv3.  You do not have to assign your copyright to
-me or the project.  Your code is your code.  I have no intent of selling this
-software or trying to the keep the source code away from the community.
+The code is licensed under GPLv3.  You do not have to assign your copyright
+to me or the project.  Your code is your code.  I have no intent of selling
+this software or trying to the keep the source code away from the
+community.

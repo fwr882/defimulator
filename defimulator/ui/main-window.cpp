@@ -326,7 +326,7 @@ void MainWindow::create(void)
         MessageWindow::information(mainWindow, {
             SNES::Info::Name, " v", SNES::Info::Version, "\n",
             "  ", SNES::Info::Profile, " Profile\n",
-            "  Homepage: https://gitlab.com/joe.brown/defimulator/\n"
+            "  Homepage: https://github.com/grim210/defimulator/\n"
             "  Licensed under the GNU Public License Version 3."
         });
     };

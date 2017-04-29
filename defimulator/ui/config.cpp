@@ -2,13 +2,13 @@ Configuration config;
 
 void Configuration::load(void)
 {
-    configuration::load(string(path.user, "bsnes-phoenix.cfg"));
+    configuration::load(string(path.user, "defimulator-phoenix.cfg"));
 }
 
 void Configuration::save(void)
 {
     mkdir(path.user, 0755);
-    configuration::save(string(path.user, "bsnes-phoenix.cfg"));
+    configuration::save(string(path.user, "defimulator-phoenix.cfg"));
 }
 
 void Configuration::create(void)

@@ -13,11 +13,13 @@ void Application::main(int argc, char **argv)
     inputMapper.create();
 
     config.path.base = realpath(argv[0]);
-    config.path.user = { userpath(), ".bsnes/" };
+    /* XXX:
+    * Make this configurable! */
+    config.path.user = { userpath(), ".defimulator/" };
 
     config.load();
     config.save();
-    if(config.path.current == "") {
+    if (config.path.current == "") {
         config.path.current = config.path.base;
     }
 
@@ -177,7 +179,7 @@ int main(int argc, char **argv)
 void Application::loadGeometry()
 {
     geometryConfig.load(string(config.path.user,
-        "bsnes-phoenix-geometry.cfg"));
+        "defimulator-phoenix-geomtery.cfg"));
     foreach(window, windows) {
         lstring position;
         position.split(",", window->position);
@@ -195,5 +197,5 @@ void Application::saveGeometry()
     }
 
     geometryConfig.save(string(config.path.user,
-        "bsnes-phoenix-geometry.cfg"));
+        "defimulator-phoenix-geometry.cfg"));
 }
