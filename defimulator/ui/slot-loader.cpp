@@ -8,22 +8,31 @@ void SingleSlotLoader::create(void)
     Window::create(0, 0, 256, 256);
     application.addWindow(this, "SingleSlotLoader", "160,160");
 
-    unsigned x = 5;
-    unsigned y = 5;
+    unsigned x = 5, y = 5;
     unsigned height = Style::TextBoxHeight;
     unsigned width = 365 + height;
+    unsigned labelwidth = 40;
+    unsigned pathwidth = 275;
+    unsigned browsebuttonwidth = 50;
 
-    baseLabel.create(*this, x, y, 50, height, "Base:");
-    basePath.create(*this, x + 50, y, 300, height);
-    baseBrowse.create(*this, x + 355, y, height, height, "...");
+    baseLabel.create(*this, x, y, labelwidth, height, "Base:");
+    x += labelwidth + 5;
+    basePath.create(*this, x, y, pathwidth, height);
+    baseBrowse.create(*this, width - browsebuttonwidth - 5, y,
+        browsebuttonwidth, height, "Browse");
     y += height + 5;
 
-    slotLabel.create(*this, x, y, 50, height, "Slot:");
-    slotPath.create(*this, x + 50, y, 300, height);
-    slotBrowse.create(*this, x + 355, y, height, height, "...");
+    x = 5;
+    slotLabel.create(*this, x, y, labelwidth, height, "Slot:");
+    x += labelwidth + 5;
+    slotPath.create(*this, x, y, pathwidth, height);
+    slotBrowse.create(*this, width - browsebuttonwidth - 5, y,
+        browsebuttonwidth, height, "Browse");
     y += height + 5;
 
-    okButton.create(*this, x + width - 90, y, 80, Style::ButtonHeight, "Ok");
+    x = 5;
+    okButton.create(*this, x + width - 90, y, 80,
+        Style::ButtonHeight, "OK");
     y += Style::ButtonHeight + 5;
 
     setGeometry(0, 0, width, y);
@@ -109,7 +118,34 @@ void DoubleSlotLoader::create(void)
     unsigned y = 5;
     unsigned height = Style::TextBoxHeight;
     unsigned width = 365 + height;
+    unsigned labelwidth = 40;
+    unsigned pathwidth = 275;
+    unsigned browsebuttonwidth = 50;
 
+    baseLabel.create(*this, x, y, labelwidth, height, "Base:");
+    x += labelwidth + 5;
+    basePath.create(*this, x, y, pathwidth, height);
+    baseBrowse.create(*this, width - browsebuttonwidth - 5, y,
+        browsebuttonwidth, height, "Browse");
+    y += height + 5;
+
+    x = 5;
+    slotALabel.create(*this, x, y, labelwidth, height, "Slot A:");
+    x += labelwidth + 5;
+    slotAPath.create(*this, x, y, pathwidth, height);
+    slotABrowse.create(*this, width - browsebuttonwidth - 5, y,
+        browsebuttonwidth, height, "Browse");
+    y += height + 5;
+
+    x = 5;
+    slotBLabel.create(*this, x, y, labelwidth, height, "Slot B:");
+    x += labelwidth + 5;
+    slotBPath.create(*this, x, y, pathwidth, height);
+    slotBBrowse.create(*this, width - browsebuttonwidth - 5, y,
+        browsebuttonwidth, height, "Browse");
+    y += height + 5;
+
+    /*
     baseLabel.create(*this, x, y, 50, height, "Base:");
     basePath.create(*this, x + 50, y, 300, height);
     baseBrowse.create(*this, x + 355, y, height, height, "...");
@@ -124,8 +160,11 @@ void DoubleSlotLoader::create(void)
     slotBPath.create(*this, x + 50, y, 300, height);
     slotBBrowse.create(*this, x + 355, y, height, height, "...");
     y += height + 5;
+    */
 
-    okButton.create(*this, x + width - 90, y, 80, Style::ButtonHeight, "Ok");
+    x = 5;
+    okButton.create(*this, x + width - 90, y, 80,
+        Style::ButtonHeight, "OK");
     y += Style::ButtonHeight + 5;
 
     setGeometry(0, 0, width, y);

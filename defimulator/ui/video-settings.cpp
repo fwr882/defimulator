@@ -35,30 +35,37 @@ void VideoSettings::create(void)
         "Enable NTSC gamma ramp simulation");
     y += Style::CheckBoxHeight + 5;
 
+    unsigned clearbuttonwidth = 40;
+    unsigned browsebuttonwidth = 50;
+
     filterLabel.create(*this, x, y, 340, Style::LabelHeight,
         "Video Filter :.");
     y += Style::LabelHeight + 5;
     filterLabel.setFont(application.proportionalFontBold);
 
-    filterPath.create(*this, x, y, 430 - height - height - 10, height);
+    filterPath.create(*this, x, y, 430 - clearbuttonwidth -
+        browsebuttonwidth - 10, height);
     filterPath.setEditable(false);
     filterPath.setText(config.video.filter);
-    filterClear.create(*this, x + 430 - height - height - 5, y,
-        height, height, "");
-    filterSelect.create(*this, x + 430 - height, y, height, height, "...");
-        y += height + 5;
+    filterClear.create(*this, x + 430 - clearbuttonwidth -
+        browsebuttonwidth - 5, y, clearbuttonwidth, height, "Clear");
+    filterSelect.create(*this, x + 430 - browsebuttonwidth, y,
+        browsebuttonwidth, height, "Browse");
+    y += height + 5;
 
     shaderLabel.create(*this, x, y, 340, Style::LabelHeight,
         "Pixel Shader :.");
     y += Style::LabelHeight + 5;
     shaderLabel.setFont(application.proportionalFontBold);
 
-    shaderPath.create(*this, x, y, 430 - height - height - 10, height);
+    shaderPath.create(*this, x, y, 430 - clearbuttonwidth -
+        browsebuttonwidth - 10, height);
     shaderPath.setEditable(false);
     shaderPath.setText(config.video.shader);
-    shaderClear.create(*this, x + 430 - height - height - 5, y,
-        height, height, "");
-    shaderSelect.create(*this, x + 430 - height, y, height, height, "...");
+    shaderClear.create(*this, x + 430 - clearbuttonwidth -
+        browsebuttonwidth - 5, y, clearbuttonwidth, height, "Clear");
+    shaderSelect.create(*this, x + 430 - browsebuttonwidth, y,
+        browsebuttonwidth, height, "Browse");
     y += height + 5;
 
     setGeometry(0, 0, 440, y);

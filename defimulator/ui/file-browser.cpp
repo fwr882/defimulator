@@ -8,11 +8,14 @@ void FileBrowser::create(void)
     application.addWindow(this, "FileBrowser", "160,160");
 
     unsigned x = 5, y = 5, height = Style::TextBoxHeight;
+    unsigned browsewidth = 50, backwidth = 40;
 
-    pathBox.create(*this, x, y, 630 - height - height - 10, height);
-    browseButton.create(*this, x + 630 - height - height - 5, y,
-        height, height, "...");
-    upButton.create(*this, x + 630 - height, y, height, height, "..");
+    pathBox.create(*this, x, y, 630 - browsewidth - backwidth - 10,
+        height);
+    browseButton.create(*this, x + 630 - browsewidth - backwidth - 5, y,
+        browsewidth, height, "Browse");
+    upButton.create(*this, x + 630 - backwidth, y, backwidth,
+        height, "Back");
     y += height + 5;
 
     contentsBox.create(*this, x, y, 630, 350); y += 350 + 5;
