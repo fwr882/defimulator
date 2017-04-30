@@ -41,7 +41,7 @@ find_package(OpenGL)
 
 if(NOT WIN32)
     find_package(PkgConfig)
-    pkg_search_module(GTK2 REQUIRED gtk+-3.0)
+    pkg_search_module(GTK3 REQUIRED gtk+-3.0)
     pkg_search_module(SDL REQUIRED sdl)
     pkg_search_module(X11 REQUIRED x11)
     pkg_search_module(PULSE REQUIRED libpulse)

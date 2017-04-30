@@ -4,7 +4,7 @@ enable_language(C)
 include_directories("${defim_SOURCE_DIR}")
 
 if(NOT WIN32)
-    include_directories("${GTK2_INCLUDE_DIRS}")
+    include_directories("${GTK3_INCLUDE_DIRS}")
 endif()
 
 # TODO: Tweaked with available profiles from initial config.
@@ -178,7 +178,7 @@ if(WIN32)
 else()
     target_link_libraries(defimulator
         # Toolkit libraries
-        ${GTK2_LIBRARIES}
+        ${GTK3_LIBRARIES}
 
         # Graphics Libraries
         ${OPENGL_LIBRARIES}
