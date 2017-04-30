@@ -35,8 +35,8 @@ void VideoSettings::create(void)
         "Enable NTSC gamma ramp simulation");
     y += Style::CheckBoxHeight + 5;
 
-    unsigned clearbuttonwidth = 40;
-    unsigned browsebuttonwidth = 50;
+    unsigned clearbuttonwidth = 50;
+    unsigned browsebuttonwidth = 60;
 
     filterLabel.create(*this, x, y, 340, Style::LabelHeight,
         "Video Filter :.");
