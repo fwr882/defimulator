@@ -72,12 +72,12 @@ void InputMapper::Hotkeys::create(const char *deviceName,
 {
     name = deviceName;
 
-    save.name = "Save";
-    load.name = "Load";
+    save.name = "Save State";
+    load.name = "Load State";
     nextstate.name = "Next Save Slot";
-    prevstate.name = "Previous Save Slot";
+    prevstate.name = "Last Save Slot";
     fastforward.name = "Fast Forward";
-    pause.name = "Pause";
+    pause.name = "Pause Emulation";
 
     append(&save);
     append(&load);

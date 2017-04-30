@@ -8,7 +8,7 @@ void FileBrowser::create(void)
     application.addWindow(this, "FileBrowser", "160,160");
 
     unsigned x = 5, y = 5, height = Style::TextBoxHeight;
-    unsigned browsewidth = 50, backwidth = 40;
+    unsigned browsewidth = 60, backwidth = 40;
 
     pathBox.create(*this, x, y, 630 - browsewidth - backwidth - 10,
         height);

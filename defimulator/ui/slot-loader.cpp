@@ -12,8 +12,8 @@ void SingleSlotLoader::create(void)
     unsigned height = Style::TextBoxHeight;
     unsigned width = 365 + height;
     unsigned labelwidth = 40;
-    unsigned pathwidth = 275;
-    unsigned browsebuttonwidth = 50;
+    unsigned pathwidth = 265;
+    unsigned browsebuttonwidth = 60;
 
     baseLabel.create(*this, x, y, labelwidth, height, "Base:");
     x += labelwidth + 5;
@@ -119,8 +119,8 @@ void DoubleSlotLoader::create(void)
     unsigned height = Style::TextBoxHeight;
     unsigned width = 365 + height;
     unsigned labelwidth = 40;
-    unsigned pathwidth = 275;
-    unsigned browsebuttonwidth = 50;
+    unsigned pathwidth = 265;
+    unsigned browsebuttonwidth = 60;
 
     baseLabel.create(*this, x, y, labelwidth, height, "Base:");
     x += labelwidth + 5;
@@ -144,23 +144,6 @@ void DoubleSlotLoader::create(void)
     slotBBrowse.create(*this, width - browsebuttonwidth - 5, y,
         browsebuttonwidth, height, "Browse");
     y += height + 5;
-
-    /*
-    baseLabel.create(*this, x, y, 50, height, "Base:");
-    basePath.create(*this, x + 50, y, 300, height);
-    baseBrowse.create(*this, x + 355, y, height, height, "...");
-    y += height + 5;
-
-    slotALabel.create(*this, x, y, 50, height, "Slot A:");
-    slotAPath.create(*this, x + 50, y, 300, height);
-    slotABrowse.create(*this, x + 355, y, height, height, "...");
-    y += height + 5;
-
-    slotBLabel.create(*this, x, y, 50, height, "Slot B:");
-    slotBPath.create(*this, x + 50, y, 300, height);
-    slotBBrowse.create(*this, x + 355, y, height, height, "...");
-    y += height + 5;
-    */
 
     x = 5;
     okButton.create(*this, x + width - 90, y, 80,
