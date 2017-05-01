@@ -23,6 +23,7 @@ option(BUILD_DEBUGGER "Not compatible with PERFORMANCE or WIN32." OFF)
 option(BUILD_FILTERS "Build SNES filers." OFF)
 option(BUILD_PURIFY "Build SNES ROM purifying tool." OFF)
 option(BUILD_LAUNCHER "Build defimulator launcher.  Unknown usage.." OFF)
+option(BUILD_GTKMM3 "Build defimulator with GTKMM 3.0 UI." OFF)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)
@@ -38,10 +39,17 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 find_package(OpenGL)
+find_package(PkgConfig)
+
+if(BUILD_GTKMM3)
+    pkg_search_module(GTKMM3 REQUIRED gtkmm-3.0)
+endif()
 
 if(NOT WIN32)
-    find_package(PkgConfig)
-    pkg_search_module(GTK3 REQUIRED gtk+-3.0)
+    if(NOT BUILD_GTKMM3)
+        pkg_search_module(GTK REQUIRED gtk+-2.0)
+    endif()
+
     pkg_search_module(SDL REQUIRED sdl)
     pkg_search_module(X11 REQUIRED x11)
     pkg_search_module(PULSE REQUIRED libpulse)

@@ -3,8 +3,14 @@ enable_language(C)
 
 include_directories("${defim_SOURCE_DIR}")
 
-if(NOT WIN32)
-    include_directories("${GTK3_INCLUDE_DIRS}")
+if(BUILD_GTKMM3)
+    message("Including GTKMM3 directories")
+    include_directories("${GTKMM3_INCLUDE_DIRS}")
+endif()
+
+if(NOT WIN32 AND NOT BUILD_GTKMM3)
+    message("Including GTK2 directories")
+    include_directories("${GTK_INCLUDE_DIRS}")
 endif()
 
 # TODO: Tweaked with available profiles from initial config.
@@ -13,15 +19,27 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fomit-frame-pointer")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer")
 
+if(BUILD_GTKMM3)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUI_GTKMM3")
+endif()
+
 # GUI flag
 if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_WINDOWS")
+    if(NOT BUILD_GTKMM3)
+        message("Enabling Pheonix UI with Win32")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_WINDOWS")
+    endif()
+
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_WGL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAUDIO_DIRECTSOUND")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_DIRECTINPUT")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK3")
+    if(NOT BUILD_GTKMM3)
+        message("Enabling Phoenix UI with GTK")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPHOENIX_GTK")
+    endif()
+
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_GLX")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVIDEO_SDL")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DINPUT_SDL")
@@ -80,20 +98,40 @@ if(BUILD_GAMEBOY)
     )
 endif()
 
+if(BUILD_GTKMM3)
+    list(APPEND sources
+        ui-gtkmm3/main.cpp
+        ui-gtkmm3/file-browser.cpp
+        ui-gtkmm3/main-window.cpp
+        ui-gtkmm3/slot-loader.cpp
+        ui-gtkmm3/advanced-settings.cpp
+        ui-gtkmm3/audio-settings.cpp
+        ui-gtkmm3/input-settings.cpp
+        ui-gtkmm3/video-settings.cpp
+        ui-gtkmm3/cheat-editor.cpp
+        ui-gtkmm3/state-manager.cpp
+        ui-gtkmm3/input.cpp
+        ui-gtkmm3/utility.cpp
+        ui-gtkmm3/cartridge.cpp)
+else()
+    list(APPEND sources
+        ui/main.cpp
+        ui/file-browser.cpp
+        ui/main-window.cpp
+        ui/slot-loader.cpp
+        ui/advanced-settings.cpp
+        ui/audio-settings.cpp
+        ui/input-settings.cpp
+        ui/video-settings.cpp
+        ui/cheat-editor.cpp
+        ui/state-manager.cpp
+        ui/input.cpp
+        ui/utility.cpp
+        ui/cartridge.cpp
+        phoenix/phoenix.cpp)
+endif()
+
 list(APPEND sources
-    ui/main.cpp
-    ui/file-browser.cpp
-    ui/main-window.cpp
-    ui/slot-loader.cpp
-    ui/advanced-settings.cpp
-    ui/audio-settings.cpp
-    ui/input-settings.cpp
-    ui/video-settings.cpp
-    ui/cheat-editor.cpp
-    ui/state-manager.cpp
-    ui/input.cpp
-    ui/utility.cpp
-    ui/cartridge.cpp
     ruby/ruby.cpp
     phoenix/phoenix.cpp
     libco/libco.c
@@ -167,31 +205,62 @@ if(BUILD_LAUNCHER)
 endif()
 
 if(WIN32)
-    target_link_libraries(defimulator
-        mingw32
-        ${OPENGL_LIBRARIES}
-        dsound
-        dxguid
-        dinput8
-        comctl32
-    )
+    if(BUILD_GTKMM3)
+        target_link_libraries(defimulator
+            mingw32
+            ${OPENGL_LIBRARIES}
+            ${GTKMM3_LIBRARIES}
+            dsound
+            dxguid
+            dinput8
+            comctl32
+        )
+    else()
+        target_link_libraries(defimulator
+            mingw32
+            ${OPENGL_LIBRARIES}
+            dsound
+            dxguid
+            dinput8
+            comctl32
+        )
+    endif()
 else()
-    target_link_libraries(defimulator
-        # Toolkit libraries
-        ${GTK3_LIBRARIES}
+    if(BUILD_GTKMM3)
+        target_link_libraries(defimulator
+            # Toolkit libraries
+            ${GTKMM3_LIBRARIES}
 
-        # Graphics Libraries
-        ${OPENGL_LIBRARIES}
-        ${SDL_LIBRARIES}
-        ${X11_LIBRARIES}
+            # Graphics Libraries
+            ${OPENGL_LIBRARIES}
+            ${SDL_LIBRARIES}
+            ${X11_LIBRARIES}
 
-        # Audio Libraries
-        ${ALSA_LIBRARIES}
-        ${PULSE_LIBRARIES}
+            # Audio Libraries
+            ${ALSA_LIBRARIES}
+            ${PULSE_LIBRARIES}
 
-        # For -ldl on *nix
-        ${CMAKE_DL_LIBS}
-    )
+            # For -ldl on *nix
+            ${CMAKE_DL_LIBS}
+        )
+    else()
+        target_link_libraries(defimulator
+            # Toolkit libraries
+            ${GTK_LIBRARIES}
+
+            # Graphics Libraries
+            ${OPENGL_LIBRARIES}
+            ${SDL_LIBRARIES}
+            ${X11_LIBRARIES}
+
+            # Audio Libraries
+            ${ALSA_LIBRARIES}
+            ${PULSE_LIBRARIES}
+
+            # For -ldl on *nix
+            ${CMAKE_DL_LIBS}
+        )
+    endif()
 endif()
 
 if(BUILD_GAMEBOY)
