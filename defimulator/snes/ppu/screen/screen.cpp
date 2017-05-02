@@ -163,7 +163,7 @@ uint16 PPU::Screen::get_pixel(bool swap)
     }
 
     bool color_exempt = false;
-    if (source == OAM && self.oam.output.main.palette < 192) {
+    if (source_main == OAM && self.oam.output.main.palette < 192) {
         color_exempt = true;
     }
 
