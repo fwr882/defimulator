@@ -13,6 +13,9 @@
 #ifndef DEFIMULATOR_UI_MENUBAR_H
 #define DEFIMULATOR_UI_MENUBAR_H
 
+/* For std::unique_ptr<> */
+#include <memory>
+
 #include <gtkmm/menu.h>
 #include <gtkmm/menubar.h>
 #include <gtkmm/menuitem.h>
@@ -57,20 +60,20 @@ public:
 
     /* System->Port One menu */
     Gtk::Menu m_portonemenu;
-    Gtk::RadioMenuItem* m_portonenone;
-    Gtk::RadioMenuItem* m_portonegamepad;
-    Gtk::RadioMenuItem* m_portonemultitap;
-    Gtk::RadioMenuItem* m_portonemouse;
+    std::unique_ptr<Gtk::RadioMenuItem> m_portonenone;
+    std::unique_ptr<Gtk::RadioMenuItem> m_portonegamepad;
+    std::unique_ptr<Gtk::RadioMenuItem> m_portonemultitap;
+    std::unique_ptr<Gtk::RadioMenuItem> m_portonemouse;
 
     /* System->Port Two menu */
     Gtk::Menu m_porttwomenu;
-    Gtk::RadioMenuItem* m_porttwonone;
-    Gtk::RadioMenuItem* m_porttwogamepad;
-    Gtk::RadioMenuItem* m_porttwomultitap;
-    Gtk::RadioMenuItem* m_porttwomouse;
-    Gtk::RadioMenuItem* m_porttwosuperscope;
-    Gtk::RadioMenuItem* m_porttwojustifier;
-    Gtk::RadioMenuItem* m_porttwojustifiers;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwonone;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwogamepad;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwomultitap;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwomouse;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwosuperscope;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwojustifier;
+    std::unique_ptr<Gtk::RadioMenuItem> m_porttwojustifiers;
 
     /*
     * The "Settings" Menu
@@ -91,16 +94,16 @@ public:
 
     /* Settings->Video Mode menu */
     Gtk::Menu m_videomodemenu;
-    Gtk::RadioMenuItem* m_scaleone;
-    Gtk::RadioMenuItem* m_scaletwo;
-    Gtk::RadioMenuItem* m_scalethree;
-    Gtk::RadioMenuItem* m_scalefour;
-    Gtk::RadioMenuItem* m_scalefive;
+    std::unique_ptr<Gtk::RadioMenuItem> m_scaleone;
+    std::unique_ptr<Gtk::RadioMenuItem> m_scaletwo;
+    std::unique_ptr<Gtk::RadioMenuItem> m_scalethree;
+    std::unique_ptr<Gtk::RadioMenuItem> m_scalefour;
+    std::unique_ptr<Gtk::RadioMenuItem> m_scalefive;
     Gtk::SeparatorMenuItem m_sep5;
     Gtk::CheckMenuItem m_correctaspectratio;
     Gtk::SeparatorMenuItem m_sep6;
-    Gtk::RadioMenuItem* m_videontsc;
-    Gtk::RadioMenuItem* m_videopal;
+    std::unique_ptr<Gtk::RadioMenuItem> m_videontsc;
+    std::unique_ptr<Gtk::RadioMenuItem> m_videopal;
 
     /*
     * The "Tools" Menu
