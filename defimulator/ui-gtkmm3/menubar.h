@@ -57,20 +57,20 @@ public:
 
     /* System->Port One menu */
     Gtk::Menu m_portonemenu;
-    Gtk::RadioMenuItem m_portonenone;
-    Gtk::RadioMenuItem m_portonegamepad;
-    Gtk::RadioMenuItem m_portonemultitap;
-    Gtk::RadioMenuItem m_portonemouse;
+    Gtk::RadioMenuItem* m_portonenone;
+    Gtk::RadioMenuItem* m_portonegamepad;
+    Gtk::RadioMenuItem* m_portonemultitap;
+    Gtk::RadioMenuItem* m_portonemouse;
 
     /* System->Port Two menu */
     Gtk::Menu m_porttwomenu;
-    Gtk::RadioMenuItem m_porttwonone;
-    Gtk::RadioMenuItem m_porttwogamepad;
-    Gtk::RadioMenuItem m_porttwomultitap;
-    Gtk::RadioMenuItem m_porttwomouse;
-    Gtk::RadioMenuItem m_porttwosuperscope;
-    Gtk::RadioMenuItem m_porttwojustifier;
-    Gtk::RadioMenuItem m_porttwojustifiers;
+    Gtk::RadioMenuItem* m_porttwonone;
+    Gtk::RadioMenuItem* m_porttwogamepad;
+    Gtk::RadioMenuItem* m_porttwomultitap;
+    Gtk::RadioMenuItem* m_porttwomouse;
+    Gtk::RadioMenuItem* m_porttwosuperscope;
+    Gtk::RadioMenuItem* m_porttwojustifier;
+    Gtk::RadioMenuItem* m_porttwojustifiers;
 
     /*
     * The "Settings" Menu
@@ -91,16 +91,16 @@ public:
 
     /* Settings->Video Mode menu */
     Gtk::Menu m_videomodemenu;
-    Gtk::RadioMenuItem m_scaleone;
-    Gtk::RadioMenuItem m_scaletwo;
-    Gtk::RadioMenuItem m_scalethree;
-    Gtk::RadioMenuItem m_scalefour;
-    Gtk::RadioMenuItem m_scalefive;
+    Gtk::RadioMenuItem* m_scaleone;
+    Gtk::RadioMenuItem* m_scaletwo;
+    Gtk::RadioMenuItem* m_scalethree;
+    Gtk::RadioMenuItem* m_scalefour;
+    Gtk::RadioMenuItem* m_scalefive;
     Gtk::SeparatorMenuItem m_sep5;
     Gtk::CheckMenuItem m_correctaspectratio;
     Gtk::SeparatorMenuItem m_sep6;
-    Gtk::RadioMenuItem m_videontsc;
-    Gtk::RadioMenuItem m_videopal;
+    Gtk::RadioMenuItem* m_videontsc;
+    Gtk::RadioMenuItem* m_videopal;
 
     /*
     * The "Tools" Menu

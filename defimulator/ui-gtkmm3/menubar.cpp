@@ -31,20 +31,20 @@ MenuBar::MenuBar(void)
     m_loadcartspecial.set_submenu(m_loadcartspecialmenu);
 
     Gtk::RadioButtonGroup portonegroup;
-    m_portonenone = Gtk::RadioMenuItem(portonegroup);
-    m_portonegamepad = Gtk::RadioMenuItem(portonegroup);
-    m_portonemultitap = Gtk::RadioMenuItem(portonegroup);
-    m_portonemouse = Gtk::RadioMenuItem(portonegroup);
+    m_portonenone = new Gtk::RadioMenuItem(portonegroup);
+    m_portonegamepad = new Gtk::RadioMenuItem(portonegroup);
+    m_portonemultitap = new Gtk::RadioMenuItem(portonegroup);
+    m_portonemouse = new Gtk::RadioMenuItem(portonegroup);
 
-    m_portonenone.set_label("None");
-    m_portonegamepad.set_label("Gamepad");
-    m_portonemultitap.set_label("Multitap");
-    m_portonemouse.set_label("Mouse");
+    m_portonenone->set_label("None");
+    m_portonegamepad->set_label("Gamepad");
+    m_portonemultitap->set_label("Multitap");
+    m_portonemouse->set_label("Mouse");
 
-    m_portonemenu.append(m_portonenone);
-    m_portonemenu.append(m_portonegamepad);
-    m_portonemenu.append(m_portonemultitap);
-    m_portonemenu.append(m_portonemouse);
+    m_portonemenu.append(*m_portonenone);
+    m_portonemenu.append(*m_portonegamepad);
+    m_portonemenu.append(*m_portonemultitap);
+    m_portonemenu.append(*m_portonemouse);
     m_portonebutton.set_submenu(m_portonemenu);
 
     /*
@@ -55,29 +55,29 @@ MenuBar::MenuBar(void)
     * reason, all RadioMenuItem objects must be re-constructed.
     */
     Gtk::RadioButtonGroup porttwogroup;
-    m_porttwonone = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwogamepad = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwomultitap = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwomouse = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwosuperscope = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwojustifier = Gtk::RadioMenuItem(porttwogroup);
-    m_porttwojustifiers = Gtk::RadioMenuItem(porttwogroup);
+    m_porttwonone = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwogamepad = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwomultitap = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwomouse = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwosuperscope = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwojustifier = new Gtk::RadioMenuItem(porttwogroup);
+    m_porttwojustifiers = new Gtk::RadioMenuItem(porttwogroup);
 
-    m_porttwonone.set_label("None");
-    m_porttwogamepad.set_label("Gamepad");
-    m_porttwomultitap.set_label("Multitap");
-    m_porttwomouse.set_label("Mouse");
-    m_porttwosuperscope.set_label("Super Scope");
-    m_porttwojustifier.set_label("Justifier");
-    m_porttwojustifiers.set_label("Justifiers");
+    m_porttwonone->set_label("None");
+    m_porttwogamepad->set_label("Gamepad");
+    m_porttwomultitap->set_label("Multitap");
+    m_porttwomouse->set_label("Mouse");
+    m_porttwosuperscope->set_label("Super Scope");
+    m_porttwojustifier->set_label("Justifier");
+    m_porttwojustifiers->set_label("Justifiers");
 
-    m_porttwomenu.append(m_porttwonone);
-    m_porttwomenu.append(m_porttwogamepad);
-    m_porttwomenu.append(m_porttwomultitap);
-    m_porttwomenu.append(m_porttwomouse);
-    m_porttwomenu.append(m_porttwosuperscope);
-    m_porttwomenu.append(m_porttwojustifier);
-    m_porttwomenu.append(m_porttwojustifiers);
+    m_porttwomenu.append(*m_porttwonone);
+    m_porttwomenu.append(*m_porttwogamepad);
+    m_porttwomenu.append(*m_porttwomultitap);
+    m_porttwomenu.append(*m_porttwomouse);
+    m_porttwomenu.append(*m_porttwosuperscope);
+    m_porttwomenu.append(*m_porttwojustifier);
+    m_porttwomenu.append(*m_porttwojustifiers);
     m_porttwobutton.set_submenu(m_porttwomenu);
 
     m_sysmenu.append(m_loadcart);
@@ -102,35 +102,35 @@ MenuBar::MenuBar(void)
     m_advancedsettings.set_label("Advanced Settings ...");
 
     Gtk::RadioButtonGroup vidscalegroup;
-    m_scaleone = Gtk::RadioMenuItem(vidscalegroup);
-    m_scaletwo = Gtk::RadioMenuItem(vidscalegroup);
-    m_scalethree = Gtk::RadioMenuItem(vidscalegroup);
-    m_scalefour = Gtk::RadioMenuItem(vidscalegroup);
-    m_scalefive = Gtk::RadioMenuItem(vidscalegroup);
+    m_scaleone = new Gtk::RadioMenuItem(vidscalegroup);
+    m_scaletwo = new Gtk::RadioMenuItem(vidscalegroup);
+    m_scalethree = new Gtk::RadioMenuItem(vidscalegroup);
+    m_scalefour = new Gtk::RadioMenuItem(vidscalegroup);
+    m_scalefive = new Gtk::RadioMenuItem(vidscalegroup);
 
     Gtk::RadioButtonGroup videoregiongroup;
-    m_videontsc = Gtk::RadioMenuItem(videoregiongroup);
-    m_videopal = Gtk::RadioMenuItem(videoregiongroup);
+    m_videontsc = new Gtk::RadioMenuItem(videoregiongroup);
+    m_videopal = new Gtk::RadioMenuItem(videoregiongroup);
 
-    m_scaleone.set_label("Scale 1x");
-    m_scaletwo.set_label("Scale 2x");
-    m_scalethree.set_label("Scale 3x");
-    m_scalefour.set_label("Scale 4x");
-    m_scalefive.set_label("Scale 5x");
+    m_scaleone->set_label("Scale 1x");
+    m_scaletwo->set_label("Scale 2x");
+    m_scalethree->set_label("Scale 3x");
+    m_scalefour->set_label("Scale 4x");
+    m_scalefive->set_label("Scale 5x");
     m_correctaspectratio.set_label("Correct Aspect Ratio");
-    m_videontsc.set_label("NTSC");
-    m_videopal.set_label("PAL");
+    m_videontsc->set_label("NTSC");
+    m_videopal->set_label("PAL");
 
-    m_videomodemenu.append(m_scaleone);
-    m_videomodemenu.append(m_scaletwo);
-    m_videomodemenu.append(m_scalethree);
-    m_videomodemenu.append(m_scalefour);
-    m_videomodemenu.append(m_scalefive);
+    m_videomodemenu.append(*m_scaleone);
+    m_videomodemenu.append(*m_scaletwo);
+    m_videomodemenu.append(*m_scalethree);
+    m_videomodemenu.append(*m_scalefour);
+    m_videomodemenu.append(*m_scalefive);
     m_videomodemenu.append(m_sep5);
     m_videomodemenu.append(m_correctaspectratio);
     m_videomodemenu.append(m_sep6);
-    m_videomodemenu.append(m_videontsc);
-    m_videomodemenu.append(m_videopal);
+    m_videomodemenu.append(*m_videontsc);
+    m_videomodemenu.append(*m_videopal);
     m_videomode.set_submenu(m_videomodemenu);
 
     m_settingsmenu.append(m_videomode);
@@ -212,14 +212,34 @@ MenuBar::MenuBar(void)
     * will be a mechanism built in to parse settings and configure the
     * GUI appropriately.
     */
-    m_portonegamepad.set_active(true);
-    m_porttwonone.set_active(true);
-    m_scaletwo.set_active(true);
+    m_portonegamepad->set_active(true);
+    m_porttwonone->set_active(true);
+    m_scaletwo->set_active(true);
     m_correctaspectratio.set_active(true);
     m_synchronizeaudio.set_active(true);
 }
 
 MenuBar::~MenuBar(void)
 {
+    delete(m_portonenone);
+    delete(m_portonegamepad);
+    delete(m_portonemultitap);
+    delete(m_portonemouse);
 
+    delete(m_porttwonone);
+    delete(m_porttwogamepad);
+    delete(m_porttwomultitap);
+    delete(m_porttwomouse);
+    delete(m_porttwosuperscope);
+    delete(m_porttwojustifier);
+    delete(m_porttwojustifiers);
+
+    delete(m_scaleone);
+    delete(m_scaletwo);
+    delete(m_scalethree);
+    delete(m_scalefour);
+    delete(m_scalefive);
+
+    delete(m_videontsc);
+    delete(m_videopal);
 }

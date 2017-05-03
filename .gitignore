@@ -3,6 +3,8 @@ build
 bsnes/obj/*
 bsnes/out/*
 snesfilter/out/*
+CMakeFiles/
+CMakeCache.txt
 
 # Trash files
 *.swp
