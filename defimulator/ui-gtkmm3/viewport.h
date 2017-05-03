@@ -5,6 +5,11 @@
 
 class Viewport : public Gtk::DrawingArea {
 public:
+    enum Mode {
+        NTSC,
+        PAL
+    };
+
     Viewport(void);
     virtual ~Viewport(void);
 private:
