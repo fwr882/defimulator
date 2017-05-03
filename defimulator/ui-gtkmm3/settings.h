@@ -5,6 +5,7 @@
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/frame.h>
 #include <gtkmm/grid.h>
+#include <gtkmm/hvscale.h>
 #include <gtkmm/label.h>
 #include <gtkmm/radiomenuitem.h>
 #include <gtkmm/window.h>
@@ -30,6 +31,26 @@ public:
     AdvancedSettings(void);
     virtual ~AdvancedSettings(void);
     void create(void);
+};
+
+class AudioSettings : public Gtk::Window {
+public:
+    Gtk::Label m_volumelabel;
+    Gtk::Label m_volumevalue;
+    Gtk::HScale m_volumeslider;
+    Gtk::Box m_volbox;
+
+    Gtk::Label m_frequencylabel;
+    Gtk::Label m_frequencyvalue;
+    Gtk::HScale m_frequencyslider;
+    Gtk::Box m_freqbox;
+
+    Gtk::Grid m_grid;
+    Gtk::Box m_vbox;
+
+    AudioSettings(void);
+    virtual ~AudioSettings(void);
+    void synchronize(void);
 };
 
 #endif

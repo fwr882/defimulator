@@ -12,8 +12,11 @@ MainWindow::MainWindow(void)
 
     m_menubar.m_advancedsettings.signal_activate().connect(
         sigc::mem_fun(m_advancedsettings, &AdvancedSettings::show_all));
+    m_menubar.m_audiosettings.signal_activate().connect(
+        sigc::mem_fun(m_audiosettings, &AudioSettings::show_all));
 
     this->add(m_vbox);
+    this->set_title("Defimulator");
     this->show_all();
 }
 

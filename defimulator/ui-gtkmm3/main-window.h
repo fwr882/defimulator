@@ -24,6 +24,7 @@ protected:
     Gtk::Box m_vbox;
 private:
     AdvancedSettings m_advancedsettings;
+    AudioSettings m_audiosettings;
 };
 
 #endif

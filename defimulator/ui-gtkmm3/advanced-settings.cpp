@@ -62,6 +62,7 @@ AdvancedSettings::AdvancedSettings(void)
     m_vbox.pack_start(m_policybox);
 
     this->add(m_vbox);
+    this->set_title("Advanced Settings");
 }
 
 AdvancedSettings::~AdvancedSettings(void) { }

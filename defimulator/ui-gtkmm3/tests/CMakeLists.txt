@@ -13,6 +13,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 add_executable(gtkmm_test
     main.cpp
     ../advanced-settings.cpp
+    ../audio-settings.cpp
     ../configuration.cpp
     ../main-window.cpp
     ../menubar.cpp
