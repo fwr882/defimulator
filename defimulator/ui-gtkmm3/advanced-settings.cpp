@@ -42,13 +42,19 @@ AdvancedSettings::AdvancedSettings(void)
 
     /* Must re-create buttons here to be able to group them together */
     Gtk::RadioButtonGroup group;
-    m_focuspolicypause = Gtk::RadioMenuItem(group);
-    m_focuspolicyignore = Gtk::RadioMenuItem(group);
-    m_focuspolicyallow = Gtk::RadioMenuItem(group);
+    m_focuspolicypause = Gtk::RadioButton(group);
+    m_focuspolicyignore = Gtk::RadioButton(group);
+    m_focuspolicyallow = Gtk::RadioButton(group);
 
     m_focuspolicypause.set_label("Pause Emulator When Inactive");
     m_focuspolicyignore.set_label("Ignore Input When Inactive");
     m_focuspolicyallow.set_label("Always Allow Input");
+
+    m_vbox.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
+    m_vbox.pack_start(m_driverselectionlabel);
+    m_vbox.pack_start(m_videodriverlabel);
+    m_vbox.pack_start(m_audiodriverlabel);
+    m_vbox.pack_start(m_inputdriverlabel);
 
     m_policybox.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
     m_policybox.pack_start(m_focuspolicypause);
@@ -60,6 +66,8 @@ AdvancedSettings::AdvancedSettings(void)
     m_vbox.pack_start(m_driverbox);
     m_vbox.pack_start(m_focuspolicylabel);
     m_vbox.pack_start(m_policybox);
+
+    this->add(m_vbox);
 }
 
 AdvancedSettings::~AdvancedSettings(void) { }

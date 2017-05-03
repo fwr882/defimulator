@@ -10,6 +10,9 @@ MainWindow::MainWindow(void)
     m_vbox.pack_start(m_viewport);
     m_vbox.pack_start(m_statusbar);
 
+    m_menubar.m_advancedsettings.signal_activate().connect(
+        sigc::mem_fun(m_advancedsettings, &AdvancedSettings::show_all));
+
     this->add(m_vbox);
     this->show_all();
 }
