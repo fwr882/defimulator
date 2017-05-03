@@ -44,12 +44,6 @@ AdvancedSettings::AdvancedSettings(void)
     m_focuspolicyignore.set_label("Ignore Input When Inactive");
     m_focuspolicyallow.set_label("Always Allow Input");
 
-    m_vbox.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
-    m_vbox.pack_start(m_driverselectionlabel);
-    m_vbox.pack_start(m_videodriverlabel);
-    m_vbox.pack_start(m_audiodriverlabel);
-    m_vbox.pack_start(m_inputdriverlabel);
-
     m_policybox.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
     m_policybox.pack_start(m_focuspolicypause);
     m_policybox.pack_start(m_focuspolicyignore);

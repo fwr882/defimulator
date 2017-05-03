@@ -22,10 +22,10 @@ AudioSettings::AudioSettings(void)
     m_grid.set_column_homogeneous(true);
     m_grid.attach(m_volumelabel, 1, 1, 1, 1);
     m_grid.attach(m_volumevalue, 2, 1, 1, 1);
-    m_grid.attach(m_volumeslider, 3, 1, 2, 1);
+    m_grid.attach(m_volumeslider, 3, 1, 3, 1);
     m_grid.attach(m_frequencylabel, 1, 2, 1, 1);
     m_grid.attach(m_frequencyvalue, 2, 2, 1, 1);
-    m_grid.attach(m_frequencyslider, 3, 2, 2, 1);
+    m_grid.attach(m_frequencyslider, 3, 2, 3, 1);
 
     m_frequencyslider.signal_value_changed().connect(
         sigc::mem_fun(*this, &AudioSettings::synchronize));
