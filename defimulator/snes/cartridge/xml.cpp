@@ -20,16 +20,16 @@ void Cartridge::parse_xml_cartridge(const char *data) {
   xml_element document = xml_parse(data);
   if(document.element.size() == 0) return;
 
-  foreach(head, document.element) {
+  nall_foreach(head, document.element) {
     if(head.name == "cartridge") {
-      foreach(attr, head.attribute) {
+      nall_foreach(attr, head.attribute) {
         if(attr.name == "region") {
           if(attr.content == "NTSC") region = Region::NTSC;
           if(attr.content == "PAL") region = Region::PAL;
         }
       }
 
-      foreach(node, head.element) {
+      nall_foreach(node, head.element) {
         if(node.name == "rom") xml_parse_rom(node);
         if(node.name == "ram") xml_parse_ram(node);
         if(node.name == "icd2") xml_parse_icd2(node);
@@ -61,10 +61,10 @@ void Cartridge::parse_xml_gameboy(const char *data) {
 }
 
 void Cartridge::xml_parse_rom(xml_element &root) {
-  foreach(leaf, root.element) {
+  nall_foreach(leaf, root.element) {
     if(leaf.name == "map") {
       Mapping m(memory::cartrom);
-      foreach(attr, leaf.attribute) {
+      nall_foreach(attr, leaf.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
         if(attr.name == "mode") xml_parse_mode(m, attr.content);
         if(attr.name == "offset") m.offset = hex(attr.content);
@@ -76,14 +76,14 @@ void Cartridge::xml_parse_rom(xml_element &root) {
 }
 
 void Cartridge::xml_parse_ram(xml_element &root) {
-  foreach(attr, root.attribute) {
+  nall_foreach(attr, root.attribute) {
     if(attr.name == "size") ram_size = hex(attr.content);
   }
 
-  foreach(leaf, root.element) {
+  nall_foreach(leaf, root.element) {
     if(leaf.name == "map") {
       Mapping m(memory::cartram);
-      foreach(attr, leaf.attribute) {
+      nall_foreach(attr, leaf.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
         if(attr.name == "mode") xml_parse_mode(m, attr.content);
         if(attr.name == "offset") m.offset = hex(attr.content);
@@ -98,17 +98,17 @@ void Cartridge::xml_parse_icd2(xml_element &root) {
   if(mode != Mode::SuperGameBoy) return;
   icd2.revision = 1;
 
-  foreach(attr, root.attribute) {
+  nall_foreach(attr, root.attribute) {
     if(attr.name == "revision") {
       if(attr.content == "1") icd2.revision = 1;
       if(attr.content == "2") icd2.revision = 2;
     }
   }
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "map") {
       Mapping m((Memory&)icd2);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -119,12 +119,12 @@ void Cartridge::xml_parse_icd2(xml_element &root) {
 void Cartridge::xml_parse_superfx(xml_element &root) {
   has_superfx = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "rom") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::fxrom);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -134,14 +134,14 @@ void Cartridge::xml_parse_superfx(xml_element &root) {
         }
       }
     } else if(node.name == "ram") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "size") ram_size = hex(attr.content);
       }
 
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::fxram);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -151,10 +151,10 @@ void Cartridge::xml_parse_superfx(xml_element &root) {
         }
       }
     } else if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(superfx);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
@@ -167,12 +167,12 @@ void Cartridge::xml_parse_superfx(xml_element &root) {
 void Cartridge::xml_parse_sa1(xml_element &root) {
   has_sa1 = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "rom") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::vsprom);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -182,10 +182,10 @@ void Cartridge::xml_parse_sa1(xml_element &root) {
         }
       }
     } else if(node.name == "iram") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::cpuiram);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -195,14 +195,14 @@ void Cartridge::xml_parse_sa1(xml_element &root) {
         }
       }
     } else if(node.name == "bwram") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "size") ram_size = hex(attr.content);
       }
 
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::cc1bwram);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -212,10 +212,10 @@ void Cartridge::xml_parse_sa1(xml_element &root) {
         }
       }
     } else if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(sa1);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
@@ -236,7 +236,7 @@ void Cartridge::xml_parse_necdsp(xml_element &root) {
   string program, programhash;
   string sha256;
 
-  foreach(attr, root.attribute) {
+  nall_foreach(attr, root.attribute) {
     if(attr.name == "revision") {
       if(attr.content == "upd7725" ) necdsp.revision = NECDSP::Revision::uPD7725;
       if(attr.content == "upd96050") necdsp.revision = NECDSP::Revision::uPD96050;
@@ -269,28 +269,28 @@ void Cartridge::xml_parse_necdsp(xml_element &root) {
       sha256_chunk(&sha, data, filesize);
       sha256_final(&sha);
       sha256_hash(&sha, shahash);
-      foreach(n, shahash) programhash.append(hex<2>(n));
+      nall_foreach(n, shahash) programhash.append(hex<2>(n));
     }
     fp.close();
   }
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "dr") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "mask") necdsp.drmask = hex(attr.content);
         if(attr.name == "test") necdsp.drtest = hex(attr.content);
       }
     }
 
     if(node.name == "sr") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "mask") necdsp.srmask = hex(attr.content);
         if(attr.name == "test") necdsp.srtest = hex(attr.content);
       }
     }
 
     if(node.name == "dp") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "mask") necdsp.dpmask = hex(attr.content);
         if(attr.name == "test") necdsp.dptest = hex(attr.content);
       }
@@ -298,7 +298,7 @@ void Cartridge::xml_parse_necdsp(xml_element &root) {
 
     if(node.name == "map") {
       Mapping m(necdsp);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -319,12 +319,12 @@ void Cartridge::xml_parse_necdsp(xml_element &root) {
 void Cartridge::xml_parse_bsx(xml_element &root) {
   if(mode != Mode::BsxSlotted && mode != Mode::Bsx) return;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "slot") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(memory::bsxflash);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -334,10 +334,10 @@ void Cartridge::xml_parse_bsx(xml_element &root) {
         }
       }
     } else if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(bsxcart);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
@@ -350,22 +350,22 @@ void Cartridge::xml_parse_bsx(xml_element &root) {
 void Cartridge::xml_parse_sufamiturbo(xml_element &root) {
   if(mode != Mode::SufamiTurbo) return;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "slot") {
       bool slotid = 0;
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "id") {
           if(attr.content == "A") slotid = 0;
           if(attr.content == "B") slotid = 1;
         }
       }
 
-      foreach(slot, node.element) {
+      nall_foreach(slot, node.element) {
         if(slot.name == "rom") {
-          foreach(leaf, slot.element) {
+          nall_foreach(leaf, slot.element) {
             if(leaf.name == "map") {
               Mapping m(slotid == 0 ? memory::stArom : memory::stBrom);
-              foreach(attr, leaf.attribute) {
+              nall_foreach(attr, leaf.attribute) {
                 if(attr.name == "address") xml_parse_address(m, attr.content);
                 if(attr.name == "mode") xml_parse_mode(m, attr.content);
                 if(attr.name == "offset") m.offset = hex(attr.content);
@@ -375,10 +375,10 @@ void Cartridge::xml_parse_sufamiturbo(xml_element &root) {
             }
           }
         } else if(slot.name == "ram") {
-          foreach(leaf, slot.element) {
+          nall_foreach(leaf, slot.element) {
             if(leaf.name == "map") {
               Mapping m(slotid == 0 ? memory::stAram : memory::stBram);
-              foreach(attr, leaf.attribute) {
+              nall_foreach(attr, leaf.attribute) {
                 if(attr.name == "address") xml_parse_address(m, attr.content);
                 if(attr.name == "mode") xml_parse_mode(m, attr.content);
                 if(attr.name == "offset") m.offset = hex(attr.content);
@@ -396,10 +396,10 @@ void Cartridge::xml_parse_sufamiturbo(xml_element &root) {
 void Cartridge::xml_parse_srtc(xml_element &root) {
   has_srtc = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "map") {
       Mapping m(srtc);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -410,22 +410,22 @@ void Cartridge::xml_parse_srtc(xml_element &root) {
 void Cartridge::xml_parse_sdd1(xml_element &root) {
   has_sdd1 = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "mcu") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m((Memory&)sdd1);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
         }
       }
     } else if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m((MMIO&)sdd1);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
@@ -439,22 +439,22 @@ void Cartridge::xml_parse_spc7110(xml_element &root) {
   has_spc7110 = true;
   spc7110.data_rom_offset = 0x100000;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "dcu") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(spc7110dcu);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
         }
       }
     } else if(node.name == "mcu") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(spc7110mcu);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "offset") spc7110.data_rom_offset = hex(attr.content);
           }
@@ -462,24 +462,24 @@ void Cartridge::xml_parse_spc7110(xml_element &root) {
         }
       }
     } else if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(spc7110);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
         }
       }
     } else if(node.name == "ram") {
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "size") ram_size = hex(attr.content);
       }
 
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(spc7110ram);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
             if(attr.name == "mode") xml_parse_mode(m, attr.content);
             if(attr.name == "offset") m.offset = hex(attr.content);
@@ -491,10 +491,10 @@ void Cartridge::xml_parse_spc7110(xml_element &root) {
     } else if(node.name == "rtc") {
       has_spc7110rtc = true;
 
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(spc7110);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);
@@ -507,10 +507,10 @@ void Cartridge::xml_parse_spc7110(xml_element &root) {
 void Cartridge::xml_parse_cx4(xml_element &root) {
   has_cx4 = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "map") {
       Mapping m(cx4);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -521,10 +521,10 @@ void Cartridge::xml_parse_cx4(xml_element &root) {
 void Cartridge::xml_parse_obc1(xml_element &root) {
   has_obc1 = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "map") {
       Mapping m(obc1);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -535,7 +535,7 @@ void Cartridge::xml_parse_obc1(xml_element &root) {
 void Cartridge::xml_parse_setarisc(xml_element &root) {
   unsigned program = 0;
 
-  foreach(attr, root.attribute) {
+  nall_foreach(attr, root.attribute) {
     if(attr.name == "program") {
       if(attr.content == "ST-0018") {
         program = 1;
@@ -546,10 +546,10 @@ void Cartridge::xml_parse_setarisc(xml_element &root) {
 
   MMIO *map[2] = { 0, &st0018 };
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "map" && map[program]) {
       Mapping m(*map[program]);
-      foreach(attr, node.attribute) {
+      nall_foreach(attr, node.attribute) {
         if(attr.name == "address") xml_parse_address(m, attr.content);
       }
       mapping.append(m);
@@ -560,12 +560,12 @@ void Cartridge::xml_parse_setarisc(xml_element &root) {
 void Cartridge::xml_parse_msu1(xml_element &root) {
   has_msu1 = true;
 
-  foreach(node, root.element) {
+  nall_foreach(node, root.element) {
     if(node.name == "mmio") {
-      foreach(leaf, node.element) {
+      nall_foreach(leaf, node.element) {
         if(leaf.name == "map") {
           Mapping m(msu1);
-          foreach(attr, leaf.attribute) {
+          nall_foreach(attr, leaf.attribute) {
             if(attr.name == "address") xml_parse_address(m, attr.content);
           }
           mapping.append(m);

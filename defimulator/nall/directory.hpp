@@ -123,7 +123,7 @@ inline lstring directory::contents(const string &pathname,
     /* pattern search of contents() should only filter files. */
     lstring folders = directory::folders(pathname);
     lstring files = directory::files(pathname, pattern);
-    foreach (file, files) {
+    nall_foreach (file, files) {
         folders.append(file);
     }
     return folders;
@@ -212,7 +212,7 @@ inline lstring directory::contents(const string &pathname,
     /* pattern search of contents() should only filter files. */
     lstring folders = directory::folders(pathname);
     lstring files = directory::files(pathname, pattern);
-    foreach (file, files) {
+    nall_foreach (file, files) {
         folders.append(file);
     }
 

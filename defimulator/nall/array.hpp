@@ -82,7 +82,7 @@ public:
         resize(buffersize + listsize);
         memmove(pool + index + listsize, pool + index,
             (buffersize - index) * sizeof(T));
-        foreach (item, list) {
+        nall_foreach (item, list) {
             pool[index++] = item;
         }
     }

@@ -87,9 +87,9 @@ void PPU::frame() {
 }
 
 void PPU::power() {
-  foreach(n, memory::vram) n = 0;
-  foreach(n, memory::oam) n = 0;
-  foreach(n, memory::cgram) n = 0;
+  nall_foreach(n, memory::vram) n = 0;
+  nall_foreach(n, memory::oam) n = 0;
+  nall_foreach(n, memory::cgram) n = 0;
   reset();
 }
 

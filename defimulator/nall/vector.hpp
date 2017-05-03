@@ -106,7 +106,7 @@ public:
             merged.append(pool[i]);
         }
 
-        foreach (item, list) {
+        nall_foreach (item, list) {
             merged.append(item);
         }
 
@@ -296,7 +296,7 @@ public:
             merged.append(*pool[i]);
         }
 
-        foreach (item, list) merged.append(item);
+        nall_foreach (item, list) merged.append(item);
 
         for (unsigned i = index; i < objectsize; i++) {
             merged.append(*pool[i]);

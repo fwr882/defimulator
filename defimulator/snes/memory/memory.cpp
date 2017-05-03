@@ -141,7 +141,7 @@ void Bus::map_reset() {
 }
 
 void Bus::map_xml() {
-  foreach(m, cartridge.mapping) {
+  nall_foreach(m, cartridge.mapping) {
     if(m.memory) {
       map(m.mode, m.banklo, m.bankhi, m.addrlo, m.addrhi, *m.memory, m.offset, m.size);
     } else if(m.mmio) {
@@ -157,7 +157,7 @@ void Bus::map_system() {
 }
 
 void Bus::power() {
-  foreach(n, memory::wram) n = config.cpu.wram_init_value;
+  nall_foreach(n, memory::wram) n = config.cpu.wram_init_value;
 }
 
 void Bus::reset() {

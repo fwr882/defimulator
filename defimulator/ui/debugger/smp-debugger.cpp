@@ -54,7 +54,7 @@ void SMPDebugger::refreshDisassembly(void)
     uint8_t *usage = SNES::smp.usage;
 
     signed offset[15];
-    foreach (n, offset) {
+    nall_foreach (n, offset) {
         n = -1;
     }
 

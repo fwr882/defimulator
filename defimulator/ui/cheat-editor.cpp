@@ -17,19 +17,19 @@ void CheatEditor::load(string filename)
     string data;
     data.readfile(string(filename, ".cht"));
     xml_element document = xml_parse(data);
-    foreach (head, document.element) {
+    nall_foreach (head, document.element) {
         if (head.name == "cartridge") {
-            foreach (node, head.element) {
+            nall_foreach (node, head.element) {
                 if (node.name == "cheat") {
                     bool enabled = false;
                     string description;
                     string code;
-                    foreach (attribute, node.attribute) {
+                    nall_foreach (attribute, node.attribute) {
                         if (attribute.name == "enabled") {
                             enabled = (attribute.parse() == "true");
                         }
                     }
-                    foreach (element, node.element) {
+                    nall_foreach (element, node.element) {
                         if (element.name == "description") {
                             description = element.parse();
                         } else if (element.name == "code") {
@@ -80,7 +80,7 @@ void CheatEditor::save(string filename)
                 cheatText[i][CheatDesc], "]]></description>\n"));
             lstring list;
             list.split("+", cheatText[i][CheatCode]);
-            foreach (code, list) {
+            nall_foreach (code, list) {
                 fp.print(string("    <code>", code, "</code>\n"));
             }
             fp.print(string("  </cheat>\n"));
@@ -248,14 +248,14 @@ void CheatEditor::findCodes(void)
         databaseCode.reset();
 
         xml_element document = xml_parse(xmlData);
-        foreach (root, document.element) {
+        nall_foreach (root, document.element) {
             if (root.name == "cartridge") {
-                foreach(node, root.element) {
+                nall_foreach(node, root.element) {
                     if (node.name == "name") {
                         databaseWindow.setTitle(node.parse());
                     } else if(node.name == "cheat") {
                         string description, code;
-                        foreach (element, node.element) {
+                        nall_foreach (element, node.element) {
                             if (element.name == "description") {
                                 description = element.parse();
                             } else if (element.name == "code") {

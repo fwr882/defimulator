@@ -195,7 +195,7 @@ void ListBox::addItem(const string &text)
     gtk_list_store_append(listBox->store, &iter);
 
     unsigned index = 1;
-    foreach(item, list) {
+    nall_foreach(item, list) {
         gtk_list_store_set(listBox->store, &iter, index++,
             (const char*)item, -1);
     }
@@ -220,7 +220,7 @@ void ListBox::setItem(unsigned row, const string &text)
     list.split("\t", text);
     unsigned index = 1;
 
-    foreach(item, list) {
+    nall_foreach(item, list) {
         gtk_list_store_set(listBox->store, &iter, index++,
             (const char*)item, -1);
     }

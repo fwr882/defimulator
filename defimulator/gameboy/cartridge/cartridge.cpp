@@ -34,9 +34,9 @@ void Cartridge::load(const string &xml, uint8_t *data, unsigned size)
     info.ramsize = 0;
 
     xml_element document = xml_parse(xml);
-    foreach (head, document.element) {
+    nall_foreach (head, document.element) {
         if (head.name == "cartridge") {
-            foreach (attr, head.attribute) {
+            nall_foreach (attr, head.attribute) {
                 if (attr.name == "mapper") {
                     if (attr.content == "none") {
                         info.mapper = Mapper::MBC0;
@@ -88,9 +88,9 @@ void Cartridge::load(const string &xml, uint8_t *data, unsigned size)
                 }
             }
 
-            foreach (elem, head.element) {
+            nall_foreach (elem, head.element) {
                 if (elem.name == "rom") {
-                    foreach (attr, elem.attribute) {
+                    nall_foreach (attr, elem.attribute) {
                         if(attr.name == "size") {
                             info.romsize = hex(attr.content);
                         }
@@ -99,7 +99,7 @@ void Cartridge::load(const string &xml, uint8_t *data, unsigned size)
 
                 if (elem.name == "ram") {
                     info.ram = true;
-                    foreach (attr, elem.attribute) {
+                    nall_foreach (attr, elem.attribute) {
                         if (attr.name == "size") {
                             info.ramsize = hex(attr.content);
                         }

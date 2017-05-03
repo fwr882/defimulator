@@ -141,7 +141,7 @@ void Application::main(int argc, char **argv)
 
     cartridge.unload();
     saveGeometry();
-    foreach(window, windows) {
+    nall_foreach(window, windows) {
         window->setVisible(false);
     }
 
@@ -180,7 +180,7 @@ void Application::loadGeometry()
 {
     geometryConfig.load(string(config.path.user,
         "defimulator-phoenix-geomtery.cfg"));
-    foreach(window, windows) {
+    nall_foreach(window, windows) {
         lstring position;
         position.split(",", window->position);
         Geometry geom = window->geometry();
@@ -191,7 +191,7 @@ void Application::loadGeometry()
 
 void Application::saveGeometry()
 {
-    foreach(window, windows) {
+    nall_foreach(window, windows) {
         Geometry geom = window->geometry();
         window->position = { geom.x, ",", geom.y };
     }

@@ -92,11 +92,11 @@ void FileBrowser::setFolder(const string &pathname)
     folder.transform("\\", "/");
     pathBox.setText(folder);
     lstring contentsList = directory::contents(folder);
-    foreach(item, contentsList) {
+    nall_foreach(item, contentsList) {
         if (strend(item, "/")) {
             contents.append(item);
         } else {
-            foreach (filter, filters) {
+            nall_foreach (filter, filters) {
                 if (strend(item, filter)) {
                     contents.append(item);
                     break;
@@ -105,7 +105,7 @@ void FileBrowser::setFolder(const string &pathname)
         }
     }
 
-    foreach (item, contents) {
+    nall_foreach (item, contents) {
         contentsBox.addItem(item);
     }
 
@@ -155,7 +155,7 @@ string FileBrowser::cartridgeFolder(const string &pathname)
 
     lstring list = directory::files(string(folder, "/", pathname));
     string filename;
-    foreach (item, list) {
+    nall_foreach (item, list) {
         if (strend(item, ".sfc")) {
             if (filename != "") {
                 /* more than one cartridge in this folder. */

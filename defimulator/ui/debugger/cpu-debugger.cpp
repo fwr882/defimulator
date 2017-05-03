@@ -56,7 +56,7 @@ void CPUDebugger::refreshDisassembly(void)
     uint8_t *usage = SNES::cpu.usage;
 
     signed offset[15];
-    foreach (n, offset) {
+    nall_foreach (n, offset) {
         n = -1;
     }
 

@@ -69,10 +69,10 @@ void Cartridge::load(Mode cartridge_mode, const lstring &xml_list) {
   memory::stBrom.write_protect(true);
   memory::stBram.write_protect(false);
 
-  unsigned checksum = ~0;                                           foreach(n, memory::cartrom ) checksum = crc32_adjust(checksum, n);
-  if(memory::bsxflash.size() != 0 && memory::bsxflash.size() != ~0) foreach(n, memory::bsxflash) checksum = crc32_adjust(checksum, n);
-  if(memory::stArom.size()   != 0 && memory::stArom.size()   != ~0) foreach(n, memory::stArom  ) checksum = crc32_adjust(checksum, n);
-  if(memory::stBrom.size()   != 0 && memory::stBrom.size()   != ~0) foreach(n, memory::stBrom  ) checksum = crc32_adjust(checksum, n);
+  unsigned checksum = ~0;                                           nall_foreach(n, memory::cartrom ) checksum = crc32_adjust(checksum, n);
+  if(memory::bsxflash.size() != 0 && memory::bsxflash.size() != ~0) nall_foreach(n, memory::bsxflash) checksum = crc32_adjust(checksum, n);
+  if(memory::stArom.size()   != 0 && memory::stArom.size()   != ~0) nall_foreach(n, memory::stArom  ) checksum = crc32_adjust(checksum, n);
+  if(memory::stBrom.size()   != 0 && memory::stBrom.size()   != ~0) nall_foreach(n, memory::stBrom  ) checksum = crc32_adjust(checksum, n);
   crc32 = ~checksum;
 
   sha256_ctx sha;
@@ -83,7 +83,7 @@ void Cartridge::load(Mode cartridge_mode, const lstring &xml_list) {
   sha256_hash(&sha, shahash);
 
   string hash;
-  foreach(n, shahash) hash << hex<2>(n);
+  nall_foreach(n, shahash) hash << hex<2>(n);
   sha256 = hash;
 
   bus.load_cart();

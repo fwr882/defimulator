@@ -166,7 +166,7 @@ string OS::fileOpen(Window &parent, const string &filter, const string &path)
 
     lstring list;
     list.split("\n", filter);
-    foreach (item, list) {
+    nall_foreach (item, list) {
         lstring part;
         part.split("\t", item);
         GtkFileFilter *filter = gtk_file_filter_new();
@@ -174,7 +174,7 @@ string OS::fileOpen(Window &parent, const string &filter, const string &path)
         lstring patterns;
         patterns.split(",", part[1]);
 
-        foreach (pattern, patterns) {
+        nall_foreach (pattern, patterns) {
             gtk_file_filter_add_pattern(filter, pattern);
         }
 
@@ -214,7 +214,7 @@ string OS::fileSave(Window &parent, const string &filter, const string &path)
 
     lstring list;
     list.split("\n", filter);
-    foreach (item, list) {
+    nall_foreach (item, list) {
         lstring part;
         part.split("\t", item);
         GtkFileFilter *filter = gtk_file_filter_new();
@@ -222,7 +222,7 @@ string OS::fileSave(Window &parent, const string &filter, const string &path)
         lstring patterns;
         patterns.split(",", part[1]);
 
-        foreach (pattern, patterns) {
+        nall_foreach (pattern, patterns) {
             gtk_file_filter_add_pattern(filter, pattern);
         }
 

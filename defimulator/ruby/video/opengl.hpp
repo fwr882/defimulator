@@ -168,15 +168,15 @@ public:
             string vertex_source;
 
             xml_element document = xml_parse(source);
-            foreach (head, document.element) {
+            nall_foreach (head, document.element) {
                 if (head.name == "shader") {
-                    foreach (attribute, head.attribute) {
+                    nall_foreach (attribute, head.attribute) {
                         if (attribute.name == "language" &&
                             attribute.content == "GLSL") {
                             is_glsl = true;
                         }
                     }
-                    foreach (element, head.element) {
+                    nall_foreach (element, head.element) {
                         if (element.name == "fragment") {
                             fragment_source = element.parse();
                         } else if(element.name == "vertex") {
