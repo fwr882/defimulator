@@ -2,7 +2,9 @@
 #define DEFIMULATOR_UI_SETTINGS_H
 
 #include <gtkmm/box.h>
-#include <gtkmm/comboboxtext.h>
+//#include <gtkmm/comboboxtext.h>
+#include <gtkmm/frame.h>
+#include <gtkmm/grid.h>
 #include <gtkmm/label.h>
 #include <gtkmm/radiomenuitem.h>
 #include <gtkmm/window.h>
@@ -17,9 +19,9 @@ public:
     Gtk::Label m_inputdriverlabel;
     //Gtk::ComboBoxText m_inputdriverbox;
     Gtk::Label m_focuspolicylabel;
-    Gtk::RadioMenuItem m_focuspolicypause;
-    Gtk::RadioMenuItem m_focuspolicyignore;
-    Gtk::RadioMenuItem m_focuspolicyallow;
+    Gtk::RadioButton m_focuspolicypause;
+    Gtk::RadioButton m_focuspolicyignore;
+    Gtk::RadioButton m_focuspolicyallow;
 
     Gtk::Box m_vbox;
     Gtk::Box m_driverbox;
