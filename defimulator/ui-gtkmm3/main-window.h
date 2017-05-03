@@ -5,7 +5,10 @@
 #include <gtkmm/window.h>
 #include <gtkmm/statusbar.h>
 
+#include <nall/config.hpp>
+
 #include "menubar.h"
+#include "settings.h"
 #include "viewport.h"
 
 class MainWindow : public Gtk::Window {
@@ -20,7 +23,7 @@ protected:
 
     Gtk::Box m_vbox;
 private:
-
+    AdvancedSettings m_advancedsettings;
 };
 
 #endif
