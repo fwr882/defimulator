@@ -153,11 +153,6 @@ list(APPEND sources
     snes/chip/msu1/msu1.cpp
     snes/chip/serial/serial.cpp
 
-    ## So main() is redefined in this file, but I'm not sure
-    ## what the launcher does that the defim binary doesn't
-    ## already do.  Meanwhile, I'll just excluse this file
-    # launcher/launcher.cpp
-
     gameboy/system/system.cpp
     gameboy/scheduler/scheduler.cpp
     gameboy/memory/memory.cpp
@@ -196,72 +191,36 @@ elseif(EMULATION_PROFILE STREQUAL "PERFORMANCE")
     )
 endif()
 
-add_executable(defimulator ${sources})
-
-if(BUILD_LAUNCHER)
-    add_executable(launcher
-        launcher/launcher.cpp
-    )
-endif()
+## Library logic.  Different for Win32 and *NIX for now.
+list(APPEND libraries ${OPENGL_LIBRARIES})
 
 if(WIN32)
+    list(APPEND libraries
+        ming32
+        dsound
+        dxguid
+        dinpu8
+        comctl32)
     if(BUILD_GTKMM3)
-        target_link_libraries(defimulator
-            mingw32
-            ${OPENGL_LIBRARIES}
-            ${GTKMM3_LIBRARIES}
-            dsound
-            dxguid
-            dinput8
-            comctl32
-        )
-    else()
-        target_link_libraries(defimulator
-            mingw32
-            ${OPENGL_LIBRARIES}
-            dsound
-            dxguid
-            dinput8
-            comctl32
-        )
+        list(APPEND libraries ${GTKMM3_LIBRARIES})
     endif()
 else()
+    list(APPEND libraries
+        ${SDL_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${ALSA_LIBRARIES}
+        ${PULSE_LIBRARIES}
+        # For -ldl on *nix
+        ${CMAKE_DL_LIBS})
     if(BUILD_GTKMM3)
-        target_link_libraries(defimulator
-            # Toolkit libraries
-            ${GTKMM3_LIBRARIES}
-
-            # Graphics Libraries
-            ${OPENGL_LIBRARIES}
-            ${SDL_LIBRARIES}
-            ${X11_LIBRARIES}
-
-            # Audio Libraries
-            ${ALSA_LIBRARIES}
-            ${PULSE_LIBRARIES}
-
-            # For -ldl on *nix
-            ${CMAKE_DL_LIBS}
-        )
+        list(APPEND libraries ${GTKMM3_LIBRARIES})
     else()
-        target_link_libraries(defimulator
-            # Toolkit libraries
-            ${GTK_LIBRARIES}
-
-            # Graphics Libraries
-            ${OPENGL_LIBRARIES}
-            ${SDL_LIBRARIES}
-            ${X11_LIBRARIES}
-
-            # Audio Libraries
-            ${ALSA_LIBRARIES}
-            ${PULSE_LIBRARIES}
-
-            # For -ldl on *nix
-            ${CMAKE_DL_LIBS}
-        )
+        list(APPEND libraries ${GTK_LIBRARIES})
     endif()
 endif()
+
+add_executable(defimulator ${sources})
+target_link_libraries(defimulator ${libraries})
 
 if(BUILD_GAMEBOY)
     target_link_libraries(defim ${CURSES_LIBRARIES})
