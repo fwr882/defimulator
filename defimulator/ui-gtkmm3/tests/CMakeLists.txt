@@ -17,6 +17,7 @@ add_executable(gtkmm_test
     ../configuration.cpp
     ../main-window.cpp
     ../menubar.cpp
+    ../video-settings.cpp
     ../viewport.cpp)
 
 target_link_libraries(gtkmm_test ${GTKMM3_LIBRARIES})

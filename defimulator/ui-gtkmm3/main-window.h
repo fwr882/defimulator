@@ -25,6 +25,7 @@ protected:
 private:
     AdvancedSettings m_advancedsettings;
     AudioSettings m_audiosettings;
+    VideoSettings m_videosettings;
 };
 
 #endif

@@ -53,4 +53,24 @@ public:
     void synchronize(void);
 };
 
+class VideoSettings : public Gtk::Window {
+public:
+    Gtk::Label m_coloradjustmentlabel;
+
+    Gtk::Label m_brightnesslabel;
+    Gtk::Label m_brightnessvalue;
+    Gtk::HScale m_brightnessslider;
+
+    Gtk::Label m_contrastlabel;
+    Gtk::Label m_contrastvalue;
+    Gtk::HScale m_contrastslider;
+
+    Gtk::Label m_gammalabel;
+    Gtk::Label m_gammavalue;
+    Gtk::HScale m_gammeslider;
+
+    VideoSettings(void);
+    virtual ~VideoSettings(void) { };
+};
+
 #endif

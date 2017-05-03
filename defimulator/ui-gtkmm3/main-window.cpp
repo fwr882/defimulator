@@ -14,6 +14,8 @@ MainWindow::MainWindow(void)
         sigc::mem_fun(m_advancedsettings, &AdvancedSettings::show_all));
     m_menubar.m_audiosettings.signal_activate().connect(
         sigc::mem_fun(m_audiosettings, &AudioSettings::show_all));
+    m_menubar.m_videosettings.signal_activate().connect(
+        sigc::mem_fun(m_videosettings, &VideoSettings::show_all));
 
     this->add(m_vbox);
     this->set_title("Defimulator");
