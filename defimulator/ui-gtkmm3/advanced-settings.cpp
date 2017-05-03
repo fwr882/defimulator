@@ -10,33 +10,27 @@ AdvancedSettings::AdvancedSettings(void)
     * support.  So OpenGL, DirectDraw, SDL, etc..
     */
     m_videodriverlabel.set_label("Video:");
-    /*
     m_videodriverbox.append("Some");
     m_videodriverbox.append("Video");
     m_videodriverbox.append("Drivers");
-    */
 
     m_audiodriverlabel.set_label("Audio:");
-    /*
     m_audiodriverbox.append("Some");
     m_audiodriverbox.append("Audio");
     m_audiodriverbox.append("Drivers");
-    */
 
     m_inputdriverlabel.set_label("Input:");
-    /*
     m_inputdriverbox.append("Some");
     m_inputdriverbox.append("Input");
     m_inputdriverbox.append("Drivers");
-    */
 
     m_driverbox.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
     m_driverbox.pack_start(m_videodriverlabel);
-    //m_driverbox.pack_start(m_videodriverbox);
+    m_driverbox.pack_start(m_videodriverbox);
     m_driverbox.pack_start(m_audiodriverlabel);
-    //m_driverbox.pack_start(m_audiodriverbox);
+    m_driverbox.pack_start(m_audiodriverbox);
     m_driverbox.pack_start(m_inputdriverlabel);
-    //m_driverbox.pack_start(m_inputdriverbox);
+    m_driverbox.pack_start(m_inputdriverbox);
 
     m_focuspolicylabel.set_text("Focus Policy:.");
 
