@@ -19,7 +19,6 @@ MainWindow::MainWindow(void)
 
     this->add(m_vbox);
     this->set_title("Defimulator");
-    this->show_all();
 }
 
 MainWindow::~MainWindow(void) { }

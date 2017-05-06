@@ -100,19 +100,23 @@ endif()
 
 if(BUILD_GTKMM3)
     list(APPEND sources
+        ui-gtkmm3/application.cpp
         ui-gtkmm3/main.cpp
-        ui-gtkmm3/file-browser.cpp
+        ui-gtkmm3/configuration.cpp
+        #ui-gtkmm3/file-browser.cpp
         ui-gtkmm3/main-window.cpp
-        ui-gtkmm3/slot-loader.cpp
+        ui-gtkmm3/menubar.cpp
+        #ui-gtkmm3/slot-loader.cpp
         ui-gtkmm3/advanced-settings.cpp
         ui-gtkmm3/audio-settings.cpp
-        ui-gtkmm3/input-settings.cpp
+        #ui-gtkmm3/input-settings.cpp
         ui-gtkmm3/video-settings.cpp
-        ui-gtkmm3/cheat-editor.cpp
-        ui-gtkmm3/state-manager.cpp
-        ui-gtkmm3/input.cpp
-        ui-gtkmm3/utility.cpp
-        ui-gtkmm3/cartridge.cpp)
+        #ui-gtkmm3/cheat-editor.cpp
+        ui-gtkmm3/viewport.cpp)
+        #ui-gtkmm3/state-manager.cpp
+        #ui-gtkmm3/input.cpp
+        #ui-gtkmm3/utility.cpp
+        #ui-gtkmm3/cartridge.cpp)
 else()
     list(APPEND sources
         ui/main.cpp

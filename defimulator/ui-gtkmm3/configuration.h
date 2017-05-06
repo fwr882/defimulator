@@ -58,9 +58,6 @@ public:
     * Diverging from the configuration structure from the original
     * UI. I'm trying to prevent global objects from happening again.
     */
-    Configuration(nall::string path);
-    virtual ~Configuration(void);
-
     void load(void);
     void save(void);
     void create(void);
