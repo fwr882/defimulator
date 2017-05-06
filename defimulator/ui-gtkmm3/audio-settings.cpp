@@ -36,10 +36,7 @@ AudioSettings::AudioSettings(void)
     this->set_title("Audio Settings");
 }
 
-AudioSettings::~AudioSettings(void)
-{
-
-}
+AudioSettings::~AudioSettings(void) { }
 
 void AudioSettings::synchronize(void)
 {

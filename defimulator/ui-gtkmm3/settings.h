@@ -2,7 +2,9 @@
 #define DEFIMULATOR_UI_SETTINGS_H
 
 #include <gtkmm/box.h>
+#include <gtkmm/button.h>
 #include <gtkmm/comboboxtext.h>
+#include <gtkmm/filechooserbutton.h>
 #include <gtkmm/frame.h>
 #include <gtkmm/grid.h>
 #include <gtkmm/hvscale.h>
@@ -67,10 +69,25 @@ public:
 
     Gtk::Label m_gammalabel;
     Gtk::Label m_gammavalue;
-    Gtk::HScale m_gammeslider;
+    Gtk::HScale m_gammaslider;
+
+    Gtk::CheckButton m_enablegamma;
+
+    Gtk::Label m_vfilterlabel;
+    Gtk::FileChooserButton m_vfilterbrowser;
+    Gtk::Button m_vfilterclear;
+
+    Gtk::Label m_pshaderlabel;
+    Gtk::FileChooserButton m_pshaderbrowser;
+    Gtk::Button m_pshaderclear;
+
+    Gtk::Grid m_layoutgrid;
 
     VideoSettings(void);
     virtual ~VideoSettings(void) { };
+    void synchronize(void);
+    void pshader_clear_clicked(void);
+    void vfilter_clear_clicked(void);
 };
 
 #endif
