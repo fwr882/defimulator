@@ -7,6 +7,7 @@
 
 #include <nall/config.hpp>
 
+#include "file-browser.h"
 #include "menubar.h"
 #include "settings.h"
 #include "viewport.h"
@@ -16,15 +17,14 @@ public:
     MainWindow(void);
     virtual ~MainWindow(void);
 protected:
-
     MenuBar m_menubar;
     Viewport m_viewport;
     Gtk::Statusbar m_statusbar;
-
     Gtk::Box m_vbox;
 private:
     AdvancedSettings m_advancedsettings;
     AudioSettings m_audiosettings;
+    FileBrowser m_filebrowser;
     VideoSettings m_videosettings;
 };
 
