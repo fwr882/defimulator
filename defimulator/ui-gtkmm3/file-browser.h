@@ -36,8 +36,6 @@ private:
     Cartridge::Type m_type;
     nall::string m_slotone, m_slottwo, m_slotthree;
     void cancel_pressed(void);
-    void okay_pressed(void);
-    void window_closed(void);
 };
 
 #endif

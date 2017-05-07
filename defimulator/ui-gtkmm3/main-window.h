@@ -15,7 +15,7 @@
 class MainWindow : public Gtk::Window {
 public:
     MainWindow(void);
-    virtual ~MainWindow(void);
+    virtual ~MainWindow(void) { };
 protected:
     MenuBar m_menubar;
     Viewport m_viewport;
@@ -26,6 +26,8 @@ private:
     AudioSettings m_audiosettings;
     FileBrowser m_filebrowser;
     VideoSettings m_videosettings;
+
+    void on_cartridge_load(void);
 };
 
 #endif

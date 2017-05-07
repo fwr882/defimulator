@@ -27,10 +27,6 @@ FileBrowser::FileBrowser(void)
     m_layoutgrid.attach(m_accept, 2, 4, 1, 1);
     m_layoutgrid.attach(m_cancel, 3, 4, 1, 1);
 
-    this->signal_hide().connect(sigc::mem_fun(*this,
-        &FileBrowser::window_closed));
-    m_accept.signal_clicked().connect(sigc::mem_fun(*this,
-        &FileBrowser::okay_pressed));
     m_cancel.signal_clicked().connect(sigc::mem_fun(*this,
         &FileBrowser::cancel_pressed));
 
@@ -88,13 +84,6 @@ Cartridge::Type FileBrowser::type(void)
     return m_type;
 }
 
-void FileBrowser::okay_pressed(void)
-{
-    g_print("FileBrowser::okay_pressed\n");
-
-    this->hide();
-}
-
 void FileBrowser::cancel_pressed(void)
 {
     g_print("FileBrowser::cancel_pressed\n");
@@ -106,7 +95,3 @@ void FileBrowser::cancel_pressed(void)
     this->hide();
 }
 
-void FileBrowser::window_closed(void)
-{
-    g_print("FileBrowser::window_closed\n");
-}
