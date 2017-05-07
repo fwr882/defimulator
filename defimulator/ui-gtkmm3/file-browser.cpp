@@ -27,32 +27,43 @@ FileBrowser::FileBrowser(void)
     m_layoutgrid.attach(m_accept, 2, 4, 1, 1);
     m_layoutgrid.attach(m_cancel, 3, 4, 1, 1);
 
+    this->signal_hide().connect(sigc::mem_fun(*this,
+        &FileBrowser::window_closed));
+    m_accept.signal_clicked().connect(sigc::mem_fun(*this,
+        &FileBrowser::okay_pressed));
+    m_cancel.signal_clicked().connect(sigc::mem_fun(*this,
+        &FileBrowser::cancel_pressed));
+
     this->add(m_layoutgrid);
     this->set_title("Load Cartridge");
 }
 
-void FileBrowser::show(Mode m)
+void FileBrowser::open(Cartridge::Type type)
 {
-    /* Let's get everything in the 'on' state first. */
-    this->m_slotonebrowser.set_sensitive(true);
-    this->m_slottwobrowser.set_sensitive(true);
-    this->m_slotthreebrowser.set_sensitive(true);
+    m_type = type;
 
-    /* Then selectively turn them off based upon how we open the dialog */
-    switch (m) {
-    case FileBrowser::SingleSlot:
-        this->m_slottwobrowser.set_sensitive(false);
-        this->m_slotthreebrowser.set_sensitive(false);
-        this->m_slottwo = "";
-        this->m_slotthree = "";
-        break;
-    case FileBrowser::DoubleSlot:
-        this->m_slotthreebrowser.set_sensitive(false);
-        this->m_slotthree = "";
+    m_slotone = nall::string("");
+    m_slottwo = nall::string("");
+    m_slotthree = nall::string("");
+
+    m_slotonebrowser.set_sensitive(false);
+    m_slottwobrowser.set_sensitive(false);
+    m_slotthreebrowser.set_sensitive(false);
+
+    switch (m_type) {
+    case Cartridge::SUFAMI_TURBO:
+        this->m_slotthreebrowser.set_sensitive(true);
+        /* fallthrough */
+    case Cartridge::BSX:
+    case Cartridge::BSX_SLOTTED:
+    case Cartridge::SUPER_GAME_BOY:
+        this->m_slottwobrowser.set_sensitive(true);
+        /* fallthrough */
+    case Cartridge::STANDARD:
+        this->m_slotonebrowser.set_sensitive(true);
         break;
     default:
-        /* TripleSlot already has everything enabled by default */
-        break;
+        g_print("FileBrowser::open: Something went horribly wrong.\n");
     }
 
     this->show_all();
@@ -61,13 +72,41 @@ void FileBrowser::show(Mode m)
 nall::string FileBrowser::get(int index)
 {
     switch (index) {
-    case 0:
-        return m_slotone;
     case 1:
-        return m_slottwo;
+        return m_slotone;
     case 2:
+        return m_slottwo;
+    case 3:
         return m_slotthree;
     default:
-        return "";
+        return nall::string("");
     }
+}
+
+Cartridge::Type FileBrowser::type(void)
+{
+    return m_type;
+}
+
+void FileBrowser::okay_pressed(void)
+{
+    g_print("FileBrowser::okay_pressed\n");
+
+    this->hide();
+}
+
+void FileBrowser::cancel_pressed(void)
+{
+    g_print("FileBrowser::cancel_pressed\n");
+
+    m_slotone = "";
+    m_slottwo = "";
+    m_slotthree = "";
+
+    this->hide();
+}
+
+void FileBrowser::window_closed(void)
+{
+    g_print("FileBrowser::window_closed\n");
 }

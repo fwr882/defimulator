@@ -9,14 +9,10 @@
 
 #include <nall/string.hpp>
 
+#include "cartridge.h"
+
 class FileBrowser : public Gtk::Window {
 public:
-    enum Mode {
-        SingleSlot,
-        DoubleSlot,
-        TripleSlot
-    };
-
     Gtk::Label m_slotonelabel;
     Gtk::FileChooserButton m_slotonebrowser;
 
@@ -32,13 +28,16 @@ public:
 
     FileBrowser(void);
     virtual ~FileBrowser(void) { };
-    void show(Mode m);
-    void show_one(void) { show(FileBrowser::SingleSlot); };
-    void show_two(void) { show(FileBrowser::DoubleSlot); };
-    void show_three(void) { show(FileBrowser::TripleSlot); };
+
+    void open(Cartridge::Type ctype);
     nall::string get(int index);
+    Cartridge::Type type(void);
 private:
+    Cartridge::Type m_type;
     nall::string m_slotone, m_slottwo, m_slotthree;
+    void cancel_pressed(void);
+    void okay_pressed(void);
+    void window_closed(void);
 };
 
 #endif

@@ -16,8 +16,12 @@ MainWindow::MainWindow(void)
         sigc::mem_fun(m_audiosettings, &AudioSettings::show_all));
     m_menubar.m_videosettings.signal_activate().connect(
         sigc::mem_fun(m_videosettings, &VideoSettings::show_all));
+
     m_menubar.m_loadcart.signal_activate().connect(
-        sigc::mem_fun(m_filebrowser, &FileBrowser::show_one));
+        sigc::bind<Cartridge::Type>(
+            sigc::mem_fun(m_filebrowser, &FileBrowser::open),
+            Cartridge::Type::STANDARD));
+    /*
     m_menubar.m_loadbsxslotted.signal_activate().connect(
         sigc::mem_fun(m_filebrowser, &FileBrowser::show_two));
     m_menubar.m_loadbsx.signal_activate().connect(
@@ -26,6 +30,7 @@ MainWindow::MainWindow(void)
         sigc::mem_fun(m_filebrowser, &FileBrowser::show_three));
     m_menubar.m_loadsupergameboy.signal_activate().connect(
         sigc::mem_fun(m_filebrowser, &FileBrowser::show_two));
+    */
 
     this->add(m_vbox);
     this->set_title("Defimulator");
