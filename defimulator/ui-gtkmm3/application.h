@@ -5,6 +5,7 @@
 
 #include "cartridge.h"
 #include "configuration.h"
+#include "input.h"
 #include "main-window.h"
 
 class Application {
@@ -18,6 +19,7 @@ private:
 
     Cartridge m_cartridge;
     Configuration m_config;
+    InputMapper m_inputmapper;
 };
 
 #endif
