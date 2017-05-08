@@ -324,7 +324,7 @@ void MainWindow::create(void)
     /* XXX: All this should bein a config.hpp header, configured by CMake. */
     helpAbout.onTick = []() {
         MessageWindow::information(mainWindow, {
-            SNES::Info::Name, " v", SNES::Info::Version, "\n",
+            SNES::Info::Name, " ", SNES::Info::Version, "\n",
             "  ", SNES::Info::Profile, " Profile\n",
             "  Homepage: https://github.com/grim210/defimulator/\n"
             "  Licensed under the GNU Public License Version 3."

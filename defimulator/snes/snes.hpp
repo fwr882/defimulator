@@ -1,7 +1,10 @@
+#ifndef DEFIMULATOR_SNES_H
+#define DEFIMULATOR_SNES_H
+
 namespace SNES {
     namespace Info {
         static const char Name[] = "defimulator";
-        static const char Version[] = "0.2.0";
+        static const char Version[] = "master";
         static const unsigned SerializerVersion = 16;
     }
 }
@@ -146,3 +149,5 @@ namespace nall {
 }
 
 #undef debugvirtual
+
+#endif /* DEFIMULATOR_SNES_H */
