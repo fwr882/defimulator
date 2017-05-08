@@ -9,6 +9,9 @@ FileBrowser::FileBrowser(void)
     m_accept.set_label("Okay");
     m_cancel.set_label("Cancel");
 
+    m_layoutgrid.set_border_width(10);
+    m_layoutgrid.set_column_spacing(5);
+    m_layoutgrid.set_row_spacing(5);
     m_layoutgrid.set_row_homogeneous(true);
     m_layoutgrid.set_column_homogeneous(true);
 

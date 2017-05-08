@@ -37,6 +37,9 @@ VideoSettings::VideoSettings(void)
     m_pshaderlabel.set_text("Pixel Shader");
     m_pshaderclear.set_label("Clear");
 
+    m_layoutgrid.set_border_width(10);
+    m_layoutgrid.set_row_spacing(5);
+    m_layoutgrid.set_column_spacing(5);
     m_layoutgrid.set_row_homogeneous(true);
     m_layoutgrid.set_column_homogeneous(true);
 
@@ -73,11 +76,31 @@ VideoSettings::VideoSettings(void)
     m_layoutgrid.attach(m_pshaderbrowser, 2, 7, 3, 1);
     m_layoutgrid.attach(m_pshaderclear, 5, 7, 1, 1);
 
+    m_brightnessslider.signal_value_changed().connect(
+        sigc::mem_fun(*this, &VideoSettings::synchronize));
+    m_contrastslider.signal_value_changed().connect(
+        sigc::mem_fun(*this, &VideoSettings::synchronize));
+    m_gammaslider.signal_value_changed().connect(
+        sigc::mem_fun(*this, &VideoSettings::synchronize));
+
     this->add(m_layoutgrid);
     this->set_title("Video Settings");
 }
 
 void VideoSettings::synchronize(void)
 {
+    std::stringstream bright, contrast, gamma;
 
+    bright << static_cast<unsigned int>(m_brightnessslider.get_value());
+    bright << "%";
+
+    contrast << static_cast<unsigned int>(m_contrastslider.get_value());
+    contrast << "%";
+
+    gamma << static_cast<unsigned int>(m_gammaslider.get_value());
+    gamma << "%";
+
+    m_brightnessvalue.set_text(bright.str().c_str());
+    m_contrastvalue.set_text(contrast.str().c_str());
+    m_gammavalue.set_text(gamma.str().c_str());
 }
