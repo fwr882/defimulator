@@ -5,10 +5,10 @@ Utility utility;
 void Utility::setTitle(const string &text)
 {
     if (*text) {
-        mainWindow.setTitle({ text, " - ", SNES::Info::Name, " v",
+        mainWindow.setTitle({ text, " - ", SNES::Info::Name, " ",
             SNES::Info::Version });
     } else {
-        mainWindow.setTitle({ SNES::Info::Name, " v", SNES::Info::Version });
+        mainWindow.setTitle({ SNES::Info::Name, " ", SNES::Info::Version });
     }
 }
 
@@ -55,13 +55,15 @@ void Utility::setControllers(void)
     case 1:
         SNES::input.port_set_device(0, SNES::Input::Device::Joypad);
         break;
-    case 2: SNES::input.port_set_device(0, SNES::Input::Device::Multitap);
+    case 2:
+        SNES::input.port_set_device(0, SNES::Input::Device::Multitap);
         break;
-    case 3: SNES::input.port_set_device(0, SNES::Input::Device::Mouse);
+    case 3:
+        SNES::input.port_set_device(0, SNES::Input::Device::Mouse);
         break;
     }
 
-    switch(config.controller.port2) {
+    switch (config.controller.port2) {
     case 0:
         SNES::input.port_set_device(1, SNES::Input::Device::None);
         break;
