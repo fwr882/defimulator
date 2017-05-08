@@ -30,7 +30,7 @@ void ComboBox::create(Window &parent, unsigned x, unsigned y, unsigned width,
     if (*text) {
         lstring list;
         list.split("\n", text);
-        foreach (item, list) {
+        nall_foreach (item, list) {
             addItem(item);
         }
     }

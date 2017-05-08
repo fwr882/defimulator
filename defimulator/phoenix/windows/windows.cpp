@@ -510,7 +510,7 @@ static LRESULT CALLBACK OS_windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
 
 Object* OS::findObject(unsigned id)
 {
-    foreach (object, os->objects) {
+    nall_foreach (object, os->objects) {
         if (object->object->id == id) {
             return object;
         }

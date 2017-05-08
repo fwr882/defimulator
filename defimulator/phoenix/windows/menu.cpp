@@ -200,7 +200,7 @@ bool MenuRadioItem::checked(void)
 void MenuRadioItem::setChecked(void)
 {
     MenuRadioItem *parent = action->radioParent;
-    foreach (item, parent->action->items) {
+    nall_foreach (item, parent->action->items) {
         CheckMenuRadioItem(
             action->parent->action->menu,
             item->object->id, item->object->id,

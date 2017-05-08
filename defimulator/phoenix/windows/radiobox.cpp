@@ -57,7 +57,7 @@ bool RadioBox::checked(void)
 
 void RadioBox::setChecked(void)
 {
-    foreach (item, radioBox->parent->radioBox->items) {
+    nall_foreach (item, radioBox->parent->radioBox->items) {
         SendMessage(item->widget->window, BM_SETCHECK,
             (WPARAM)(item == this), 0);
     }
