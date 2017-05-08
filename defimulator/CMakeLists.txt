@@ -200,10 +200,10 @@ list(APPEND libraries ${OPENGL_LIBRARIES})
 
 if(WIN32)
     list(APPEND libraries
-        ming32
+        mingw32
         dsound
         dxguid
-        dinpu8
+        dinput8
         comctl32)
     if(BUILD_GTKMM3)
         list(APPEND libraries ${GTKMM3_LIBRARIES})

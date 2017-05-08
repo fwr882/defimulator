@@ -11,7 +11,7 @@ void Application::main(int argc, char** argv)
 {
     /* XXX: Where is 'PLATFORM_WIN' defined? */
     #if defined(PLATFORM_WIN)
-    nall::utf8_args(argc, argv)
+    nall::utf8_args(argc, argv);
     #endif
 
     m_app = Gtk::Application::create(argc, argv, "org.grim210.defimulator")
