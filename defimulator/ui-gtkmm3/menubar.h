@@ -50,6 +50,8 @@ public:
     Gtk::SeparatorMenuItem m_sep2;
     Gtk::MenuItem m_portonebutton;
     Gtk::MenuItem m_porttwobutton;
+    Gtk::SeparatorMenuItem m_sep3;
+    Gtk::MenuItem m_quitbutton;
 
     /* System->Load Special Cartridge menu */
     Gtk::Menu m_loadcartspecialmenu;
@@ -81,11 +83,11 @@ public:
     Gtk::Menu m_settingsmenu;
     Gtk::MenuItem m_videomode;
     Gtk::CheckMenuItem m_smoothvideo;
-    Gtk::SeparatorMenuItem m_sep3;
+    Gtk::SeparatorMenuItem m_sep4;
     Gtk::CheckMenuItem m_synchronizevideo;
     Gtk::CheckMenuItem m_synchronizeaudio;
     Gtk::CheckMenuItem m_muteaudio;
-    Gtk::SeparatorMenuItem m_sep4;
+    Gtk::SeparatorMenuItem m_sep5;
     Gtk::MenuItem m_videosettings;
     Gtk::MenuItem m_audiosettings;
     Gtk::MenuItem m_inputsettings;
@@ -99,9 +101,9 @@ public:
     std::unique_ptr<Gtk::RadioMenuItem> m_scalethree;
     std::unique_ptr<Gtk::RadioMenuItem> m_scalefour;
     std::unique_ptr<Gtk::RadioMenuItem> m_scalefive;
-    Gtk::SeparatorMenuItem m_sep5;
-    Gtk::CheckMenuItem m_correctaspectratio;
     Gtk::SeparatorMenuItem m_sep6;
+    Gtk::CheckMenuItem m_correctaspectratio;
+    Gtk::SeparatorMenuItem m_sep7;
     std::unique_ptr<Gtk::RadioMenuItem> m_videontsc;
     std::unique_ptr<Gtk::RadioMenuItem> m_videopal;
 
@@ -111,9 +113,9 @@ public:
     Gtk::Menu m_toolsmenu;
     Gtk::MenuItem m_savestate;
     Gtk::MenuItem m_loadstate;
-    Gtk::SeparatorMenuItem m_sep7;
-    Gtk::MenuItem m_capturemouse;
     Gtk::SeparatorMenuItem m_sep8;
+    Gtk::MenuItem m_capturemouse;
+    Gtk::SeparatorMenuItem m_sep9;
     Gtk::MenuItem m_cheateditor;
     Gtk::MenuItem m_statemanager;
     #if defined(DEBUGGER)

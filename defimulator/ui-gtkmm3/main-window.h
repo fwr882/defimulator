@@ -28,6 +28,10 @@ private:
     VideoSettings m_videosettings;
 
     void on_cartridge_load(void);
+    void on_quit(void);
+
+    /* Overridden slots */
+    bool on_delete_event(GdkEventAny *any_event) { on_quit(); };
 };
 
 #endif

@@ -16,6 +16,8 @@ MainWindow::MainWindow(void)
         sigc::mem_fun(m_audiosettings, &AudioSettings::show_all));
     m_menubar.m_videosettings.signal_activate().connect(
         sigc::mem_fun(m_videosettings, &VideoSettings::show_all));
+    m_menubar.m_quitbutton.signal_activate().connect(
+        sigc::mem_fun(*this, &MainWindow::on_quit));
 
     m_menubar.m_loadcart.signal_activate().connect(
         sigc::bind<Cartridge::Type>(
@@ -47,8 +49,11 @@ MainWindow::MainWindow(void)
 
 void MainWindow::on_cartridge_load(void)
 {
-    g_print("on_cartridge_load\n");
     m_filebrowser.hide();
-
     /* Load the cartridge based upon the strings in the file browser */
+}
+
+void MainWindow::on_quit(void)
+{
+    this->hide();
 }

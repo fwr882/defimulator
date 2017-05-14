@@ -18,6 +18,7 @@ MenuBar::MenuBar(void)
     m_resetbutton.set_label("Reset");
     m_portonebutton.set_label("Controller Port 1");
     m_porttwobutton.set_label("Controller Port 2");
+    m_quitbutton.set_label("Quit");
 
     m_loadbsxslotted.set_label("BS-X Slotted Cartridge ...");
     m_loadbsx.set_label("BS-X Cartridge ...");
@@ -99,6 +100,8 @@ MenuBar::MenuBar(void)
     m_sysmenu.append(m_sep2);
     m_sysmenu.append(m_portonebutton);
     m_sysmenu.append(m_porttwobutton);
+    m_sysmenu.append(m_sep3);
+    m_sysmenu.append(m_quitbutton);
     m_sysmenubutton.set_submenu(m_sysmenu);
 
     m_videomode.set_label("Video Mode");
@@ -144,20 +147,20 @@ MenuBar::MenuBar(void)
     m_videomodemenu.append(*m_scalethree.get());
     m_videomodemenu.append(*m_scalefour.get());
     m_videomodemenu.append(*m_scalefive.get());
-    m_videomodemenu.append(m_sep5);
+    m_videomodemenu.append(m_sep4);
     m_videomodemenu.append(m_correctaspectratio);
-    m_videomodemenu.append(m_sep6);
+    m_videomodemenu.append(m_sep5);
     m_videomodemenu.append(*m_videontsc.get());
     m_videomodemenu.append(*m_videopal.get());
     m_videomode.set_submenu(m_videomodemenu);
 
     m_settingsmenu.append(m_videomode);
     m_settingsmenu.append(m_smoothvideo);
-    m_settingsmenu.append(m_sep3);
+    m_settingsmenu.append(m_sep6);
     m_settingsmenu.append(m_synchronizevideo);
     m_settingsmenu.append(m_synchronizeaudio);
     m_settingsmenu.append(m_muteaudio);
-    m_settingsmenu.append(m_sep4);
+    m_settingsmenu.append(m_sep7);
     m_settingsmenu.append(m_videosettings);
     m_settingsmenu.append(m_audiosettings);
     m_settingsmenu.append(m_inputsettings);
@@ -200,9 +203,9 @@ MenuBar::MenuBar(void)
 
     m_toolsmenu.append(m_savestate);
     m_toolsmenu.append(m_loadstate);
-    m_toolsmenu.append(m_sep7);
-    m_toolsmenu.append(m_capturemouse);
     m_toolsmenu.append(m_sep8);
+    m_toolsmenu.append(m_capturemouse);
+    m_toolsmenu.append(m_sep9);
     m_toolsmenu.append(m_cheateditor);
     m_toolsmenu.append(m_statemanager);
     #if defined(DEBUGGER)
