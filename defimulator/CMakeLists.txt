@@ -106,6 +106,7 @@ if(BUILD_GTKMM3)
         ui-gtkmm3/cartridge.cpp
         ui-gtkmm3/configuration.cpp
         ui-gtkmm3/file-browser.cpp
+        ui-gtkmm3/input.cpp
         ui-gtkmm3/main.cpp
         ui-gtkmm3/main-window.cpp
         ui-gtkmm3/menubar.cpp
