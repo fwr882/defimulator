@@ -23,7 +23,7 @@ option(BUILD_DEBUGGER "Not compatible with PERFORMANCE or WIN32." OFF)
 option(BUILD_FILTERS "Build SNES filers." OFF)
 option(BUILD_PURIFY "Build SNES ROM purifying tool." OFF)
 option(BUILD_LAUNCHER "Build defimulator launcher.  Unknown usage.." OFF)
-option(BUILD_GTKMM3 "Build defimulator with GTKMM 3.0 UI." OFF)
+option(BUILD_GTKMM3 "Build defimulator with GTKMM 3.0 UI." ON)
 
 # If no build type is specified, assume the user wants a release build.
 if(NOT CMAKE_BUILD_TYPE)

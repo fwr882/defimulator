@@ -9,6 +9,7 @@
 #include <gtkmm/grid.h>
 #include <gtkmm/hvscale.h>
 #include <gtkmm/label.h>
+#include <gtkmm/listbox.h>
 #include <gtkmm/radiomenuitem.h>
 #include <gtkmm/window.h>
 
@@ -51,6 +52,21 @@ public:
     AudioSettings(void);
     virtual ~AudioSettings(void);
     void synchronize(void);
+};
+
+class InputSettings : public Gtk::Window {
+public:
+    Gtk::Label m_portlabel;
+    Gtk::ComboBox m_portbox;
+    Gtk::Label m_devicelabel;
+    Gtk::ComboBox m_devicebox;
+    Gtk::ListBox m_mappinglist;
+    Gtk::Button m_mousexaxis;
+    Gtk::Button m_mouseyaxis;
+    Gtk::Button m_mouseleft;
+    Gtk::Button m_mousemiddle;
+    Gtk::Button m_mouseright;
+    Gtk::Button m_clearbutton;
 };
 
 class VideoSettings : public Gtk::Window {
