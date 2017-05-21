@@ -26,9 +26,7 @@ public:
     Gtk::RadioButton m_focuspolicyignore;
     Gtk::RadioButton m_focuspolicyallow;
 
-    Gtk::Box m_vbox;
-    Gtk::Box m_driverbox;
-    Gtk::Box m_policybox;
+    Gtk::Grid m_gridlayout;
 
     AdvancedSettings(void);
     virtual ~AdvancedSettings(void);
