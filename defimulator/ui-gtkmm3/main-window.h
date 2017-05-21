@@ -1,20 +1,23 @@
 #ifndef DEFIMULATOR_UI_MAINWINDOW_H
 #define DEFIMULATOR_UI_MAINWINDOW_H
 
+#include <memory>
+
 #include <gtkmm/box.h>
 #include <gtkmm/window.h>
 #include <gtkmm/statusbar.h>
 
 #include <nall/config.hpp>
 
-#include "file-browser.h"
-#include "menubar.h"
-#include "settings.h"
-#include "viewport.h"
+#include <ui-gtkmm3/base.h>
+#include <ui-gtkmm3/file-browser.h>
+#include <ui-gtkmm3/menubar.h>
+#include <ui-gtkmm3/settings.h>
+#include <ui-gtkmm3/viewport.h>
 
 class MainWindow : public Gtk::Window {
 public:
-    MainWindow(void);
+    MainWindow(std::shared_ptr<state_t> state);
     virtual ~MainWindow(void) { };
 protected:
     MenuBar m_menubar;
@@ -26,6 +29,8 @@ private:
     AudioSettings m_audiosettings;
     FileBrowser m_filebrowser;
     VideoSettings m_videosettings;
+
+    std::shared_ptr<state_t> m_state;
 
     void on_cartridge_load(void);
     void on_quit(void);

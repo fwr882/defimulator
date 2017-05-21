@@ -1,8 +1,11 @@
 #ifndef DEFIMULATOR_UI_APPLICATION_H
 #define DEFIMULATOR_UI_APPLICATION_H
 
+#include <memory>
+
 #include <gtkmm/application.h>
 
+#include "base.h"
 #include "cartridge.h"
 #include "configuration.h"
 #include "input.h"
@@ -20,6 +23,8 @@ private:
     Cartridge m_cartridge;
     Configuration m_config;
     InputMapper m_inputmapper;
+
+    std::shared_ptr<state_t> m_state;
 };
 
 #endif

@@ -1,10 +1,14 @@
 #ifndef DEFIMULATOR_UI_INPUT_H
 #define DEFIMULATOR_UI_INPUT_H
 
+#include <memory>
+
 #include <nall/array.hpp>
 #include <nall/input.hpp>
 #include <nall/string.hpp>
-#include <snes/snes.hpp>
+
+#include <ui-gtkmm3/base.h>
+#include <ui-gtkmm3/configuration.h>
 
 class InputMapper {
 public:
@@ -28,11 +32,13 @@ public:
     };
 
     struct AnalogInput : AbstractInput {
-        int16_t poll(void);
+        int16_t poll(InputMapper inputMapper);
+        //int16_t poll(void);
     };
 
     struct DigitalInput : AbstractInput {
-        int16_t poll(void);
+        int16_t poll(InputMapper inputMapper);
+        //int16_t poll(void);
     };
 
     struct Controller : nall::array<AbstractInput*> {
@@ -42,35 +48,40 @@ public:
     struct Hotkeys : Controller {
         DigitalInput save, load, nextstate, prevstate;
         DigitalInput fastforward, pause;
-        void create(const char* deviceName, const char* configName);
+        void create(Configuration* config, const char* deviceName,
+            const char* configName);
     };
 
     struct Gamepad : Controller {
         DigitalInput up, down, left, right;
         DigitalInput b, a, y, x;
         DigitalInput l, r, select, start;
-        void create(const char* deviceName, const char* configName);
+        void create(Configuration* config, const char* deviceName,
+            const char* configName);
         int16_t poll(unsigned id);
     };
 
     struct Mouse : Controller {
         AnalogInput x, y;
         DigitalInput left, right;
-        void create(const char* deviceName, const char* configName);
+        void create(Configuration* config, const char* deviceName,
+            const char* configName);
         int16_t poll(unsigned id);
     };
 
     struct SuperScope : Controller {
         AnalogInput x, y;
         DigitalInput trigger, cursor, turbo, pause;
-        void create(const char* deviceName, const char* configName);
+        void create(Configuration* config, const char* deviceName,
+            const char* configName);
         int16_t poll(unsigned id);
     };
 
     struct Justifier : Controller {
         AnalogInput x, y;
         DigitalInput trigger, start;
-        void create(const char* deviceName, const char* configName);
+        void create(Configuration* config, const char* deviceName,
+            const char* configName);
         int16_t poll(unsigned id);
     };
 
@@ -101,13 +112,15 @@ public:
 
     int16_t state[2][nall::Scancode::Limit];
     bool activeState;
+    std::shared_ptr<state_t> m_state;
 
-    void create(void);
+    void create(std::shared_ptr<state_t> state, Configuration* config);
     void bind(void);
-    void poll(void);
+    void poll(Configuration* config);
     int16_t poll(bool port, SNES::Input::Device device, unsigned index,
         unsigned id);
-    void poll_hotkeys(unsigned scancode, int16_t value);
+    void poll_hotkeys(Configuration* config, unsigned scancode,
+        int16_t value);
     int16_t value(unsigned scancode);
 };
 
